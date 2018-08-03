@@ -1,0 +1,51 @@
+<center><a href="dmlabelimpl.h">Actual source code: dmlabelimpl.h</a></center><br>
+
+<html>
+<head> <link rel="canonical" href="http://www.mcs.anl.gov/petsc/petsc-current/include/petsc/private/dmlabelimpl.h.html" />
+<title></title>
+<meta name="generator" content="c2html 0.9.4">
+<meta name="date" content="2017-12-10T05:58:36+00:00">
+</head>
+
+<body bgcolor="#FFFFFF">
+   <div id="version" align=right><b>petsc-3.8.3 2017-12-09</b></div>
+   <div id="bugreport" align=right><a href="mailto:petsc-maint@mcs.anl.gov?subject=Typo or Error in Documentation &body=Please describe the typo or error in the documentation: petsc-3.8.3 v3.8.3 include/petsc/private/dmlabelimpl.h.html "><small>Report Typos and Errors</small></a></div>
+<pre width="80">
+<a name="line1">  1: </a><font color="#A020F0">#if !defined(_LABELIMPL_H)</font>
+<a name="line2">  2: </a><strong><font color="#228B22">#define _LABELIMPL_H</font></strong>
+
+<a name="line4">  4: </a> #include <A href="../../../include/petscdmlabel.h.html">&lt;petscdmlabel.h&gt;</A>
+<a name="line5">  5: </a> #include <A href="../../../include/petscbt.h.html">&lt;petscbt.h&gt;</A>
+<a name="line6">  6: </a> #include <A href="../../../include/petscistypes.h.html">&lt;petscistypes.h&gt;</A>
+<a name="line7">  7: </a> #include <A href="../../../include/petsc/private/hash.h.html">&lt;petsc/private/hash.h&gt;</A>
+
+<a name="line9">  9: </a><font color="#B22222">/* This is an integer map, in addition it is also a container class</font>
+<a name="line10"> 10: </a><font color="#B22222">   Design points:</font>
+<a name="line11"> 11: </a><font color="#B22222">     - Low storage is the most important design point</font>
+<a name="line12"> 12: </a><font color="#B22222">     - We want flexible insertion and deletion</font>
+<a name="line13"> 13: </a><font color="#B22222">     - We can live with O(log) query, but we need O(1) iteration over strata</font>
+<a name="line14"> 14: </a><font color="#B22222">*/</font>
+<a name="line15"> 15: </a><font color="#4169E1"><a name="_n_DMLabel"></a>struct _n_DMLabel </font>{
+<a name="line16"> 16: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>         refct;
+<a name="line17"> 17: </a>  <a href="../../../docs/manualpages/Sys/PetscObjectState.html#PetscObjectState">PetscObjectState</a> state;
+<a name="line18"> 18: </a>  char       *name;           <font color="#B22222">/* Label name */</font>
+<a name="line19"> 19: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>    numStrata;      <font color="#B22222">/* Number of integer values */</font>
+<a name="line20"> 20: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>    defaultValue;   <font color="#B22222">/* Background value when no value explicitly given */</font>
+<a name="line21"> 21: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>   *stratumValues;  <font color="#B22222">/* Value of each stratum */</font>
+<a name="line22"> 22: </a>  <font color="#B22222">/* Basic <a href="../../../docs/manualpages/IS/IS.html#IS">IS</a> storage */</font>
+<a name="line23"> 23: </a>  <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>  *validIS;        <font color="#B22222">/* The <a href="../../../docs/manualpages/IS/IS.html#IS">IS</a> is valid (no additions need to be merged in) */</font>
+<a name="line24"> 24: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>   *stratumSizes;   <font color="#B22222">/* Size of each stratum */</font>
+<a name="line25"> 25: </a>  <a href="../../../docs/manualpages/IS/IS.html#IS">IS</a>         *points;         <font color="#B22222">/* Points for each stratum, always sorted */</font>
+<a name="line26"> 26: </a>  <font color="#B22222">/* Hashtable for fast insertion */</font>
+<a name="line27"> 27: </a>  PetscHashI *ht;             <font color="#B22222">/* Hash table for fast insertion */</font>
+<a name="line28"> 28: </a>  <font color="#B22222">/* Index for fast search */</font>
+<a name="line29"> 29: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>    pStart, pEnd;   <font color="#B22222">/* Bounds for index lookup */</font>
+<a name="line30"> 30: </a>  <a href="../../../docs/manualpages/Sys/PetscBT.html#PetscBT">PetscBT</a>     bt;             <font color="#B22222">/* A bit-wise index */</font>
+<a name="line31"> 31: </a>};
+
+<a name="line33"> 33: </a><strong><font color="#4169E1">PETSC_INTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> PetscSectionSymCreate_Label(<a href="../../../docs/manualpages/IS/PetscSectionSym.html#PetscSectionSym">PetscSectionSym</a>)</font></strong>;
+<a name="line34"> 34: </a><font color="#A020F0">#endif</font>
+</pre>
+</body>
+
+</html>

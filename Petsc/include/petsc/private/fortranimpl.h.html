@@ -1,0 +1,260 @@
+<center><a href="fortranimpl.h">Actual source code: fortranimpl.h</a></center><br>
+
+<html>
+<head> <link rel="canonical" href="http://www.mcs.anl.gov/petsc/petsc-current/include/petsc/private/fortranimpl.h.html" />
+<title></title>
+<meta name="generator" content="c2html 0.9.4">
+<meta name="date" content="2017-12-10T05:58:41+00:00">
+</head>
+
+<body bgcolor="#FFFFFF">
+   <div id="version" align=right><b>petsc-3.8.3 2017-12-09</b></div>
+   <div id="bugreport" align=right><a href="mailto:petsc-maint@mcs.anl.gov?subject=Typo or Error in Documentation &body=Please describe the typo or error in the documentation: petsc-3.8.3 v3.8.3 include/petsc/private/fortranimpl.h.html "><small>Report Typos and Errors</small></a></div>
+<pre width="80">
+
+<a name="line2">  2: </a><font color="#B22222">/* This file contains info for the use of PETSc Fortran interface stubs */</font>
+<a name="line3">  3: </a><font color="#A020F0">#if !defined(_FORTRANIMPL_H)</font>
+<a name="line4">  4: </a><strong><font color="#228B22">#define _FORTRANIMPL_H</font></strong>
+
+<a name="line6">  6: </a> #include <A href="../../../include/petsc/private/petscimpl.h.html">&lt;petsc/private/petscimpl.h&gt;</A>
+
+<a name="line8">  8: </a><font color="#B22222">/* PETSC_STDCALL is defined on some Microsoft Windows systems and is used for functions compiled by the Fortran compiler */</font>
+<a name="line9">  9: </a><font color="#A020F0">#if !defined(PETSC_STDCALL)</font>
+<a name="line10"> 10: </a><strong><font color="#228B22">#define PETSC_STDCALL</font></strong>
+<a name="line11"> 11: </a><font color="#A020F0">#endif</font>
+
+<a name="line13"> 13: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> PetscScalarAddressToFortran(<a href="../../../docs/manualpages/Sys/PetscObject.html#PetscObject">PetscObject</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,<a href="../../../docs/manualpages/Sys/PetscScalar.html#PetscScalar">PetscScalar</a>*,<a href="../../../docs/manualpages/Sys/PetscScalar.html#PetscScalar">PetscScalar</a>*,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,size_t*)</font></strong>;
+<a name="line14"> 14: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> PetscScalarAddressFromFortran(<a href="../../../docs/manualpages/Sys/PetscObject.html#PetscObject">PetscObject</a>,<a href="../../../docs/manualpages/Sys/PetscScalar.html#PetscScalar">PetscScalar</a>*,size_t,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,<a href="../../../docs/manualpages/Sys/PetscScalar.html#PetscScalar">PetscScalar</a> **)</font></strong>;
+<a name="line15"> 15: </a><strong><font color="#4169E1">PETSC_EXTERN size_t         PetscIntAddressToFortran(const <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>*,const <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>*)</font></strong>;
+<a name="line16"> 16: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>        *PetscIntAddressFromFortran(const <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>*,size_t)</font></strong>;
+<a name="line17"> 17: </a>PETSC_EXTERN char   *PETSC_NULL_CHARACTER_Fortran;
+<a name="line18"> 18: </a>PETSC_EXTERN void    *PETSC_NULL_INTEGER_Fortran;
+<a name="line19"> 19: </a>PETSC_EXTERN void    *PETSC_NULL_SCALAR_Fortran;
+<a name="line20"> 20: </a>PETSC_EXTERN void    *PETSC_NULL_DOUBLE_Fortran;
+<a name="line21"> 21: </a>PETSC_EXTERN void    *PETSC_NULL_REAL_Fortran;
+<a name="line22"> 22: </a>PETSC_EXTERN void    *PETSC_NULL_BOOL_Fortran;
+<a name="line23"> 23: </a><strong><font color="#4169E1">PETSC_EXTERN void (*PETSC_NULL_FUNCTION_Fortran)(void)</font></strong>;
+<a name="line24"> 24: </a><font color="#B22222">/*  ----------------------------------------------------------------------*/</font>
+<a name="line25"> 25: </a><font color="#B22222">/*</font>
+<a name="line26"> 26: </a><font color="#B22222">   PETSc object C pointers are stored directly as</font>
+<a name="line27"> 27: </a><font color="#B22222">   Fortran integer*4 or *8 depending on the size of pointers.</font>
+<a name="line28"> 28: </a><font color="#B22222">*/</font>
+
+
+<a name="line31"> 31: </a><font color="#B22222">/* --------------------------------------------------------------------*/</font>
+<a name="line32"> 32: </a><font color="#B22222">/*</font>
+<a name="line33"> 33: </a><font color="#B22222">    This lets us map the str-len argument either, immediately following</font>
+<a name="line34"> 34: </a><font color="#B22222">    the char argument (DVF on Win32) or at the end of the argument list</font>
+<a name="line35"> 35: </a><font color="#B22222">    (general unix compilers)</font>
+<a name="line36"> 36: </a><font color="#B22222">*/</font>
+<a name="line37"> 37: </a><font color="#A020F0">#if defined(PETSC_HAVE_FORTRAN_MIXED_STR_ARG)</font>
+<a name="line38"> 38: </a><strong><font color="#228B22">#define PETSC_MIXED_LEN(len) ,int len</font></strong>
+<a name="line39"> 39: </a><strong><font color="#228B22">#define PETSC_END_LEN(len)</font></strong>
+<a name="line40"> 40: </a><strong><font color="#228B22">#define PETSC_MIXED_LEN_CALL(len) ,len</font></strong>
+<a name="line41"> 41: </a><strong><font color="#228B22">#define PETSC_END_LEN_CALL(len)</font></strong>
+<a name="line42"> 42: </a><strong><font color="#228B22">#define PETSC_MIXED_LEN_PROTO ,int</font></strong>
+<a name="line43"> 43: </a><strong><font color="#228B22">#define PETSC_END_LEN_PROTO</font></strong>
+<a name="line44"> 44: </a><font color="#A020F0">#else</font>
+<a name="line45"> 45: </a><strong><font color="#228B22">#define PETSC_MIXED_LEN(len)</font></strong>
+<a name="line46"> 46: </a><strong><font color="#228B22">#define PETSC_END_LEN(len)   ,int len</font></strong>
+<a name="line47"> 47: </a><strong><font color="#228B22">#define PETSC_MIXED_LEN_CALL(len)</font></strong>
+<a name="line48"> 48: </a><strong><font color="#228B22">#define PETSC_END_LEN_CALL(len)   ,len</font></strong>
+<a name="line49"> 49: </a><strong><font color="#228B22">#define PETSC_MIXED_LEN_PROTO</font></strong>
+<a name="line50"> 50: </a><strong><font color="#228B22">#define PETSC_END_LEN_PROTO   ,int</font></strong>
+<a name="line51"> 51: </a><font color="#A020F0">#endif</font>
+
+<a name="line53"> 53: </a><font color="#B22222">/* --------------------------------------------------------------------*/</font>
+<a name="line54"> 54: </a><font color="#B22222">/*</font>
+<a name="line55"> 55: </a><font color="#B22222">    Since Fortran does not null terminate strings we need to insure the string is null terminated before passing it</font>
+<a name="line56"> 56: </a><font color="#B22222">    to C. This may require a memory allocation which is then freed with FREECHAR().</font>
+<a name="line57"> 57: </a><font color="#B22222">*/</font>
+<a name="line58"> 58: </a><strong><font color="#228B22">#define FIXCHAR(a,n,b) \</font></strong>
+<a name="line59"> 59: </a><strong><font color="#228B22">{\</font></strong>
+<a name="line60"> 60: </a><strong><font color="#228B22">  if (a == PETSC_NULL_CHARACTER_Fortran) { \</font></strong>
+<a name="line61"> 61: </a><strong><font color="#228B22">    b = a = 0; \</font></strong>
+<a name="line62"> 62: </a><strong><font color="#228B22">  } else { \</font></strong>
+<a name="line63"> 63: </a><strong><font color="#228B22">    while((n &gt; 0) &amp;&amp; (a[n-1] == ' ')) n--; \</font></strong>
+<a name="line64"> 64: </a><strong><font color="#228B22">    *<a href="../../../docs/manualpages/Sys/PetscMalloc1.html#PetscMalloc1">PetscMalloc1</a>(n+1,&amp;b); \</font></strong>
+<a name="line65"> 65: </a><strong><font color="#228B22">    if (*ierr) return; \</font></strong>
+<a name="line66"> 66: </a><strong><font color="#228B22">    *<a href="../../../docs/manualpages/Sys/PetscStrncpy.html#PetscStrncpy">PetscStrncpy</a>(b,a,n+1); \</font></strong>
+<a name="line67"> 67: </a><strong><font color="#228B22">    if (*ierr) return; \</font></strong>
+<a name="line68"> 68: </a><strong><font color="#228B22">  } \</font></strong>
+<a name="line69"> 69: </a><strong><font color="#228B22">}</font></strong>
+<a name="line70"> 70: </a><strong><font color="#228B22">#define FREECHAR(a,b) if (a != b) *<a href="../../../docs/manualpages/Sys/PetscFree.html#PetscFree">PetscFree</a>(b);</font></strong>
+
+<a name="line72"> 72: </a><font color="#B22222">/*</font>
+<a name="line73"> 73: </a><font color="#B22222">    Fortran expects any unneeded characters at the end of its strings to be filled with the blank character.</font>
+<a name="line74"> 74: </a><font color="#B22222">*/</font>
+<a name="line75"> 75: </a><strong><font color="#228B22">#define FIXRETURNCHAR(flg,a,n)               \</font></strong>
+<a name="line76"> 76: </a><strong><font color="#228B22">if (flg) {                                   \</font></strong>
+<a name="line77"> 77: </a><strong><font color="#228B22">  int __i;                                   \</font></strong>
+<a name="line78"> 78: </a><strong><font color="#228B22">  for (__i=0; __i&lt;n &amp;&amp; a[__i] != 0; __i++) {};  \</font></strong>
+<a name="line79"> 79: </a><strong><font color="#228B22">  for (; __i&lt;n; __i++) a[__i] = ' ' ; \</font></strong>
+<a name="line80"> 80: </a><strong><font color="#228B22">}</font></strong>
+
+<a name="line82"> 82: </a><font color="#B22222">/*</font>
+<a name="line83"> 83: </a><font color="#B22222">    The cast through PETSC_UINTPTR_T is so that compilers that warn about casting to/from void * to void(*)(void)</font>
+<a name="line84"> 84: </a><font color="#B22222">    will not complain about these comparisons. It is not know if this works for all compilers</font>
+<a name="line85"> 85: </a><font color="#B22222">*/</font>
+<a name="line86"> 86: </a><strong><font color="#228B22">#define FORTRANNULLINTEGER(a)   (((void*)(PETSC_UINTPTR_T)a) == PETSC_NULL_INTEGER_Fortran)</font></strong>
+<a name="line87"> 87: </a><strong><font color="#228B22">#define FORTRANNULLSCALAR(a)    (((void*)(PETSC_UINTPTR_T)a) == PETSC_NULL_SCALAR_Fortran)</font></strong>
+<a name="line88"> 88: </a><strong><font color="#228B22">#define FORTRANNULLDOUBLE(a)    (((void*)(PETSC_UINTPTR_T)a) == PETSC_NULL_DOUBLE_Fortran)</font></strong>
+<a name="line89"> 89: </a><strong><font color="#228B22">#define FORTRANNULLREAL(a)      (((void*)(PETSC_UINTPTR_T)a) == PETSC_NULL_REAL_Fortran)</font></strong>
+<a name="line90"> 90: </a><strong><font color="#228B22">#define FORTRANNULLBOOL(a)      (((void*)(PETSC_UINTPTR_T)a) == PETSC_NULL_BOOL_Fortran)</font></strong>
+<a name="line91"> 91: </a><strong><font color="#228B22">#define FORTRANNULLCHARACTER(a) (((void*)(PETSC_UINTPTR_T)a) == PETSC_NULL_CHARACTER_Fortran)</font></strong>
+<a name="line92"> 92: </a><strong><font color="#228B22">#define FORTRANNULLFUNCTION(a)  (((void(*)(void))(PETSC_UINTPTR_T)a) == PETSC_NULL_FUNCTION_Fortran)</font></strong>
+<a name="line93"> 93: </a><strong><font color="#228B22">#define FORTRANNULLOBJECT(a)    (*(void**)(PETSC_UINTPTR_T)a == (void*)-1)</font></strong>
+
+<a name="line95"> 95: </a><strong><font color="#228B22">#define CHKFORTRANNULLINTEGER(a)  \</font></strong>
+<a name="line96"> 96: </a><strong><font color="#228B22">  if (FORTRANNULLDOUBLE(a) || FORTRANNULLSCALAR(a) || FORTRANNULLREAL(a)  || FORTRANNULLBOOL(a) || FORTRANNULLFUNCTION(a) || FORTRANNULLCHARACTER(a)) { \</font></strong>
+<a name="line97"> 97: </a><strong><font color="#228B22">    <a href="../../../docs/manualpages/Sys/PetscError.html#PetscError">PetscError</a>(<a href="../../../docs/manualpages/Sys/PETSC_COMM_SELF.html#PETSC_COMM_SELF">PETSC_COMM_SELF</a>,__LINE__,</font><font color="#666666">"fortran_interface_unknown_file"</font><font color="#228B22">,__FILE__,PETSC_ERR_ARG_WRONG,<a href="../../../docs/manualpages/Sys/PetscErrorType.html#PetscErrorType">PETSC_ERROR_INITIAL</a>, \</font></strong>
+<a name="line98"> 98: </a><strong><font color="#228B22">    </font><font color="#666666">"Use PETSC_NULL_INTEGER"</font><font color="#228B22">); *1; return; } \</font></strong>
+<a name="line99"> 99: </a><strong><font color="#228B22">  else if (FORTRANNULLINTEGER(a)) { a = NULL; }</font></strong>
+
+<a name="line101">101: </a><strong><font color="#228B22">#define CHKFORTRANNULLSCALAR(a)   \</font></strong>
+<a name="line102">102: </a><strong><font color="#228B22">  if (FORTRANNULLINTEGER(a) || FORTRANNULLDOUBLE(a) || FORTRANNULLREAL(a)  || FORTRANNULLBOOL(a) || FORTRANNULLFUNCTION(a) || FORTRANNULLCHARACTER(a)) { \</font></strong>
+<a name="line103">103: </a><strong><font color="#228B22">    <a href="../../../docs/manualpages/Sys/PetscError.html#PetscError">PetscError</a>(<a href="../../../docs/manualpages/Sys/PETSC_COMM_SELF.html#PETSC_COMM_SELF">PETSC_COMM_SELF</a>,__LINE__,</font><font color="#666666">"fortran_interface_unknown_file"</font><font color="#228B22">,__FILE__,PETSC_ERR_ARG_WRONG,<a href="../../../docs/manualpages/Sys/PetscErrorType.html#PetscErrorType">PETSC_ERROR_INITIAL</a>, \</font></strong>
+<a name="line104">104: </a><strong><font color="#228B22">    </font><font color="#666666">"Use PETSC_NULL_SCALAR"</font><font color="#228B22">); *1; return; } \</font></strong>
+<a name="line105">105: </a><strong><font color="#228B22">  else if (FORTRANNULLSCALAR(a)) { a = NULL; }</font></strong>
+
+<a name="line107">107: </a><strong><font color="#228B22">#define CHKFORTRANNULLDOUBLE(a)  \</font></strong>
+<a name="line108">108: </a><strong><font color="#228B22">  if (FORTRANNULLINTEGER(a) || FORTRANNULLSCALAR(a) || FORTRANNULLREAL(a)  || FORTRANNULLBOOL(a) || FORTRANNULLFUNCTION(a) || FORTRANNULLCHARACTER(a)) { \</font></strong>
+<a name="line109">109: </a><strong><font color="#228B22">    <a href="../../../docs/manualpages/Sys/PetscError.html#PetscError">PetscError</a>(<a href="../../../docs/manualpages/Sys/PETSC_COMM_SELF.html#PETSC_COMM_SELF">PETSC_COMM_SELF</a>,__LINE__,</font><font color="#666666">"fortran_interface_unknown_file"</font><font color="#228B22">,__FILE__,PETSC_ERR_ARG_WRONG,<a href="../../../docs/manualpages/Sys/PetscErrorType.html#PetscErrorType">PETSC_ERROR_INITIAL</a>, \</font></strong>
+<a name="line110">110: </a><strong><font color="#228B22">    </font><font color="#666666">"Use PETSC_NULL_DOUBLE"</font><font color="#228B22">); *1; return; } \</font></strong>
+<a name="line111">111: </a><strong><font color="#228B22">  else if (FORTRANNULLDOUBLE(a)) { a = NULL; }</font></strong>
+
+<a name="line113">113: </a><strong><font color="#228B22">#define CHKFORTRANNULLREAL(a)  \</font></strong>
+<a name="line114">114: </a><strong><font color="#228B22">  if (FORTRANNULLINTEGER(a) || FORTRANNULLDOUBLE(a) || FORTRANNULLSCALAR(a)  || FORTRANNULLBOOL(a) || FORTRANNULLFUNCTION(a) || FORTRANNULLCHARACTER(a)) { \</font></strong>
+<a name="line115">115: </a><strong><font color="#228B22">    <a href="../../../docs/manualpages/Sys/PetscError.html#PetscError">PetscError</a>(<a href="../../../docs/manualpages/Sys/PETSC_COMM_SELF.html#PETSC_COMM_SELF">PETSC_COMM_SELF</a>,__LINE__,</font><font color="#666666">"fortran_interface_unknown_file"</font><font color="#228B22">,__FILE__,PETSC_ERR_ARG_WRONG,<a href="../../../docs/manualpages/Sys/PetscErrorType.html#PetscErrorType">PETSC_ERROR_INITIAL</a>, \</font></strong>
+<a name="line116">116: </a><strong><font color="#228B22">    </font><font color="#666666">"Use PETSC_NULL_REAL"</font><font color="#228B22">); *1; return; } \</font></strong>
+<a name="line117">117: </a><strong><font color="#228B22">  else if (FORTRANNULLREAL(a)) { a = NULL; }</font></strong>
+
+<a name="line119">119: </a><font color="#B22222">/*</font>
+<a name="line120">120: </a><font color="#B22222">   The next two macros can generate false positives for Valgrind if the object passed</font>
+<a name="line121">121: </a><font color="#B22222">   in has never been set before because the location (void**)a has never had a value</font>
+<a name="line122">122: </a><font color="#B22222">   set to it. To prevent the false positive in the Fortran code one can initialize the</font>
+<a name="line123">123: </a><font color="#B22222">   object with a = tXXX(0); for example a = tVec(0)</font>
+<a name="line124">124: </a><font color="#B22222">*/</font>
+<a name="line125">125: </a><strong><font color="#228B22">#define CHKFORTRANNULLOBJECT(a)  \</font></strong>
+<a name="line126">126: </a><strong><font color="#228B22">  if (FORTRANNULLINTEGER(a) || FORTRANNULLDOUBLE(a) || FORTRANNULLSCALAR(a) || FORTRANNULLREAL(a) || FORTRANNULLBOOL(a) || FORTRANNULLFUNCTION(a) || FORTRANNULLCHARACTER(a)) { \</font></strong>
+<a name="line127">127: </a><strong><font color="#228B22">    <a href="../../../docs/manualpages/Sys/PetscError.html#PetscError">PetscError</a>(<a href="../../../docs/manualpages/Sys/PETSC_COMM_SELF.html#PETSC_COMM_SELF">PETSC_COMM_SELF</a>,__LINE__,</font><font color="#666666">"fortran_interface_unknown_file"</font><font color="#228B22">,__FILE__,PETSC_ERR_ARG_WRONG,<a href="../../../docs/manualpages/Sys/PetscErrorType.html#PetscErrorType">PETSC_ERROR_INITIAL</a>, \</font></strong>
+<a name="line128">128: </a><strong><font color="#228B22">    </font><font color="#666666">"Use PETSC_NULL_XXX where XXX is the name of a particular object class"</font><font color="#228B22">); *1; return; } \</font></strong>
+<a name="line129">129: </a><strong><font color="#228B22">  else if (*(void**)a == (void*)-1) { a = NULL; }</font></strong>
+
+<a name="line131">131: </a>PETSC_EXTERN void  *PETSCNULLPOINTERADDRESS;
+
+<a name="line133">133: </a><strong><font color="#228B22">#define CHKFORTRANNULLOBJECTDEREFERENCE(a)  \</font></strong>
+<a name="line134">134: </a><strong><font color="#228B22">  if (FORTRANNULLSCALAR(a) || FORTRANNULLDOUBLE(a) || FORTRANNULLREAL(a) || FORTRANNULLINTEGER(a) || FORTRANNULLBOOL(a) || FORTRANNULLFUNCTION(a) || FORTRANNULLCHARACTER(a)) { \</font></strong>
+<a name="line135">135: </a><strong><font color="#228B22">    <a href="../../../docs/manualpages/Sys/PetscError.html#PetscError">PetscError</a>(<a href="../../../docs/manualpages/Sys/PETSC_COMM_SELF.html#PETSC_COMM_SELF">PETSC_COMM_SELF</a>,__LINE__,</font><font color="#666666">"fortran_interface_unknown_file"</font><font color="#228B22">,__FILE__,PETSC_ERR_ARG_WRONG,<a href="../../../docs/manualpages/Sys/PetscErrorType.html#PetscErrorType">PETSC_ERROR_INITIAL</a>, \</font></strong>
+<a name="line136">136: </a><strong><font color="#228B22">    </font><font color="#666666">"Use PETSC_NULL_XXX where XXX is the name of a particular object class"</font><font color="#228B22">); *1; return; } \</font></strong>
+<a name="line137">137: </a><strong><font color="#228B22">  else if (*(void**)a == (void*)-1) { *((void***)&amp;a) = &amp;PETSCNULLPOINTERADDRESS; }</font></strong>
+
+
+<a name="line140">140: </a><strong><font color="#228B22">#define CHKFORTRANNULLBOOL(a)  \</font></strong>
+<a name="line141">141: </a><strong><font color="#228B22">  if (FORTRANNULLSCALAR(a) || FORTRANNULLINTEGER(a) || FORTRANNULLDOUBLE(a) || FORTRANNULLSCALAR(a) || FORTRANNULLREAL(a)  || FORTRANNULLFUNCTION(a) || FORTRANNULLCHARACTER(a)) { \</font></strong>
+<a name="line142">142: </a><strong><font color="#228B22">    <a href="../../../docs/manualpages/Sys/PetscError.html#PetscError">PetscError</a>(<a href="../../../docs/manualpages/Sys/PETSC_COMM_SELF.html#PETSC_COMM_SELF">PETSC_COMM_SELF</a>,__LINE__,</font><font color="#666666">"fortran_interface_unknown_file"</font><font color="#228B22">,__FILE__,PETSC_ERR_ARG_WRONG,<a href="../../../docs/manualpages/Sys/PetscErrorType.html#PetscErrorType">PETSC_ERROR_INITIAL</a>, \</font></strong>
+<a name="line143">143: </a><strong><font color="#228B22">    </font><font color="#666666">"Use PETSC_NULL_BOOL"</font><font color="#228B22">); *1; return; } \</font></strong>
+<a name="line144">144: </a><strong><font color="#228B22">  else if (FORTRANNULLBOOL(a)) { a = NULL; }</font></strong>
+
+<a name="line146">146: </a><strong><font color="#228B22">#define CHKFORTRANNULLFUNCTION(a)  \</font></strong>
+<a name="line147">147: </a><strong><font color="#228B22">  if (FORTRANNULLOBJECT(a) || FORTRANNULLSCALAR(a) || FORTRANNULLDOUBLE(a) || FORTRANNULLREAL(a) || FORTRANNULLINTEGER(a) || FORTRANNULLBOOL(a) || FORTRANNULLCHARACTER(a)) { \</font></strong>
+<a name="line148">148: </a><strong><font color="#228B22">    <a href="../../../docs/manualpages/Sys/PetscError.html#PetscError">PetscError</a>(<a href="../../../docs/manualpages/Sys/PETSC_COMM_SELF.html#PETSC_COMM_SELF">PETSC_COMM_SELF</a>,__LINE__,</font><font color="#666666">"fortran_interface_unknown_file"</font><font color="#228B22">,__FILE__,PETSC_ERR_ARG_WRONG,<a href="../../../docs/manualpages/Sys/PetscErrorType.html#PetscErrorType">PETSC_ERROR_INITIAL</a>, \</font></strong>
+<a name="line149">149: </a><strong><font color="#228B22">    </font><font color="#666666">"Use PETSC_NULL_FUNCTION"</font><font color="#228B22">); *1; return; } \</font></strong>
+<a name="line150">150: </a><strong><font color="#228B22">  else if (FORTRANNULLFUNCTION(a)) { a = NULL; }</font></strong>
+
+
+
+<a name="line154">154: </a><font color="#B22222">/*</font>
+<a name="line155">155: </a><font color="#B22222">    Variable type where we stash PETSc object pointers in Fortran.</font>
+<a name="line156">156: </a><font color="#B22222">*/</font>
+<a name="line157">157: </a><font color="#4169E1">typedef PETSC_UINTPTR_T <a href="../../../docs/manualpages/Sys/PetscFortranAddr.html#PetscFortranAddr">PetscFortranAddr</a>;</font>
+
+<a name="line159">159: </a><font color="#B22222">/*</font>
+<a name="line160">160: </a><font color="#B22222">    These are used to support the default viewers that are</font>
+<a name="line161">161: </a><font color="#B22222">  created at run time, in C using the , trick.</font>
+
+<a name="line163">163: </a><font color="#B22222">    The numbers here must match the numbers in include/petsc/finclude/petscsys.h</font>
+<a name="line164">164: </a><font color="#B22222">*/</font>
+<a name="line165">165: </a><strong><font color="#228B22">#define PETSC_VIEWER_DRAW_WORLD_FORTRAN     4</font></strong>
+<a name="line166">166: </a><strong><font color="#228B22">#define PETSC_VIEWER_DRAW_SELF_FORTRAN      5</font></strong>
+<a name="line167">167: </a><strong><font color="#228B22">#define PETSC_VIEWER_SOCKET_WORLD_FORTRAN   6</font></strong>
+<a name="line168">168: </a><strong><font color="#228B22">#define PETSC_VIEWER_SOCKET_SELF_FORTRAN    7</font></strong>
+<a name="line169">169: </a><strong><font color="#228B22">#define PETSC_VIEWER_STDOUT_WORLD_FORTRAN   8</font></strong>
+<a name="line170">170: </a><strong><font color="#228B22">#define PETSC_VIEWER_STDOUT_SELF_FORTRAN    9</font></strong>
+<a name="line171">171: </a><strong><font color="#228B22">#define PETSC_VIEWER_STDERR_WORLD_FORTRAN   10</font></strong>
+<a name="line172">172: </a><strong><font color="#228B22">#define PETSC_VIEWER_STDERR_SELF_FORTRAN    11</font></strong>
+<a name="line173">173: </a><strong><font color="#228B22">#define PETSC_VIEWER_BINARY_WORLD_FORTRAN   12</font></strong>
+<a name="line174">174: </a><strong><font color="#228B22">#define PETSC_VIEWER_BINARY_SELF_FORTRAN    13</font></strong>
+<a name="line175">175: </a><strong><font color="#228B22">#define PETSC_VIEWER_MATLAB_WORLD_FORTRAN   14</font></strong>
+<a name="line176">176: </a><strong><font color="#228B22">#define PETSC_VIEWER_MATLAB_SELF_FORTRAN    15</font></strong>
+
+<a name="line178">178: </a><font color="#A020F0">#if defined (PETSC_USE_SOCKET_VIEWER)</font>
+<a name="line179">179: </a><strong><font color="#228B22">#define PetscPatchDefaultViewers_Fortran_Socket(vin,v) \</font></strong>
+<a name="line180">180: </a><strong><font color="#228B22">    } else if ((*(<a href="../../../docs/manualpages/Sys/PetscFortranAddr.html#PetscFortranAddr">PetscFortranAddr</a>*)vin) == PETSC_VIEWER_SOCKET_WORLD_FORTRAN) { \</font></strong>
+<a name="line181">181: </a><strong><font color="#228B22">      v = <a href="../../../docs/manualpages/Viewer/PETSC_VIEWER_SOCKET_WORLD.html#PETSC_VIEWER_SOCKET_WORLD">PETSC_VIEWER_SOCKET_WORLD</a>; \</font></strong>
+<a name="line182">182: </a><strong><font color="#228B22">    } else if ((*(<a href="../../../docs/manualpages/Sys/PetscFortranAddr.html#PetscFortranAddr">PetscFortranAddr</a>*)vin) == PETSC_VIEWER_SOCKET_SELF_FORTRAN) { \</font></strong>
+<a name="line183">183: </a><strong><font color="#228B22">      v = <a href="../../../docs/manualpages/Viewer/PETSC_VIEWER_SOCKET_SELF.html#PETSC_VIEWER_SOCKET_SELF">PETSC_VIEWER_SOCKET_SELF</a></font></strong>
+<a name="line184">184: </a><font color="#A020F0">#else</font>
+<a name="line185">185: </a><strong><font color="#228B22">#define PetscPatchDefaultViewers_Fortran_Socket(vin,v)</font></strong>
+<a name="line186">186: </a><font color="#A020F0">#endif</font>
+
+<a name="line188">188: </a><strong><font color="#228B22">#define PetscPatchDefaultViewers_Fortran(vin,v) \</font></strong>
+<a name="line189">189: </a><strong><font color="#228B22">{ \</font></strong>
+<a name="line190">190: </a><strong><font color="#228B22">    CHKFORTRANNULLOBJECTDEREFERENCE(vin);\</font></strong>
+<a name="line191">191: </a><strong><font color="#228B22">    if ((*(<a href="../../../docs/manualpages/Sys/PetscFortranAddr.html#PetscFortranAddr">PetscFortranAddr</a>*)vin) == PETSC_VIEWER_DRAW_WORLD_FORTRAN) { \</font></strong>
+<a name="line192">192: </a><strong><font color="#228B22">      v = <a href="../../../docs/manualpages/Viewer/PETSC_VIEWER_DRAW_WORLD.html#PETSC_VIEWER_DRAW_WORLD">PETSC_VIEWER_DRAW_WORLD</a>; \</font></strong>
+<a name="line193">193: </a><strong><font color="#228B22">    } else if ((*(<a href="../../../docs/manualpages/Sys/PetscFortranAddr.html#PetscFortranAddr">PetscFortranAddr</a>*)vin) == PETSC_VIEWER_DRAW_SELF_FORTRAN) { \</font></strong>
+<a name="line194">194: </a><strong><font color="#228B22">      v = <a href="../../../docs/manualpages/Viewer/PETSC_VIEWER_DRAW_SELF.html#PETSC_VIEWER_DRAW_SELF">PETSC_VIEWER_DRAW_SELF</a>; \</font></strong>
+<a name="line195">195: </a><strong><font color="#228B22">    } else if ((*(<a href="../../../docs/manualpages/Sys/PetscFortranAddr.html#PetscFortranAddr">PetscFortranAddr</a>*)vin) == PETSC_VIEWER_STDOUT_WORLD_FORTRAN) { \</font></strong>
+<a name="line196">196: </a><strong><font color="#228B22">      v = <a href="../../../docs/manualpages/Viewer/PETSC_VIEWER_STDOUT_WORLD.html#PETSC_VIEWER_STDOUT_WORLD">PETSC_VIEWER_STDOUT_WORLD</a>; \</font></strong>
+<a name="line197">197: </a><strong><font color="#228B22">    } else if ((*(<a href="../../../docs/manualpages/Sys/PetscFortranAddr.html#PetscFortranAddr">PetscFortranAddr</a>*)vin) == PETSC_VIEWER_STDOUT_SELF_FORTRAN) { \</font></strong>
+<a name="line198">198: </a><strong><font color="#228B22">      v = <a href="../../../docs/manualpages/Viewer/PETSC_VIEWER_STDOUT_SELF.html#PETSC_VIEWER_STDOUT_SELF">PETSC_VIEWER_STDOUT_SELF</a>; \</font></strong>
+<a name="line199">199: </a><strong><font color="#228B22">    } else if ((*(<a href="../../../docs/manualpages/Sys/PetscFortranAddr.html#PetscFortranAddr">PetscFortranAddr</a>*)vin) == PETSC_VIEWER_STDERR_WORLD_FORTRAN) { \</font></strong>
+<a name="line200">200: </a><strong><font color="#228B22">      v = PETSC_VIEWER_STDERR_WORLD; \</font></strong>
+<a name="line201">201: </a><strong><font color="#228B22">    } else if ((*(<a href="../../../docs/manualpages/Sys/PetscFortranAddr.html#PetscFortranAddr">PetscFortranAddr</a>*)vin) == PETSC_VIEWER_STDERR_SELF_FORTRAN) { \</font></strong>
+<a name="line202">202: </a><strong><font color="#228B22">      v = PETSC_VIEWER_STDERR_SELF; \</font></strong>
+<a name="line203">203: </a><strong><font color="#228B22">    } else if ((*(<a href="../../../docs/manualpages/Sys/PetscFortranAddr.html#PetscFortranAddr">PetscFortranAddr</a>*)vin) == PETSC_VIEWER_BINARY_WORLD_FORTRAN) { \</font></strong>
+<a name="line204">204: </a><strong><font color="#228B22">      v = <a href="../../../docs/manualpages/Viewer/PETSC_VIEWER_BINARY_WORLD.html#PETSC_VIEWER_BINARY_WORLD">PETSC_VIEWER_BINARY_WORLD</a>; \</font></strong>
+<a name="line205">205: </a><strong><font color="#228B22">    } else if ((*(<a href="../../../docs/manualpages/Sys/PetscFortranAddr.html#PetscFortranAddr">PetscFortranAddr</a>*)vin) == PETSC_VIEWER_BINARY_SELF_FORTRAN) { \</font></strong>
+<a name="line206">206: </a><strong><font color="#228B22">      v = <a href="../../../docs/manualpages/Viewer/PETSC_VIEWER_BINARY_SELF.html#PETSC_VIEWER_BINARY_SELF">PETSC_VIEWER_BINARY_SELF</a>; \</font></strong>
+<a name="line207">207: </a><strong><font color="#228B22">    } else if ((*(<a href="../../../docs/manualpages/Sys/PetscFortranAddr.html#PetscFortranAddr">PetscFortranAddr</a>*)vin) == PETSC_VIEWER_MATLAB_WORLD_FORTRAN) { \</font></strong>
+<a name="line208">208: </a><strong><font color="#228B22">      v = <a href="../../../docs/manualpages/Viewer/PETSC_VIEWER_BINARY_WORLD.html#PETSC_VIEWER_BINARY_WORLD">PETSC_VIEWER_BINARY_WORLD</a>; \</font></strong>
+<a name="line209">209: </a><strong><font color="#228B22">    } else if ((*(<a href="../../../docs/manualpages/Sys/PetscFortranAddr.html#PetscFortranAddr">PetscFortranAddr</a>*)vin) == PETSC_VIEWER_MATLAB_SELF_FORTRAN) { \</font></strong>
+<a name="line210">210: </a><strong><font color="#228B22">      v = <a href="../../../docs/manualpages/Viewer/PETSC_VIEWER_BINARY_SELF.html#PETSC_VIEWER_BINARY_SELF">PETSC_VIEWER_BINARY_SELF</a>; \</font></strong>
+<a name="line211">211: </a><strong><font color="#228B22">    PetscPatchDefaultViewers_Fortran_Socket(vin,v); \</font></strong>
+<a name="line212">212: </a><strong><font color="#228B22">    } else { \</font></strong>
+<a name="line213">213: </a><strong><font color="#228B22">      v = *vin; \</font></strong>
+<a name="line214">214: </a><strong><font color="#228B22">    } \</font></strong>
+<a name="line215">215: </a><strong><font color="#228B22">}</font></strong>
+
+<a name="line217">217: </a><font color="#B22222">/*</font>
+<a name="line218">218: </a><font color="#B22222">      Allocates enough space to store Fortran function pointers in PETSc object</font>
+<a name="line219">219: </a><font color="#B22222">   that are needed by the Fortran interface.</font>
+<a name="line220">220: </a><font color="#B22222">*/</font>
+<a name="line221">221: </a><strong><font color="#228B22">#define PetscObjectAllocateFortranPointers(obj,N) do {                  \</font></strong>
+<a name="line222">222: </a><strong><font color="#228B22">    if (!((<a href="../../../docs/manualpages/Sys/PetscObject.html#PetscObject">PetscObject</a>)(obj))-&gt;fortran_func_pointers) {                 \</font></strong>
+<a name="line223">223: </a><strong><font color="#228B22">      *<a href="../../../docs/manualpages/Sys/PetscMalloc.html#PetscMalloc">PetscMalloc</a>((N)*sizeof(void(*)(void)),&amp;((<a href="../../../docs/manualpages/Sys/PetscObject.html#PetscObject">PetscObject</a>)(obj))-&gt;fortran_func_pointers);if (*ierr) return; \</font></strong>
+<a name="line224">224: </a><strong><font color="#228B22">      *<a href="../../../docs/manualpages/Sys/PetscMemzero.html#PetscMemzero">PetscMemzero</a>(((<a href="../../../docs/manualpages/Sys/PetscObject.html#PetscObject">PetscObject</a>)(obj))-&gt;fortran_func_pointers,(N)*sizeof(void(*)(void)));if (*ierr) return; \</font></strong>
+<a name="line225">225: </a><strong><font color="#228B22">      ((<a href="../../../docs/manualpages/Sys/PetscObject.html#PetscObject">PetscObject</a>)obj)-&gt;num_fortran_func_pointers = (N);              \</font></strong>
+<a name="line226">226: </a><strong><font color="#228B22">    }                                                                   \</font></strong>
+<a name="line227">227: </a><strong><font color="#228B22">  } while (0)</font></strong>
+
+<a name="line229">229: </a><font color="#B22222">/* Entire function body, _ctx is a "special" variable that can be passed along */</font>
+<a name="line230">230: </a><strong><font color="#228B22">#define PetscObjectUseFortranCallback_Private(obj,cid,types,args,cbclass) { \</font></strong>
+<a name="line232">232: </a><strong><font color="#228B22">    void (PETSC_STDCALL *func) types,*_ctx;                             \</font></strong>
+<a name="line234">234: </a><strong><font color="#228B22">    <a href="../../../docs/manualpages/Sys/PetscObjectGetFortranCallback.html#PetscObjectGetFortranCallback">PetscObjectGetFortranCallback</a>((<a href="../../../docs/manualpages/Sys/PetscObject.html#PetscObject">PetscObject</a>)(obj),(cbclass),(cid),(PetscVoidFunction*)&amp;func,&amp;_ctx); \</font></strong>
+<a name="line235">235: </a><strong><font color="#228B22">    if (func) {(*func)args;}                              \</font></strong>
+<a name="line236">236: </a><strong><font color="#228B22">    return(0);                                             \</font></strong>
+<a name="line237">237: </a><strong><font color="#228B22">  }</font></strong>
+<a name="line238">238: </a><strong><font color="#228B22">#define PetscObjectUseFortranCallback(obj,cid,types,args) PetscObjectUseFortranCallback_Private(obj,cid,types,args,PETSC_FORTRAN_CALLBACK_CLASS)</font></strong>
+<a name="line239">239: </a><strong><font color="#228B22">#define PetscObjectUseFortranCallbackSubType(obj,cid,types,args) PetscObjectUseFortranCallback_Private(obj,cid,types,args,PETSC_FORTRAN_CALLBACK_SUBTYPE)</font></strong>
+
+<a name="line241">241: </a><font color="#B22222">/* Disable deprecation warnings while building Fortran wrappers */</font>
+<a name="line242">242: </a><strong><font color="#228B22">#undef  PETSC_DEPRECATED</font></strong>
+<a name="line243">243: </a><strong><font color="#228B22">#define PETSC_DEPRECATED(arg)</font></strong>
+
+<a name="line245">245: </a><font color="#A020F0">#endif</font>
+</pre>
+</body>
+
+</html>

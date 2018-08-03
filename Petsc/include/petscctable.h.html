@@ -1,0 +1,153 @@
+<center><a href="petscctable.h">Actual source code: petscctable.h</a></center><br>
+
+<html>
+<head> <link rel="canonical" href="http://www.mcs.anl.gov/petsc/petsc-current/include/petscctable.h.html" />
+<title></title>
+<meta name="generator" content="c2html 0.9.4">
+<meta name="date" content="2017-12-10T04:47:11+00:00">
+</head>
+
+<body bgcolor="#FFFFFF">
+   <div id="version" align=right><b>petsc-3.8.3 2017-12-09</b></div>
+   <div id="bugreport" align=right><a href="mailto:petsc-maint@mcs.anl.gov?subject=Typo or Error in Documentation &body=Please describe the typo or error in the documentation: petsc-3.8.3 v3.8.3 include/petscctable.h.html "><small>Report Typos and Errors</small></a></div>
+<pre width="80">
+<a name="line1">  1: </a><font color="#A020F0">#ifndef __PETSCCTABLE_H</font>
+<a name="line3">  3: </a> #include <A href="petscsys.h.html">&lt;petscsys.h&gt;</A>
+
+<a name="line5">  5: </a><font color="#4169E1"><a name="_n_PetscTable"></a>struct _n_PetscTable </font>{
+<a name="line6">  6: </a>  <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> *keytable;
+<a name="line7">  7: </a>  <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> *table;
+<a name="line8">  8: </a>  <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> count;
+<a name="line9">  9: </a>  <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> tablesize;
+<a name="line10"> 10: </a>  <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> head;
+<a name="line11"> 11: </a>  <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> maxkey;   <font color="#B22222">/* largest key allowed */</font>
+<a name="line12"> 12: </a>};
+
+<a name="line14"> 14: </a><font color="#4169E1">typedef struct _n_PetscTable* PetscTable;</font>
+<a name="line15"> 15: </a><font color="#4169E1">typedef <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>* PetscTablePosition;</font>
+
+<a name="line17"> 17: </a><strong><font color="#4169E1"><a name="PetscHash"></a>PETSC_STATIC_INLINE unsigned long PetscHash(PetscTable ta,unsigned long x)</font></strong>
+<a name="line18"> 18: </a>{
+<a name="line20"> 20: </a>  <a href="../docs/manualpages/Sys/PetscFunctionReturn.html#PetscFunctionReturn">PetscFunctionReturn</a>(x%(unsigned long)ta-&gt;tablesize);
+<a name="line21"> 21: </a>}
+
+<a name="line23"> 23: </a><strong><font color="#4169E1"><a name="PetscHashStep"></a>PETSC_STATIC_INLINE unsigned long PetscHashStep(PetscTable ta,unsigned long x)</font></strong>
+<a name="line24"> 24: </a>{
+<a name="line26"> 26: </a>  <a href="../docs/manualpages/Sys/PetscFunctionReturn.html#PetscFunctionReturn">PetscFunctionReturn</a>(1+(x%(unsigned long)(ta-&gt;tablesize-1)));
+<a name="line27"> 27: </a>}
+
+<a name="line29"> 29: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> PetscTableCreate(const <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,<a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,PetscTable*)</font></strong>;
+<a name="line30"> 30: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> PetscTableCreateCopy(const PetscTable,PetscTable*)</font></strong>;
+<a name="line31"> 31: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> PetscTableDestroy(PetscTable*)</font></strong>;
+<a name="line32"> 32: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> PetscTableGetCount(const PetscTable,<a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>*)</font></strong>;
+<a name="line33"> 33: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> PetscTableIsEmpty(const PetscTable,<a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>*)</font></strong>;
+<a name="line34"> 34: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> PetscTableAddExpand(PetscTable,<a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,<a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,<a href="../docs/manualpages/Sys/InsertMode.html#InsertMode">InsertMode</a>)</font></strong>;
+<a name="line35"> 35: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> PetscTableAddCountExpand(PetscTable,<a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>)</font></strong>;
+<a name="line36"> 36: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> PetscTableGetHeadPosition(PetscTable,PetscTablePosition*)</font></strong>;
+<a name="line37"> 37: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> PetscTableGetNext(PetscTable,PetscTablePosition*,<a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>*,<a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>*)</font></strong>;
+<a name="line38"> 38: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> PetscTableRemoveAll(PetscTable)</font></strong>;
+
+<a name="line40"> 40: </a><strong><font color="#4169E1"><a name="PetscTableAdd"></a>PETSC_STATIC_INLINE <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> PetscTableAdd(PetscTable ta,<a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> key,<a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> data,<a href="../docs/manualpages/Sys/InsertMode.html#InsertMode">InsertMode</a> imode)</font></strong>
+<a name="line41"> 41: </a>{
+<a name="line43"> 43: </a>  <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>       i,hash = (<a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>)PetscHash(ta,(unsigned long)key);
+<a name="line44"> 44: </a>  <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>       hashstep = (<a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>)PetscHashStep(ta,(unsigned long)key);
+
+<a name="line47"> 47: </a>  <font color="#4169E1">if</font> (key &lt;= 0) <a href="../docs/manualpages/Sys/SETERRQ.html#SETERRQ">SETERRQ</a>(<a href="../docs/manualpages/Sys/PETSC_COMM_SELF.html#PETSC_COMM_SELF">PETSC_COMM_SELF</a>,PETSC_ERR_ARG_OUTOFRANGE,<font color="#666666">"key &lt;= 0"</font>);
+<a name="line48"> 48: </a>  <font color="#4169E1">if</font> (key &gt; ta-&gt;maxkey) <a href="../docs/manualpages/Sys/SETERRQ2.html#SETERRQ2">SETERRQ2</a>(<a href="../docs/manualpages/Sys/PETSC_COMM_SELF.html#PETSC_COMM_SELF">PETSC_COMM_SELF</a>,PETSC_ERR_ARG_OUTOFRANGE,<font color="#666666">"key %D is greater than largest key allowed %D"</font>,key,ta-&gt;maxkey);
+<a name="line49"> 49: </a>  <font color="#4169E1">if</font> (!data) <a href="../docs/manualpages/Sys/SETERRQ.html#SETERRQ">SETERRQ</a>(<a href="../docs/manualpages/Sys/PETSC_COMM_SELF.html#PETSC_COMM_SELF">PETSC_COMM_SELF</a>,PETSC_ERR_ARG_OUTOFRANGE,<font color="#666666">"Null data"</font>);
+
+<a name="line51"> 51: </a>  <font color="#4169E1">for</font> (i=0; i&lt;ta-&gt;tablesize; i++) {
+<a name="line52"> 52: </a>    <font color="#4169E1">if</font> (ta-&gt;keytable[hash] == key) {
+<a name="line53"> 53: </a>      <font color="#4169E1">switch</font> (imode) {
+<a name="line54"> 54: </a>      <font color="#4169E1">case</font> <a href="../docs/manualpages/Sys/INSERT_VALUES.html#INSERT_VALUES">INSERT_VALUES</a>:
+<a name="line55"> 55: </a>        ta-&gt;table[hash] = data; <font color="#B22222">/* over write */</font>
+<a name="line56"> 56: </a>        <font color="#4169E1">break</font>;
+<a name="line57"> 57: </a>      <font color="#4169E1">case</font> <a href="../docs/manualpages/Sys/ADD_VALUES.html#ADD_VALUES">ADD_VALUES</a>:
+<a name="line58"> 58: </a>        ta-&gt;table[hash] += data;
+<a name="line59"> 59: </a>        <font color="#4169E1">break</font>;
+<a name="line60"> 60: </a>      <font color="#4169E1">case</font> <a href="../docs/manualpages/Sys/MAX_VALUES.html#MAX_VALUES">MAX_VALUES</a>:
+<a name="line61"> 61: </a>        ta-&gt;table[hash] = <a href="../docs/manualpages/Sys/PetscMax.html#PetscMax">PetscMax</a>(ta-&gt;table[hash],data);
+<a name="line62"> 62: </a>        <font color="#4169E1">break</font>;
+<a name="line63"> 63: </a>      <font color="#4169E1">case</font> <a href="../docs/manualpages/Sys/InsertMode.html#InsertMode">NOT_SET_VALUES</a>:
+<a name="line64"> 64: </a>      <font color="#4169E1">case</font> <a href="../docs/manualpages/Sys/InsertMode.html#InsertMode">INSERT_ALL_VALUES</a>:
+<a name="line65"> 65: </a>      <font color="#4169E1">case</font> <a href="../docs/manualpages/Sys/InsertMode.html#InsertMode">ADD_ALL_VALUES</a>:
+<a name="line66"> 66: </a>      <font color="#4169E1">case</font> <a href="../docs/manualpages/Sys/InsertMode.html#InsertMode">INSERT_BC_VALUES</a>:
+<a name="line67"> 67: </a>      <font color="#4169E1">case</font> <a href="../docs/manualpages/Sys/InsertMode.html#InsertMode">ADD_BC_VALUES</a>:
+<a name="line68"> 68: </a>        <a href="../docs/manualpages/Sys/SETERRQ.html#SETERRQ">SETERRQ</a>(<a href="../docs/manualpages/Sys/PETSC_COMM_SELF.html#PETSC_COMM_SELF">PETSC_COMM_SELF</a>,PETSC_ERR_SUP,<font color="#666666">"Unsupported <a href="../docs/manualpages/Sys/InsertMode.html#InsertMode">InsertMode</a>"</font>);
+<a name="line69"> 69: </a>      }
+<a name="line70"> 70: </a>      <font color="#4169E1">return</font>(0);
+<a name="line71"> 71: </a>    } <font color="#4169E1">else</font> <font color="#4169E1">if</font> (!ta-&gt;keytable[hash]) {
+<a name="line72"> 72: </a>      <font color="#4169E1">if</font> (ta-&gt;count &lt; 5*(ta-&gt;tablesize/6) - 1) {
+<a name="line73"> 73: </a>        ta-&gt;count++; <font color="#B22222">/* add */</font>
+<a name="line74"> 74: </a>        ta-&gt;keytable[hash] = key;
+<a name="line75"> 75: </a>        ta-&gt;table[hash] = data;
+<a name="line76"> 76: </a>      } <font color="#4169E1">else</font> {
+<a name="line77"> 77: </a>        PetscTableAddExpand(ta,key,data,imode);
+<a name="line78"> 78: </a>      }
+<a name="line79"> 79: </a>      <font color="#4169E1">return</font>(0);
+<a name="line80"> 80: </a>    }
+<a name="line81"> 81: </a>    hash = (hash + hashstep)%ta-&gt;tablesize;
+<a name="line82"> 82: </a>  }
+<a name="line83"> 83: </a>  <a href="../docs/manualpages/Sys/SETERRQ.html#SETERRQ">SETERRQ</a>(<a href="../docs/manualpages/Sys/PETSC_COMM_SELF.html#PETSC_COMM_SELF">PETSC_COMM_SELF</a>,PETSC_ERR_COR,<font color="#666666">"Full table"</font>);
+<a name="line84"> 84: </a>  <font color="#B22222">/* return(0); */</font>
+<a name="line85"> 85: </a>}
+
+<a name="line87"> 87: </a><strong><font color="#4169E1"><a name="PetscTableAddCount"></a>PETSC_STATIC_INLINE <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a>  PetscTableAddCount(PetscTable ta,<a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> key)</font></strong>
+<a name="line88"> 88: </a>{
+<a name="line90"> 90: </a>  <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>       i,hash = (<a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>)PetscHash(ta,(unsigned long)key);
+<a name="line91"> 91: </a>  <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>       hashstep = (<a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>)PetscHashStep(ta,(unsigned long)key);
+
+<a name="line94"> 94: </a>  <font color="#4169E1">if</font> (key &lt;= 0) <a href="../docs/manualpages/Sys/SETERRQ.html#SETERRQ">SETERRQ</a>(<a href="../docs/manualpages/Sys/PETSC_COMM_SELF.html#PETSC_COMM_SELF">PETSC_COMM_SELF</a>,PETSC_ERR_ARG_OUTOFRANGE,<font color="#666666">"key &lt;= 0"</font>);
+<a name="line95"> 95: </a>  <font color="#4169E1">if</font> (key &gt; ta-&gt;maxkey) <a href="../docs/manualpages/Sys/SETERRQ2.html#SETERRQ2">SETERRQ2</a>(<a href="../docs/manualpages/Sys/PETSC_COMM_SELF.html#PETSC_COMM_SELF">PETSC_COMM_SELF</a>,PETSC_ERR_ARG_OUTOFRANGE,<font color="#666666">"key %D is greater than largest key allowed %D"</font>,key,ta-&gt;maxkey);
+
+<a name="line97"> 97: </a>  <font color="#4169E1">for</font> (i=0; i&lt;ta-&gt;tablesize; i++) {
+<a name="line98"> 98: </a>    <font color="#4169E1">if</font> (ta-&gt;keytable[hash] == key) {
+<a name="line99"> 99: </a>      <font color="#4169E1">return</font>(0);
+<a name="line100">100: </a>    } <font color="#4169E1">else</font> <font color="#4169E1">if</font> (!ta-&gt;keytable[hash]) {
+<a name="line101">101: </a>      <font color="#4169E1">if</font> (ta-&gt;count &lt; 5*(ta-&gt;tablesize/6) - 1) {
+<a name="line102">102: </a>        ta-&gt;count++; <font color="#B22222">/* add */</font>
+<a name="line103">103: </a>        ta-&gt;keytable[hash] = key;
+<a name="line104">104: </a>        ta-&gt;table[hash] = ta-&gt;count;
+<a name="line105">105: </a>      } <font color="#4169E1">else</font> {
+<a name="line106">106: </a>        PetscTableAddCountExpand(ta,key);
+<a name="line107">107: </a>      }
+<a name="line108">108: </a>      <font color="#4169E1">return</font>(0);
+<a name="line109">109: </a>    }
+<a name="line110">110: </a>    hash = (hash + hashstep)%ta-&gt;tablesize;
+<a name="line111">111: </a>  }
+<a name="line112">112: </a>  <a href="../docs/manualpages/Sys/SETERRQ.html#SETERRQ">SETERRQ</a>(<a href="../docs/manualpages/Sys/PETSC_COMM_SELF.html#PETSC_COMM_SELF">PETSC_COMM_SELF</a>,PETSC_ERR_COR,<font color="#666666">"Full table"</font>);
+<a name="line113">113: </a>  <font color="#B22222">/* return(0); */</font>
+<a name="line114">114: </a>}
+
+<a name="line116">116: </a><font color="#B22222">/*</font>
+<a name="line117">117: </a><font color="#B22222">    PetscTableFind - checks if a key is in the table</font>
+
+<a name="line119">119: </a><font color="#B22222">    If data==0, then no table entry exists.</font>
+
+<a name="line121">121: </a><font color="#B22222">*/</font>
+<a name="line122">122: </a><strong><font color="#4169E1"><a name="PetscTableFind"></a>PETSC_STATIC_INLINE <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a>  PetscTableFind(PetscTable ta,<a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> key,<a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> *data)</font></strong>
+<a name="line123">123: </a>{
+<a name="line124">124: </a>  <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>       ii = 0;
+<a name="line125">125: </a>  <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>       hash = (<a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>)PetscHash(ta,(unsigned long)key);
+<a name="line126">126: </a>  <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>       hashstep = (<a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>)PetscHashStep(ta,(unsigned long)key);
+
+<a name="line129">129: </a>  *data = 0;
+<a name="line130">130: </a>  <font color="#4169E1">if</font> (key &lt;= 0) <a href="../docs/manualpages/Sys/SETERRQ.html#SETERRQ">SETERRQ</a>(<a href="../docs/manualpages/Sys/PETSC_COMM_SELF.html#PETSC_COMM_SELF">PETSC_COMM_SELF</a>,PETSC_ERR_ARG_OUTOFRANGE,<font color="#666666">"Key &lt;= 0"</font>);
+<a name="line131">131: </a>  <font color="#4169E1">if</font> (key &gt; ta-&gt;maxkey) <a href="../docs/manualpages/Sys/SETERRQ2.html#SETERRQ2">SETERRQ2</a>(<a href="../docs/manualpages/Sys/PETSC_COMM_SELF.html#PETSC_COMM_SELF">PETSC_COMM_SELF</a>,PETSC_ERR_ARG_OUTOFRANGE,<font color="#666666">"key %D is greater than largest key allowed %D"</font>,key,ta-&gt;maxkey);
+
+<a name="line133">133: </a>  <font color="#4169E1">while</font> (ii++ &lt; ta-&gt;tablesize) {
+<a name="line134">134: </a>    <font color="#4169E1">if</font> (!ta-&gt;keytable[hash]) <font color="#4169E1">break</font>;
+<a name="line135">135: </a>    <font color="#4169E1">else</font> <font color="#4169E1">if</font> (ta-&gt;keytable[hash] == key) {
+<a name="line136">136: </a>      *data = ta-&gt;table[hash];
+<a name="line137">137: </a>      <font color="#4169E1">break</font>;
+<a name="line138">138: </a>    }
+<a name="line139">139: </a>    hash = (hash + hashstep)%ta-&gt;tablesize;
+<a name="line140">140: </a>  }
+<a name="line141">141: </a>  <font color="#4169E1">return</font>(0);
+<a name="line142">142: </a>}
+
+<a name="line144">144: </a><font color="#A020F0">#endif</font>
+</pre>
+</body>
+
+</html>

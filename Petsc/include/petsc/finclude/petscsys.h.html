@@ -1,0 +1,250 @@
+<center><a href="petscsys.h">Actual source code: petscsys.h</a></center><br>
+
+<html>
+<head> <link rel="canonical" href="http://www.mcs.anl.gov/petsc/petsc-current/include/petsc/finclude/petscsys.h.html" />
+<title></title>
+<meta name="generator" content="c2html 0.9.4">
+<meta name="date" content="2017-12-10T05:58:26+00:00">
+</head>
+
+<body bgcolor="#FFFFFF">
+   <div id="version" align=right><b>petsc-3.8.3 2017-12-09</b></div>
+   <div id="bugreport" align=right><a href="mailto:petsc-maint@mcs.anl.gov?subject=Typo or Error in Documentation &body=Please describe the typo or error in the documentation: petsc-3.8.3 v3.8.3 include/petsc/finclude/petscsys.h.html "><small>Report Typos and Errors</small></a></div>
+<pre width="80">
+<a name="line1">  1: </a>!
+<a name="line2">  2: </a>!
+<a name="line3">  3: </a>!  Part of the base include file <font color="#4169E1">for</font> Fortran use of PETSc.
+<a name="line4">  4: </a>!  Note: This file should contain only define statements and
+<a name="line5">  5: </a>!  not the declaration of variables.
+
+<a name="line7">  7: </a>! No spaces <font color="#4169E1">for</font> #defines as some compilers (PGI) also adds
+<a name="line8">  8: </a>! those additional spaces during preprocessing - bad <font color="#4169E1">for</font> fixed format
+<a name="line9">  9: </a>!
+<a name="line10"> 10: </a><font color="#A020F0">#if !defined (__PETSCSYSDEF_H)</font>
+<a name="line12"> 12: </a><font color="#A020F0">#include </font><font color="#666666">"petscconf.h"</font><font color="#A020F0"></font>
+<a name="line13"> 13: </a><font color="#A020F0">#if defined (PETSC_HAVE_MPIUNI)</font>
+<a name="line14"> 14: </a><font color="#A020F0">#include </font><font color="#666666">"mpiunifdef.h"</font><font color="#A020F0"></font>
+<a name="line15"> 15: </a><font color="#A020F0">#endif</font>
+<a name="line16"> 16: </a><font color="#A020F0">#include </font><font color="#666666">"petscversion.h"</font><font color="#A020F0"></font>
+<a name="line17"> 17: </a><font color="#A020F0">#include </font><font color="#666666">"petsc/finclude/petscviewer.h"</font><font color="#A020F0"></font>
+<a name="line18"> 18: </a><font color="#A020F0">#include </font><font color="#666666">"petsc/finclude/petscerror.h"</font><font color="#A020F0"></font>
+<a name="line19"> 19: </a><font color="#A020F0">#include </font><font color="#666666">"petsc/finclude/petsclog.h"</font><font color="#A020F0"></font>
+<a name="line20"> 20: </a><font color="#A020F0">#include </font><font color="#666666">"petsc/finclude/petscbag.h"</font><font color="#A020F0"></font>
+
+<a name="line22"> 22: </a>!
+<a name="line23"> 23: </a>! The real*8,complex*16 notatiton is used so that the
+<a name="line24"> 24: </a>! PETSc double/complex variables are not affected by
+<a name="line25"> 25: </a>! compiler options like -r4,-r8, sometimes invoked
+<a name="line26"> 26: </a>! by the user. NAG compiler does not like integer*4,real*8
+
+<a name="line28"> 28: </a><font color="#A020F0">#if defined(PETSC_USE_FORTRANKIND)</font>
+<a name="line29"> 29: </a><strong><font color="#228B22">#define integer8 integer(kind=selected_int_kind(10))</font></strong>
+<a name="line30"> 30: </a><strong><font color="#228B22">#define integer4 integer(kind=selected_int_kind(5))</font></strong>
+<a name="line31"> 31: </a><strong><font color="#228B22">#define integer2 integer(kind=selected_int_kind(3))</font></strong>
+<a name="line32"> 32: </a><strong><font color="#228B22">#define integer1 integer(kind=selected_int_kind(1))</font></strong>
+<a name="line33"> 33: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>  logical(kind=4)</font></strong>
+<a name="line34"> 34: </a><font color="#A020F0">#else</font>
+<a name="line35"> 35: </a><strong><font color="#228B22">#define integer8 integer*8</font></strong>
+<a name="line36"> 36: </a><strong><font color="#228B22">#define integer4 integer*4</font></strong>
+<a name="line37"> 37: </a><strong><font color="#228B22">#define integer2 integer*2</font></strong>
+<a name="line38"> 38: </a><strong><font color="#228B22">#define integer1 integer*1</font></strong>
+<a name="line39"> 39: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>  logical*4</font></strong>
+<a name="line40"> 40: </a><font color="#A020F0">#endif</font>
+
+<a name="line42"> 42: </a><font color="#A020F0">#if (PETSC_SIZEOF_VOID_P == 8)</font>
+<a name="line43"> 43: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscFortranAddr.html#PetscFortranAddr">PetscFortranAddr</a> integer8</font></strong>
+<a name="line44"> 44: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscOffset.html#PetscOffset">PetscOffset</a> integer8</font></strong>
+<a name="line45"> 45: </a><font color="#A020F0">#else</font>
+<a name="line46"> 46: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscOffset.html#PetscOffset">PetscOffset</a> integer4</font></strong>
+<a name="line47"> 47: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscFortranAddr.html#PetscFortranAddr">PetscFortranAddr</a> integer4</font></strong>
+<a name="line48"> 48: </a><font color="#A020F0">#endif</font>
+
+<a name="line50"> 50: </a><font color="#A020F0">#if defined(PETSC_USE_64BIT_INDICES)</font>
+<a name="line51"> 51: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> integer8</font></strong>
+<a name="line52"> 52: </a><font color="#A020F0">#else</font>
+<a name="line53"> 53: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> integer4</font></strong>
+<a name="line54"> 54: </a><font color="#A020F0">#endif</font>
+<a name="line55"> 55: </a><strong><font color="#228B22">#define PetscInt64 integer8</font></strong>
+<a name="line56"> 56: </a><font color="#A020F0">#if defined(PETSC_USING_F90) &amp;&amp; !defined(PETSC_USE_FORTRANKIND)</font>
+<a name="line57"> 57: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscObjectState.html#PetscObjectState">PetscObjectState</a> integer4</font></strong>
+<a name="line58"> 58: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscObjectId.html#PetscObjectId">PetscObjectId</a> integer4</font></strong>
+<a name="line59"> 59: </a><font color="#A020F0">#else</font>
+<a name="line60"> 60: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscObjectState.html#PetscObjectState">PetscObjectState</a> PetscInt64</font></strong>
+<a name="line61"> 61: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscObjectId.html#PetscObjectId">PetscObjectId</a> PetscInt64</font></strong>
+<a name="line62"> 62: </a><font color="#A020F0">#endif</font>
+
+<a name="line64"> 64: </a><font color="#A020F0">#if (PETSC_SIZEOF_INT == 4)</font>
+<a name="line65"> 65: </a><strong><font color="#228B22">#define PetscFortranInt integer4</font></strong>
+<a name="line66"> 66: </a><font color="#A020F0">#elif (PETSC_SIZEOF_INT == 8)</font>
+<a name="line67"> 67: </a><strong><font color="#228B22">#define PetscFortranInt integer8</font></strong>
+<a name="line68"> 68: </a><font color="#A020F0">#endif</font>
+<a name="line69"> 69: </a>!
+<a name="line70"> 70: </a><font color="#A020F0">#if (PETSC_SIZEOF_SIZE_T == 8)</font>
+<a name="line71"> 71: </a><strong><font color="#228B22">#define PetscSizeT integer8</font></strong>
+<a name="line72"> 72: </a><font color="#A020F0">#else</font>
+<a name="line73"> 73: </a><strong><font color="#228B22">#define PetscSizeT integer4</font></strong>
+<a name="line74"> 74: </a><font color="#A020F0">#endif</font>
+<a name="line75"> 75: </a>!
+<a name="line76"> 76: </a><font color="#A020F0">#if defined(PETSC_HAVE_MPIUNI)</font>
+<a name="line77"> 77: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/MPI_Comm.html#MPI_Comm">MPI_Comm</a> PetscFortranInt</font></strong>
+<a name="line78"> 78: </a><strong><font color="#228B22">#define MPI_Group PetscFortranInt</font></strong>
+<a name="line79"> 79: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscMPIInt.html#PetscMPIInt">PetscMPIInt</a> PetscFortranInt</font></strong>
+<a name="line80"> 80: </a><font color="#A020F0">#else</font>
+<a name="line81"> 81: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/MPI_Comm.html#MPI_Comm">MPI_Comm</a> integer</font></strong>
+<a name="line82"> 82: </a><strong><font color="#228B22">#define MPI_Group integer</font></strong>
+<a name="line83"> 83: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscMPIInt.html#PetscMPIInt">PetscMPIInt</a> integer</font></strong>
+<a name="line84"> 84: </a><font color="#A020F0">#endif</font>
+<a name="line85"> 85: </a>!
+<a name="line86"> 86: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscEnum.html#PetscEnum">PetscEnum</a> PetscFortranInt</font></strong>
+<a name="line87"> 87: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> PetscFortranInt</font></strong>
+<a name="line88"> 88: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscClassId.html#PetscClassId">PetscClassId</a> PetscFortranInt</font></strong>
+<a name="line89"> 89: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Profiling/PetscLogEvent.html#PetscLogEvent">PetscLogEvent</a> PetscFortranInt</font></strong>
+<a name="line90"> 90: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Profiling/PetscLogStage.html#PetscLogStage">PetscLogStage</a> PetscFortranInt</font></strong>
+<a name="line91"> 91: </a><strong><font color="#228B22">#define PetscVoid <a href="../../../docs/manualpages/Sys/PetscFortranAddr.html#PetscFortranAddr">PetscFortranAddr</a></font></strong>
+<a name="line92"> 92: </a>!
+<a name="line93"> 93: </a><font color="#A020F0">#if defined(PETSC_FORTRAN_PETSCTRUTH_INT)</font>
+<a name="line94"> 94: </a><strong><font color="#228B22">#undef <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a></font></strong>
+<a name="line95"> 95: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>  <a href="../../../docs/manualpages/Sys/PetscEnum.html#PetscEnum">PetscEnum</a></font></strong>
+<a name="line96"> 96: </a><font color="#A020F0">#endif</font>
+<a name="line97"> 97: </a>!
+<a name="line98"> 98: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscCopyMode.html#PetscCopyMode">PetscCopyMode</a> <a href="../../../docs/manualpages/Sys/PetscEnum.html#PetscEnum">PetscEnum</a></font></strong>
+<a name="line99"> 99: </a>!
+<a name="line100">100: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscDataType.html#PetscDataType">PetscDataType</a> <a href="../../../docs/manualpages/Sys/PetscEnum.html#PetscEnum">PetscEnum</a></font></strong>
+<a name="line101">101: </a><strong><font color="#228B22">#define PetscFPTrap <a href="../../../docs/manualpages/Sys/PetscEnum.html#PetscEnum">PetscEnum</a></font></strong>
+<a name="line102">102: </a>!
+<a name="line103">103: </a><font color="#A020F0">#if defined (PETSC_USE_FORTRANKIND)</font>
+<a name="line104">104: </a><strong><font color="#228B22">#define PetscFortranFloat real(kind=selected_real_kind(5))</font></strong>
+<a name="line105">105: </a><strong><font color="#228B22">#define PetscFortranDouble real(kind=selected_real_kind(10))</font></strong>
+<a name="line106">106: </a><strong><font color="#228B22">#define PetscFortranLongDouble real(kind=selected_real_kind(19))</font></strong>
+<a name="line107">107: </a><font color="#A020F0">#if defined(PETSC_USE_REAL_SINGLE)</font>
+<a name="line108">108: </a><strong><font color="#228B22">#define PetscFortranComplex complex(kind=selected_real_kind(5))</font></strong>
+<a name="line109">109: </a><font color="#A020F0">#elif defined(PETSC_USE_REAL_DOUBLE)</font>
+<a name="line110">110: </a><strong><font color="#228B22">#define PetscFortranComplex complex(kind=selected_real_kind(10))</font></strong>
+<a name="line111">111: </a><font color="#A020F0">#elif defined(PETSC_USE_REAL___FLOAT128)</font>
+<a name="line112">112: </a><strong><font color="#228B22">#define PetscFortranComplex complex(kind=selected_real_kind(20))</font></strong>
+<a name="line113">113: </a><font color="#A020F0">#endif</font>
+<a name="line114">114: </a><strong><font color="#228B22">#define PetscChar(a) character(len = a) ::</font></strong>
+<a name="line115">115: </a><font color="#A020F0">#else</font>
+<a name="line116">116: </a><strong><font color="#228B22">#define PetscFortranFloat real*4</font></strong>
+<a name="line117">117: </a><strong><font color="#228B22">#define PetscFortranDouble real*8</font></strong>
+<a name="line118">118: </a><strong><font color="#228B22">#define PetscFortranLongDouble real*16</font></strong>
+<a name="line119">119: </a><font color="#A020F0">#if defined(PETSC_USE_REAL_SINGLE)</font>
+<a name="line120">120: </a><strong><font color="#228B22">#define PetscFortranComplex complex*8</font></strong>
+<a name="line121">121: </a><font color="#A020F0">#elif defined(PETSC_USE_REAL_DOUBLE)</font>
+<a name="line122">122: </a><strong><font color="#228B22">#define PetscFortranComplex complex*16</font></strong>
+<a name="line123">123: </a><font color="#A020F0">#elif defined(PETSC_USE_REAL___FLOAT128)</font>
+<a name="line124">124: </a><strong><font color="#228B22">#define PetscFortranComplex complex*32</font></strong>
+<a name="line125">125: </a><font color="#A020F0">#endif</font>
+<a name="line126">126: </a><strong><font color="#228B22">#define PetscChar(a) character*(a)</font></strong>
+<a name="line127">127: </a><font color="#A020F0">#endif</font>
+
+<a name="line129">129: </a><font color="#A020F0">#if defined(PETSC_USE_COMPLEX)</font>
+<a name="line130">130: </a><strong><font color="#228B22">#define PETSC_SCALAR <a href="../../../docs/manualpages/Sys/PetscDataType.html#PetscDataType">PETSC_COMPLEX</a></font></strong>
+<a name="line131">131: </a><font color="#A020F0">#else</font>
+<a name="line132">132: </a><font color="#A020F0">#if defined(PETSC_USE_REAL_SINGLE)</font>
+<a name="line133">133: </a><strong><font color="#228B22">#define PETSC_SCALAR <a href="../../../docs/manualpages/Sys/PetscDataType.html#PetscDataType">PETSC_FLOAT</a></font></strong>
+<a name="line134">134: </a><font color="#A020F0">#elif defined(PETSC_USE_REAL___FLOAT128)</font>
+<a name="line135">135: </a><strong><font color="#228B22">#define PETSC_SCALAR <a href="../../../docs/manualpages/Sys/PetscDataType.html#PetscDataType">PETSC___FLOAT128</a></font></strong>
+<a name="line136">136: </a><font color="#A020F0">#else</font>
+<a name="line137">137: </a><strong><font color="#228B22">#define PETSC_SCALAR <a href="../../../docs/manualpages/Sys/PetscDataType.html#PetscDataType">PETSC_DOUBLE</a></font></strong>
+<a name="line138">138: </a><font color="#A020F0">#endif</font>
+<a name="line139">139: </a><font color="#A020F0">#endif</font>
+<a name="line140">140: </a><font color="#A020F0">#if defined(PETSC_USE_REAL_SINGLE)</font>
+<a name="line141">141: </a><strong><font color="#228B22">#define  PETSC_REAL  <a href="../../../docs/manualpages/Sys/PetscDataType.html#PetscDataType">PETSC_FLOAT</a></font></strong>
+<a name="line142">142: </a><strong><font color="#228B22">#define PetscIntToReal(a) real(a)</font></strong>
+<a name="line143">143: </a><font color="#A020F0">#elif defined(PETSC_USE_REAL___FLOAT128)</font>
+<a name="line144">144: </a><strong><font color="#228B22">#define PETSC_REAL <a href="../../../docs/manualpages/Sys/PetscDataType.html#PetscDataType">PETSC___FLOAT128</a></font></strong>
+<a name="line145">145: </a><strong><font color="#228B22">#define PetscIntToReal(a) dble(a)</font></strong>
+<a name="line146">146: </a><font color="#A020F0">#else</font>
+<a name="line147">147: </a><strong><font color="#228B22">#define  PETSC_REAL  <a href="../../../docs/manualpages/Sys/PetscDataType.html#PetscDataType">PETSC_DOUBLE</a></font></strong>
+<a name="line148">148: </a><strong><font color="#228B22">#define PetscIntToReal(a) dble(a)</font></strong>
+<a name="line149">149: </a><font color="#A020F0">#endif</font>
+<a name="line150">150: </a>!
+<a name="line151">151: </a>!     Macro <font color="#4169E1">for</font> templating between real and complex
+<a name="line152">152: </a>!
+<a name="line153">153: </a><font color="#A020F0">#if defined(PETSC_USE_COMPLEX)</font>
+<a name="line154">154: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscScalar.html#PetscScalar">PetscScalar</a> PetscFortranComplex</font></strong>
+<a name="line155">155: </a>!
+<a name="line156">156: </a>! F90 uses real(), conjg() when KIND parameter is used.
+<a name="line157">157: </a>!
+<a name="line158">158: </a><strong><font color="#228B22">#define PetscRealPart(a) real(a)</font></strong>
+<a name="line159">159: </a><strong><font color="#228B22">#define PetscConj(a) conjg(a)</font></strong>
+<a name="line160">160: </a><strong><font color="#228B22">#define PetscImaginaryPart(a) aimag(a)</font></strong>
+<a name="line161">161: </a><font color="#A020F0">#else</font>
+<a name="line162">162: </a><font color="#A020F0">#if defined (PETSC_USE_REAL_SINGLE)</font>
+<a name="line163">163: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscScalar.html#PetscScalar">PetscScalar</a> PetscFortranFloat</font></strong>
+<a name="line164">164: </a><font color="#A020F0">#elif defined(PETSC_USE_REAL___FLOAT128)</font>
+<a name="line165">165: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscScalar.html#PetscScalar">PetscScalar</a> PetscFortranLongDouble</font></strong>
+<a name="line166">166: </a><font color="#A020F0">#elif defined(PETSC_USE_REAL_DOUBLE)</font>
+<a name="line167">167: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscScalar.html#PetscScalar">PetscScalar</a> PetscFortranDouble</font></strong>
+<a name="line168">168: </a><font color="#A020F0">#endif</font>
+<a name="line169">169: </a><strong><font color="#228B22">#define PetscRealPart(a) a</font></strong>
+<a name="line170">170: </a><strong><font color="#228B22">#define PetscConj(a) a</font></strong>
+<a name="line171">171: </a><strong><font color="#228B22">#define PetscImaginaryPart(a) 0.0</font></strong>
+<a name="line172">172: </a><font color="#A020F0">#endif</font>
+
+<a name="line174">174: </a><font color="#A020F0">#if defined (PETSC_USE_REAL_SINGLE)</font>
+<a name="line175">175: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a> PetscFortranFloat</font></strong>
+<a name="line176">176: </a><font color="#A020F0">#elif defined(PETSC_USE_REAL___FLOAT128)</font>
+<a name="line177">177: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a> PetscFortranLongDouble</font></strong>
+<a name="line178">178: </a><font color="#A020F0">#elif defined(PETSC_USE_REAL_DOUBLE)</font>
+<a name="line179">179: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a> PetscFortranDouble</font></strong>
+<a name="line180">180: </a><font color="#A020F0">#endif</font>
+
+<a name="line182">182: </a>!
+<a name="line183">183: </a>!    Allows the matrix Fortran Kernels to work with single precision
+<a name="line184">184: </a>!    matrix data structures
+<a name="line185">185: </a>!
+<a name="line186">186: </a><strong><font color="#228B22">#define MatScalar <a href="../../../docs/manualpages/Sys/PetscScalar.html#PetscScalar">PetscScalar</a></font></strong>
+<a name="line187">187: </a>!
+<a name="line188">188: </a>!     PetscLogDouble variables are used to contain double precision numbers
+<a name="line189">189: </a>!     that are not used in the numerical computations, but rather in logging,
+<a name="line190">190: </a>!     timing etc.
+<a name="line191">191: </a>!
+<a name="line192">192: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscObject.html#PetscObject">PetscObject</a> <a href="../../../docs/manualpages/Sys/PetscFortranAddr.html#PetscFortranAddr">PetscFortranAddr</a></font></strong>
+<a name="line193">193: </a><strong><font color="#228B22">#define PetscLogDouble PetscFortranDouble</font></strong>
+<a name="line194">194: </a>!
+<a name="line195">195: </a>!     Macros <font color="#4169E1">for</font> error checking
+<a name="line196">196: </a>!
+<a name="line197">197: </a><font color="#A020F0">#if defined(PETSC_USE_ERRORCHECKING)</font>
+<a name="line198">198: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/SETERRQ.html#SETERRQ">SETERRQ</a>(c,ierr,s) call <a href="../../../docs/manualpages/Sys/PetscError.html#PetscError">PetscError</a>(c,ierr,0,s); return</font></strong>
+<a name="line199">199: </a><strong><font color="#228B22">#define SETERRA(c,ierr,s) call <a href="../../../docs/manualpages/Sys/PetscError.html#PetscError">PetscError</a>(c,ierr,0,s); call MPIU_Abort(c,ierr)</font></strong>
+<a name="line200">200: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/CHKERRQ.html#CHKERRQ">CHKERRQ</a>(ierr) if (ierr .ne. 0) then ; call PetscErrorF(ierr); return; endif</font></strong>
+<a name="line201">201: </a><strong><font color="#228B22">#define CHKERRA(ierr) if (ierr .ne. 0) then ; call PetscErrorF(ierr); call MPIU_Abort(MPI_COMM_WORLD,ierr); endif</font></strong>
+<a name="line202">202: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/CHKMEMQ.html#CHKMEMQ">CHKMEMQ</a> call chkmemfortran(__LINE__,__FILE__,ierr)</font></strong>
+<a name="line203">203: </a><font color="#A020F0">#else</font>
+<a name="line204">204: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/SETERRQ.html#SETERRQ">SETERRQ</a>(c,ierr,s)</font></strong>
+<a name="line205">205: </a><strong><font color="#228B22">#define SETERRA(c,ierr,s)</font></strong>
+<a name="line206">206: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/CHKERRQ.html#CHKERRQ">CHKERRQ</a>(ierr)</font></strong>
+<a name="line207">207: </a><strong><font color="#228B22">#define CHKERRA(c,ierr)</font></strong>
+<a name="line208">208: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/CHKMEMQ.html#CHKMEMQ">CHKMEMQ</a></font></strong>
+<a name="line209">209: </a><font color="#A020F0">#endif</font>
+
+<a name="line211">211: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscMatlabEngine.html#PetscMatlabEngine">PetscMatlabEngine</a> <a href="../../../docs/manualpages/Sys/PetscFortranAddr.html#PetscFortranAddr">PetscFortranAddr</a></font></strong>
+
+<a name="line213">213: </a><font color="#A020F0">#if !defined(PetscFlush)</font>
+<a name="line214">214: </a><font color="#A020F0">#if defined(PETSC_HAVE_FLUSH)</font>
+<a name="line215">215: </a><strong><font color="#228B22">#define PetscFlush(a)    call flush(a)</font></strong>
+<a name="line216">216: </a><font color="#A020F0">#elif defined(PETSC_HAVE_FLUSH_)</font>
+<a name="line217">217: </a><strong><font color="#228B22">#define PetscFlush(a)    call flush_(a)</font></strong>
+<a name="line218">218: </a><font color="#A020F0">#else</font>
+<a name="line219">219: </a><strong><font color="#228B22">#define PetscFlush(a)</font></strong>
+<a name="line220">220: </a><font color="#A020F0">#endif</font>
+<a name="line221">221: </a><font color="#A020F0">#endif</font>
+
+<a name="line223">223: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscRandom.html#PetscRandom">PetscRandom</a> <a href="../../../docs/manualpages/Sys/PetscFortranAddr.html#PetscFortranAddr">PetscFortranAddr</a></font></strong>
+<a name="line224">224: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscRandomType.html#PetscRandomType">PetscRandomType</a> character*(80)</font></strong>
+<a name="line225">225: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscBinarySeekType.html#PetscBinarySeekType">PetscBinarySeekType</a> <a href="../../../docs/manualpages/Sys/PetscEnum.html#PetscEnum">PetscEnum</a></font></strong>
+
+<a name="line227">227: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscBuildTwoSidedType.html#PetscBuildTwoSidedType">PetscBuildTwoSidedType</a> <a href="../../../docs/manualpages/Sys/PetscEnum.html#PetscEnum">PetscEnum</a></font></strong>
+<a name="line228">228: </a><strong><font color="#228B22">#define PetscSubcommType <a href="../../../docs/manualpages/Sys/PetscEnum.html#PetscEnum">PetscEnum</a></font></strong>
+
+<a name="line230">230: </a><strong><font color="#228B22">#define PetscOptions type(tPetscOptions)</font></strong>
+
+<a name="line232">232: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/Sys/PetscFunctionList.html#PetscFunctionList">PetscFunctionList</a> <a href="../../../docs/manualpages/Sys/PetscFortranAddr.html#PetscFortranAddr">PetscFortranAddr</a></font></strong>
+
+<a name="line234">234: </a><font color="#A020F0">#endif</font>
+</pre>
+</body>
+
+</html>

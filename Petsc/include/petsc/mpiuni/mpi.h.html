@@ -1,0 +1,1029 @@
+<center><a href="mpi.h">Actual source code: mpi.h</a></center><br>
+
+<html>
+<head> <link rel="canonical" href="http://www.mcs.anl.gov/petsc/petsc-current/include/petsc/mpiuni/mpi.h.html" />
+<title></title>
+<meta name="generator" content="c2html 0.9.4">
+<meta name="date" content="2017-12-10T04:42:50+00:00">
+</head>
+
+<body bgcolor="#FFFFFF">
+   <div id="version" align=right><b>petsc-3.8.3 2017-12-09</b></div>
+   <div id="bugreport" align=right><a href="mailto:petsc-maint@mcs.anl.gov?subject=Typo or Error in Documentation &body=Please describe the typo or error in the documentation: petsc-3.8.3 v3.8.3 include/petsc/mpiuni/mpi.h.html "><small>Report Typos and Errors</small></a></div>
+<pre width="80">
+<a name="line1">  1: </a><font color="#B22222">/*</font>
+<a name="line2">  2: </a><font color="#B22222">   This is a special set of bindings for uni-processor use of MPI by the PETSc library.</font>
+
+<a name="line4">  4: </a><font color="#B22222">   NOT ALL THE MPI CALLS ARE IMPLEMENTED CORRECTLY! Only those needed in PETSc.</font>
+
+<a name="line6">  6: </a><font color="#B22222">   For example,</font>
+<a name="line7">  7: </a><font color="#B22222">   * Does not implement send to self.</font>
+<a name="line8">  8: </a><font color="#B22222">   * Does not implement attributes correctly.</font>
+<a name="line9">  9: </a><font color="#B22222">*/</font>
+
+<a name="line11"> 11: </a><font color="#B22222">/*</font>
+<a name="line12"> 12: </a><font color="#B22222">  The following info is a response to one of the petsc-maint questions</font>
+<a name="line13"> 13: </a><font color="#B22222">  regarding MPIUNI.</font>
+
+<a name="line15"> 15: </a><font color="#B22222">  MPIUNI was developed with the aim of getting PETSc compiled, and</font>
+<a name="line16"> 16: </a><font color="#B22222">  usable in the absence of a full MPI implementation. With this, we</font>
+<a name="line17"> 17: </a><font color="#B22222">  were able to provide PETSc on Windows, Windows64 even before any MPI</font>
+<a name="line18"> 18: </a><font color="#B22222">  implementation was available on these platforms. [Or with certain</font>
+<a name="line19"> 19: </a><font color="#B22222">  compilers - like borland, that do not have a usable MPI</font>
+<a name="line20"> 20: </a><font color="#B22222">  implementation]</font>
+
+<a name="line22"> 22: </a><font color="#B22222">  However - providing a seqential, standards compliant MPI</font>
+<a name="line23"> 23: </a><font color="#B22222">  implementation is *not* the goal of MPIUNI. The development strategy</font>
+<a name="line24"> 24: </a><font color="#B22222">  was - to make enough changes to it so that PETSc sources, examples</font>
+<a name="line25"> 25: </a><font color="#B22222">  compile without errors, and runs in the uni-processor mode. This is</font>
+<a name="line26"> 26: </a><font color="#B22222">  the reason each function is not documented.</font>
+
+<a name="line28"> 28: </a><font color="#B22222">  PETSc usage of MPIUNI is primarily from C. However a minimal fortran</font>
+<a name="line29"> 29: </a><font color="#B22222">  interface is also provided - to get PETSc fortran examples with a</font>
+<a name="line30"> 30: </a><font color="#B22222">  few MPI calls working.</font>
+
+<a name="line32"> 32: </a><font color="#B22222">  One of the optimzation with MPIUNI, is to avoid the function call</font>
+<a name="line33"> 33: </a><font color="#B22222">  overhead, when possible. Hence most of the C functions are</font>
+<a name="line34"> 34: </a><font color="#B22222">  implemented as macros. However the function calls cannot be avoided</font>
+<a name="line35"> 35: </a><font color="#B22222">  with fortran usage.</font>
+
+<a name="line37"> 37: </a><font color="#B22222">  Most PETSc objects have both sequential and parallel</font>
+<a name="line38"> 38: </a><font color="#B22222">  implementations, which are separate. For eg: We have two types of</font>
+<a name="line39"> 39: </a><font color="#B22222">  sparse matrix storage formats - SeqAIJ, and MPIAIJ. Some MPI</font>
+<a name="line40"> 40: </a><font color="#B22222">  routines are used in the Seq part, but most of them are used in the</font>
+<a name="line41"> 41: </a><font color="#B22222">  MPI part. The send/receive calls can be found mostly in the MPI</font>
+<a name="line42"> 42: </a><font color="#B22222">  part.</font>
+
+<a name="line44"> 44: </a><font color="#B22222">  When MPIUNI is used, only the Seq version of the PETSc objects are</font>
+<a name="line45"> 45: </a><font color="#B22222">  used, even though the MPI variant of the objects are compiled. Since</font>
+<a name="line46"> 46: </a><font color="#B22222">  there are no send/receive calls in the Seq variant, PETSc works fine</font>
+<a name="line47"> 47: </a><font color="#B22222">  with MPIUNI in seq mode.</font>
+
+<a name="line49"> 49: </a><font color="#B22222">  The reason some send/receive functions are defined to abort(), is to</font>
+<a name="line50"> 50: </a><font color="#B22222">  detect sections of code that use send/receive functions, and gets</font>
+<a name="line51"> 51: </a><font color="#B22222">  executed in the sequential mode. (which shouldn't happen in case of</font>
+<a name="line52"> 52: </a><font color="#B22222">  PETSc).</font>
+
+<a name="line54"> 54: </a><font color="#B22222">  Proper implementation of send/receive would involve writing a</font>
+<a name="line55"> 55: </a><font color="#B22222">  function for each of them. Inside each of these functions, we have</font>
+<a name="line56"> 56: </a><font color="#B22222">  to check if the send is to self or receive is from self, and then</font>
+<a name="line57"> 57: </a><font color="#B22222">  doing the buffering accordingly (until the receive is called) - or</font>
+<a name="line58"> 58: </a><font color="#B22222">  what if a nonblocking receive is called, do a copy etc.. Handling</font>
+<a name="line59"> 59: </a><font color="#B22222">  the buffering aspects might be complicated enough, that in this</font>
+<a name="line60"> 60: </a><font color="#B22222">  case, a proper implementation of MPI might as well be used. This is</font>
+<a name="line61"> 61: </a><font color="#B22222">  the reason the send to self is not implemented in MPIUNI, and never</font>
+<a name="line62"> 62: </a><font color="#B22222">  will be.</font>
+
+<a name="line64"> 64: </a><font color="#B22222">  Proper implementations of MPI [for eg: MPICH &amp; OpenMPI] are</font>
+<a name="line65"> 65: </a><font color="#B22222">  available for most machines. When these packages are available, Its</font>
+<a name="line66"> 66: </a><font color="#B22222">  generally preferable to use one of them instead of MPIUNI - even if</font>
+<a name="line67"> 67: </a><font color="#B22222">  the user is using PETSc sequentially.</font>
+
+<a name="line69"> 69: </a><font color="#B22222">    - MPIUNI does not support all MPI functions [or functionality].</font>
+<a name="line70"> 70: </a><font color="#B22222">    Hence it might not work with external packages or user code that</font>
+<a name="line71"> 71: </a><font color="#B22222">    might have MPI calls in it.</font>
+
+<a name="line73"> 73: </a><font color="#B22222">    - MPIUNI is not a standards compliant implementation for np=1.</font>
+<a name="line74"> 74: </a><font color="#B22222">    For eg: if the user code has send/recv to self, then it will</font>
+<a name="line75"> 75: </a><font color="#B22222">    abort. [Similar issues with a number of other MPI functionality]</font>
+<a name="line76"> 76: </a><font color="#B22222">    However MPICH &amp; OpenMPI are the correct implementations of MPI</font>
+<a name="line77"> 77: </a><font color="#B22222">    standard for np=1.</font>
+
+<a name="line79"> 79: </a><font color="#B22222">    - When user code uses multiple MPI based packages that have their</font>
+<a name="line80"> 80: </a><font color="#B22222">    own *internal* stubs equivalent to MPIUNI - in sequential mode,</font>
+<a name="line81"> 81: </a><font color="#B22222">    invariably these multiple implementations of MPI for np=1 conflict</font>
+<a name="line82"> 82: </a><font color="#B22222">    with each other. The correct thing to do is: make all such</font>
+<a name="line83"> 83: </a><font color="#B22222">    packages use the *same* MPI implementation for np=1. MPICH/OpenMPI</font>
+<a name="line84"> 84: </a><font color="#B22222">    satisfy this requirement correctly [and hence the correct choice].</font>
+
+<a name="line86"> 86: </a><font color="#B22222">    - Using MPICH/OpenMPI sequentially should have minimal</font>
+<a name="line87"> 87: </a><font color="#B22222">    disadvantages. [for eg: these binaries can be run without</font>
+<a name="line88"> 88: </a><font color="#B22222">    mpirun/mpiexec as ./executable, without requiring any extra</font>
+<a name="line89"> 89: </a><font color="#B22222">    configurations for ssh/rsh/daemons etc..]. This should not be a</font>
+<a name="line90"> 90: </a><font color="#B22222">    reason to avoid these packages for sequential use.</font>
+
+<a name="line92"> 92: </a><font color="#B22222">    Instructions for building standalone MPIUNI [for eg: linux/gcc+gfortran]:</font>
+<a name="line93"> 93: </a><font color="#B22222">    - extract include/mpiuni/mpi.h,mpif.f, src/sys/mpiuni/mpi.c from PETSc</font>
+<a name="line94"> 94: </a><font color="#B22222">    - remove reference to petscconf.h from mpi.h</font>
+<a name="line95"> 95: </a><font color="#B22222">    - gcc -c mpi.c -DPETSC_HAVE_STDLIB_H -DPETSC_HAVE_FORTRAN_UNDERSCORE</font>
+<a name="line96"> 96: </a><font color="#B22222">    - ar cr libmpiuni.a mpi.o</font>
+
+<a name="line98"> 98: </a><font color="#B22222">*/</font>
+
+
+<a name="line103">103: </a><font color="#B22222">/* Required by abort() in mpi.c &amp; for win64 */</font>
+<a name="line104">104: </a><font color="#A020F0">#include &lt;petscconf.h&gt;</font>
+<a name="line105">105: </a><font color="#A020F0">#include &lt;stddef.h&gt;</font>
+
+<a name="line107">107: </a><font color="#B22222">/*  This is reproduced from petscsys.h so that mpi.h can be used standalone without first including petscsys.h */</font>
+<a name="line108">108: </a><font color="#A020F0">#if defined(_WIN32) &amp;&amp; defined(PETSC_USE_SHARED_LIBRARIES)</font>
+<a name="line109">109: </a><font color="#A020F0">#  define MPIUni_ __declspec(dllexport)</font>
+<a name="line110">110: </a><font color="#A020F0">#  define MPIUni_PETSC_DLLIMPORT __declspec(dllimport)</font>
+<a name="line111">111: </a><font color="#A020F0">#elif defined(PETSC_USE_VISIBILITY_CXX) &amp;&amp; defined(__cplusplus)</font>
+<a name="line112">112: </a><font color="#A020F0">#  define MPIUni_ __attribute__((visibility (</font><font color="#666666">"</font><font color="#4169E1">default</font>"<font color="#A020F0">)))</font>
+<a name="line113">113: </a><font color="#A020F0">#  define MPIUni_PETSC_DLLIMPORT __attribute__((visibility (</font><font color="#666666">"</font><font color="#4169E1">default</font>"<font color="#A020F0">)))</font>
+<a name="line114">114: </a><font color="#A020F0">#elif defined(PETSC_USE_VISIBILITY_C) &amp;&amp; !defined(__cplusplus)</font>
+<a name="line115">115: </a><font color="#A020F0">#  define MPIUni_ __attribute__((visibility (</font><font color="#666666">"</font><font color="#4169E1">default</font>"<font color="#A020F0">)))</font>
+<a name="line116">116: </a><font color="#A020F0">#  define MPIUni_PETSC_DLLIMPORT __attribute__((visibility (</font><font color="#666666">"</font><font color="#4169E1">default</font>"<font color="#A020F0">)))</font>
+<a name="line117">117: </a><font color="#A020F0">#else</font>
+<a name="line118">118: </a><font color="#A020F0">#  define MPIUni_</font>
+<a name="line119">119: </a><font color="#A020F0">#  define MPIUni_PETSC_DLLIMPORT</font>
+<a name="line120">120: </a><font color="#A020F0">#endif</font>
+
+<a name="line122">122: </a><font color="#A020F0">#if defined(petsc_EXPORTS)</font>
+<a name="line123">123: </a><font color="#A020F0">#  define MPIUni_PETSC_VISIBILITY_PUBLIC MPIUni_</font>
+<a name="line124">124: </a><font color="#A020F0">#else  </font><font color="#B22222">/* Win32 users need this to import symbols from petsc.dll */</font><font color="#A020F0"></font>
+<a name="line125">125: </a><font color="#A020F0">#  define MPIUni_PETSC_VISIBILITY_PUBLIC MPIUni_PETSC_DLLIMPORT</font>
+<a name="line126">126: </a><font color="#A020F0">#endif</font>
+
+<a name="line128">128: </a><font color="#A020F0">#if defined(__cplusplus)</font>
+<a name="line129">129: </a><strong><font color="#228B22">#define MPIUni_PETSC_EXTERN extern </font><font color="#666666">"C"</font><font color="#228B22"> MPIUni_PETSC_VISIBILITY_PUBLIC</font></strong>
+<a name="line130">130: </a><font color="#A020F0">#else</font>
+<a name="line131">131: </a><strong><font color="#228B22">#define MPIUni_PETSC_EXTERN extern MPIUni_PETSC_VISIBILITY_PUBLIC</font></strong>
+<a name="line132">132: </a><font color="#A020F0">#endif</font>
+
+<a name="line134">134: </a><font color="#A020F0">#if defined(__cplusplus)</font>
+<a name="line135">135: </a>extern <font color="#666666">"C"</font> {
+<a name="line136">136: </a><font color="#A020F0">#endif</font>
+
+<a name="line138">138: </a><font color="#B22222">/* MPI_Aint has to be an signed integral type large enough to hold a pointer */</font>
+<a name="line139">139: </a><font color="#A020F0">#if PETSC_SIZEOF_INT == PETSC_SIZEOF_VOID_P</font>
+<a name="line140">140: </a><font color="#4169E1">typedef int MPI_Aint;</font>
+<a name="line141">141: </a><font color="#A020F0">#elif PETSC_SIZEOF_LONG == PETSC_SIZEOF_VOID_P</font>
+<a name="line142">142: </a><font color="#4169E1">typedef long MPI_Aint;</font>
+<a name="line143">143: </a><font color="#A020F0">#else</font>
+<a name="line144">144: </a><font color="#4169E1">typedef ptrdiff_t MPI_Aint;</font>
+<a name="line145">145: </a><font color="#A020F0">#endif</font>
+
+<a name="line147">147: </a><font color="#B22222">/* old 32bit MS compiler does not support long long */</font>
+<a name="line148">148: </a><font color="#A020F0">#if defined(PETSC_SIZEOF_LONG_LONG)</font>
+<a name="line149">149: </a><font color="#4169E1">typedef long long MPIUNI_INT64;</font>
+<a name="line150">150: </a><font color="#4169E1">typedef unsigned long long MPIUNI_UINT64;</font>
+<a name="line151">151: </a><font color="#A020F0">#elif defined(PETSC_HAVE___INT64)</font>
+<a name="line152">152: </a><font color="#4169E1">typedef _int64 MPIUNI_INT64;</font>
+<a name="line153">153: </a><font color="#4169E1">typedef unsigned _int64 MPIUNI_UINT64;</font>
+<a name="line154">154: </a><font color="#A020F0">#else</font>
+<a name="line155">155: </a><font color="#A020F0">#error </font><font color="#666666">"cannot determine MPIUNI_INT64, MPIUNI_UINT64 types"</font><font color="#A020F0"></font>
+<a name="line156">156: </a><font color="#A020F0">#endif</font>
+
+<a name="line158">158: </a><font color="#B22222">/*</font>
+
+<a name="line160">160: </a><font color="#B22222"> MPIUNI_ARG is used in the macros below only to stop various C/C++ compilers</font>
+<a name="line161">161: </a><font color="#B22222"> from generating warning messages about unused variables while compiling PETSc.</font>
+<a name="line162">162: </a><font color="#B22222">*/</font>
+<a name="line163">163: </a>MPIUni_PETSC_EXTERN void *MPIUNI_TMP;
+<a name="line164">164: </a><strong><font color="#228B22">#define MPIUNI_ARG(arg) (MPIUNI_TMP = (void *)(MPI_Aint) (arg))</font></strong>
+
+<a name="line166">166: </a><strong><font color="#228B22">#define MPI_IDENT            0</font></strong>
+<a name="line167">167: </a><strong><font color="#228B22">#define MPI_CONGRUENT        1</font></strong>
+<a name="line168">168: </a><strong><font color="#228B22">#define MPI_SIMILAR          2</font></strong>
+<a name="line169">169: </a><strong><font color="#228B22">#define MPI_UNEQUAL          3</font></strong>
+
+<a name="line171">171: </a><strong><font color="#228B22">#define MPI_BOTTOM   ((void *) 0)</font></strong>
+<a name="line172">172: </a><strong><font color="#228B22">#define MPI_IN_PLACE ((void *)-1)</font></strong>
+
+<a name="line174">174: </a><strong><font color="#228B22">#define MPI_ANY_SOURCE     (-2)</font></strong>
+<a name="line175">175: </a><strong><font color="#228B22">#define MPI_ANY_TAG        (-1)</font></strong>
+<a name="line176">176: </a><strong><font color="#228B22">#define MPI_UNDEFINED  (-32766)</font></strong>
+
+<a name="line178">178: </a><strong><font color="#228B22">#define MPI_SUCCESS          0</font></strong>
+<a name="line179">179: </a><strong><font color="#228B22">#define MPI_ERR_OTHER       17</font></strong>
+<a name="line180">180: </a><strong><font color="#228B22">#define MPI_ERR_UNKNOWN     18</font></strong>
+<a name="line181">181: </a><strong><font color="#228B22">#define MPI_ERR_INTERN      21</font></strong>
+
+<a name="line183">183: </a><strong><font color="#228B22">#define MPI_KEYVAL_INVALID   0</font></strong>
+<a name="line184">184: </a><strong><font color="#228B22">#define MPI_TAG_UB           0</font></strong>
+
+<a name="line186">186: </a><strong><font color="#228B22">#define MPI_MAX_PROCESSOR_NAME 1024</font></strong>
+<a name="line187">187: </a><strong><font color="#228B22">#define MPI_MAX_ERROR_STRING   2056</font></strong>
+
+<a name="line189">189: </a><font color="#4169E1">typedef int <a href="../docs/manualpages/Sys/MPI_Comm.html#MPI_Comm">MPI_Comm</a>;</font>
+<a name="line190">190: </a><strong><font color="#228B22">#define MPI_COMM_NULL  0</font></strong>
+<a name="line191">191: </a><strong><font color="#228B22">#define MPI_COMM_SELF  1</font></strong>
+<a name="line192">192: </a><strong><font color="#228B22">#define MPI_COMM_WORLD 2</font></strong>
+
+<a name="line194">194: </a><font color="#4169E1">typedef int MPI_Info;</font>
+<a name="line195">195: </a><strong><font color="#228B22">#define MPI_INFO_NULL 0</font></strong>
+
+<a name="line197">197: </a><font color="#4169E1">typedef</font> <font color="#4169E1">struct</font> {int MPI_SOURCE,MPI_TAG,MPI_ERROR;} MPI_Status;
+<a name="line198">198: </a><strong><font color="#228B22">#define MPI_STATUS_IGNORE   (MPI_Status *)0</font></strong>
+<a name="line199">199: </a><strong><font color="#228B22">#define MPI_STATUSES_IGNORE (MPI_Status *)0</font></strong>
+
+<a name="line201">201: </a><font color="#B22222">/* 32-bit packing scheme: [combiner:4 | type-index:8 | count:12 | base-bytes:8] */</font>
+<a name="line202">202: </a><font color="#B22222">/* Any changes here must also be reflected in mpif.h */</font>
+<a name="line203">203: </a><font color="#4169E1">typedef int MPI_Datatype;</font>
+<a name="line204">204: </a><strong><font color="#228B22">#define MPI_DATATYPE_NULL      0</font></strong>
+<a name="line205">205: </a><strong><font color="#228B22">#define MPI_PACKED             0</font></strong>
+
+<a name="line207">207: </a><strong><font color="#228B22">#define MPI_FLOAT              (1 &lt;&lt; 20 | 1 &lt;&lt; 8 | (int)sizeof(float))</font></strong>
+<a name="line208">208: </a><strong><font color="#228B22">#define MPI_DOUBLE             (1 &lt;&lt; 20 | 1 &lt;&lt; 8 | (int)sizeof(double))</font></strong>
+<a name="line209">209: </a><strong><font color="#228B22">#define MPI_LONG_DOUBLE        (1 &lt;&lt; 20 | 1 &lt;&lt; 8 | (int)sizeof(long double))</font></strong>
+
+<a name="line211">211: </a><strong><font color="#228B22">#define MPI_COMPLEX            (2 &lt;&lt; 20 | 1 &lt;&lt; 8 | 2*(int)sizeof(float))</font></strong>
+<a name="line212">212: </a><strong><font color="#228B22">#define MPI_C_COMPLEX          (2 &lt;&lt; 20 | 1 &lt;&lt; 8 | 2*(int)sizeof(float))</font></strong>
+<a name="line213">213: </a><strong><font color="#228B22">#define MPI_C_FLOAT_COMPLEX    (2 &lt;&lt; 20 | 1 &lt;&lt; 8 | 2*(int)sizeof(float))</font></strong>
+<a name="line214">214: </a><strong><font color="#228B22">#define MPI_DOUBLE_COMPLEX     (2 &lt;&lt; 20 | 1 &lt;&lt; 8 | 2*(int)sizeof(double))</font></strong>
+<a name="line215">215: </a><strong><font color="#228B22">#define MPI_C_DOUBLE_COMPLEX   (2 &lt;&lt; 20 | 1 &lt;&lt; 8 | 2*(int)sizeof(double))</font></strong>
+
+<a name="line217">217: </a><strong><font color="#228B22">#define MPI_CHAR               (3 &lt;&lt; 20 | 1 &lt;&lt; 8 | (int)sizeof(char))</font></strong>
+<a name="line218">218: </a><strong><font color="#228B22">#define MPI_BYTE               (3 &lt;&lt; 20 | 1 &lt;&lt; 8 | (int)sizeof(char))</font></strong>
+<a name="line219">219: </a><strong><font color="#228B22">#define MPI_SIGNED_CHAR        (3 &lt;&lt; 20 | 1 &lt;&lt; 8 | (int)sizeof(signed char))</font></strong>
+<a name="line220">220: </a><strong><font color="#228B22">#define MPI_UNSIGNED_CHAR      (3 &lt;&lt; 20 | 1 &lt;&lt; 8 | (int)sizeof(unsigned char))</font></strong>
+
+<a name="line222">222: </a><strong><font color="#228B22">#define MPI_SHORT              (4 &lt;&lt; 20 | 1 &lt;&lt; 8 | (int)sizeof(short))</font></strong>
+<a name="line223">223: </a><strong><font color="#228B22">#define MPI_INT                (4 &lt;&lt; 20 | 1 &lt;&lt; 8 | (int)sizeof(int))</font></strong>
+<a name="line224">224: </a><strong><font color="#228B22">#define MPI_LONG               (4 &lt;&lt; 20 | 1 &lt;&lt; 8 | (int)sizeof(long))</font></strong>
+<a name="line225">225: </a><strong><font color="#228B22">#define MPI_LONG_LONG          (4 &lt;&lt; 20 | 1 &lt;&lt; 8 | (int)sizeof(MPIUNI_INT64))</font></strong>
+<a name="line226">226: </a><strong><font color="#228B22">#define MPI_LONG_LONG_INT      MPI_LONG_LONG</font></strong>
+
+<a name="line228">228: </a><strong><font color="#228B22">#define MPI_UNSIGNED_SHORT     (5 &lt;&lt; 20 | 1 &lt;&lt; 8 | (int)sizeof(unsigned short))</font></strong>
+<a name="line229">229: </a><strong><font color="#228B22">#define MPI_UNSIGNED           (5 &lt;&lt; 20 | 1 &lt;&lt; 8 | (int)sizeof(unsigned))</font></strong>
+<a name="line230">230: </a><strong><font color="#228B22">#define MPI_UNSIGNED_LONG      (5 &lt;&lt; 20 | 1 &lt;&lt; 8 | (int)sizeof(unsigned long))</font></strong>
+<a name="line231">231: </a><strong><font color="#228B22">#define MPI_UNSIGNED_LONG_LONG (5 &lt;&lt; 20 | 1 &lt;&lt; 8 | (int)sizeof(MPIUNI_UINT64))</font></strong>
+
+<a name="line233">233: </a><strong><font color="#228B22">#define MPI_FLOAT_INT          (10 &lt;&lt; 20 | 1 &lt;&lt; 8 | (int)(sizeof(float) + sizeof(int)))</font></strong>
+<a name="line234">234: </a><strong><font color="#228B22">#define MPI_DOUBLE_INT         (11 &lt;&lt; 20 | 1 &lt;&lt; 8 | (int)(sizeof(double) + sizeof(int)))</font></strong>
+<a name="line235">235: </a><strong><font color="#228B22">#define MPI_LONG_INT           (12 &lt;&lt; 20 | 1 &lt;&lt; 8 | (int)(sizeof(long) + sizeof(int)))</font></strong>
+<a name="line236">236: </a><strong><font color="#228B22">#define MPI_SHORT_INT          (13 &lt;&lt; 20 | 1 &lt;&lt; 8 | (int)(sizeof(short) + sizeof(int)))</font></strong>
+<a name="line237">237: </a><strong><font color="#228B22">#define MPI_2INT               (14 &lt;&lt; 20 | 1 &lt;&lt; 8 | (int)(2*sizeof(int)))</font></strong>
+
+<a name="line239">239: </a><strong><font color="#228B22">#define MPI_ORDER_C            0</font></strong>
+<a name="line240">240: </a><strong><font color="#228B22">#define MPI_ORDER_FORTRAN      1</font></strong>
+
+<a name="line242">242: </a><strong><font color="#228B22">#define MPI_sizeof_default(datatype) ((((datatype) &gt;&gt; 8) &amp; 0xfff) * ((datatype) &amp; 0xff))</font></strong>
+<a name="line243">243: </a><font color="#A020F0">#if defined(PETSC_USE_REAL___FP16)</font>
+<a name="line244">244: </a>extern MPI_Datatype MPIU___FP16;
+<a name="line245">245: </a><strong><font color="#228B22">#define MPI_sizeof(datatype) ((datatype == MPIU___FP16) ? (int)(2*sizeof(char)) : MPI_sizeof_default(datatype))</font></strong>
+<a name="line246">246: </a><font color="#A020F0">#elif defined(PETSC_USE_REAL___FLOAT128)</font>
+<a name="line247">247: </a>extern MPI_Datatype MPIU___FLOAT128;
+<a name="line248">248: </a><strong><font color="#228B22">#define MPI_sizeof(datatype) ((datatype == MPIU___FLOAT128) ? (int)(2*sizeof(double)) : MPI_sizeof_default(datatype))</font></strong>
+<a name="line249">249: </a><font color="#A020F0">#else</font>
+<a name="line250">250: </a><strong><font color="#228B22">#define MPI_sizeof(datatype) (MPI_sizeof_default(datatype))</font></strong>
+<a name="line251">251: </a><font color="#A020F0">#endif</font>
+
+<a name="line253">253: </a><strong><font color="#4169E1">MPIUni_PETSC_EXTERN int MPIUNI_Memcpy(void*,const void*,int)</font></strong>;
+
+<a name="line255">255: </a><font color="#4169E1">typedef int MPI_Request;</font>
+<a name="line256">256: </a><strong><font color="#228B22">#define MPI_REQUEST_NULL 0</font></strong>
+
+<a name="line258">258: </a><font color="#4169E1">typedef int MPI_Group;</font>
+<a name="line259">259: </a><strong><font color="#228B22">#define MPI_GROUP_NULL  0</font></strong>
+<a name="line260">260: </a><strong><font color="#228B22">#define MPI_GROUP_EMPTY 0</font></strong>
+
+<a name="line262">262: </a><font color="#4169E1">typedef int MPI_Op;</font>
+<a name="line263">263: </a><strong><font color="#228B22">#define MPI_OP_NULL    0</font></strong>
+<a name="line264">264: </a><strong><font color="#228B22">#define MPI_SUM        1</font></strong>
+<a name="line265">265: </a><strong><font color="#228B22">#define MPI_MAX        2</font></strong>
+<a name="line266">266: </a><strong><font color="#228B22">#define MPI_MIN        3</font></strong>
+<a name="line267">267: </a><strong><font color="#228B22">#define MPI_REPLACE    4</font></strong>
+<a name="line268">268: </a><strong><font color="#228B22">#define MPI_PROD       5</font></strong>
+<a name="line269">269: </a><strong><font color="#228B22">#define MPI_LAND       6</font></strong>
+<a name="line270">270: </a><strong><font color="#228B22">#define MPI_BAND       7</font></strong>
+<a name="line271">271: </a><strong><font color="#228B22">#define MPI_LOR        8</font></strong>
+<a name="line272">272: </a><strong><font color="#228B22">#define MPI_BOR        9</font></strong>
+<a name="line273">273: </a><strong><font color="#228B22">#define MPI_LXOR       10</font></strong>
+<a name="line274">274: </a><strong><font color="#228B22">#define MPI_BXOR       11</font></strong>
+<a name="line275">275: </a><strong><font color="#228B22">#define MPI_MAXLOC     12</font></strong>
+<a name="line276">276: </a><strong><font color="#228B22">#define MPI_MINLOC     13</font></strong>
+
+<a name="line278">278: </a><strong><font color="#4169E1">typedef void (MPI_User_function)(void*, void *, int *, MPI_Datatype *)</font></strong>;
+
+<a name="line280">280: </a><font color="#4169E1">typedef int MPI_Errhandler;</font>
+<a name="line281">281: </a><strong><font color="#228B22">#define MPI_ERRHANDLER_NULL  0</font></strong>
+<a name="line282">282: </a><strong><font color="#228B22">#define MPI_ERRORS_RETURN    0</font></strong>
+<a name="line283">283: </a><strong><font color="#228B22">#define MPI_ERRORS_ARE_FATAL 0</font></strong>
+<a name="line284">284: </a><strong><font color="#4169E1">typedef void (MPI_Handler_function)(<a href="../docs/manualpages/Sys/MPI_Comm.html#MPI_Comm">MPI_Comm</a> *, int *, ...)</font></strong>;
+
+<a name="line286">286: </a><font color="#B22222">/*</font>
+<a name="line287">287: </a><font color="#B22222">  Prototypes of some functions which are implemented in mpi.c</font>
+<a name="line288">288: </a><font color="#B22222">*/</font>
+<a name="line289">289: </a><strong><font color="#4169E1">typedef int (MPI_Copy_function)(<a href="../docs/manualpages/Sys/MPI_Comm.html#MPI_Comm">MPI_Comm</a>,int,void *,void *,void *,int *)</font></strong>;
+<a name="line290">290: </a><strong><font color="#4169E1">typedef int (MPI_Delete_function)(<a href="../docs/manualpages/Sys/MPI_Comm.html#MPI_Comm">MPI_Comm</a>,int,void *,void *)</font></strong>;
+<a name="line291">291: </a><strong><font color="#228B22">#define MPI_NULL_COPY_FN   (MPI_Copy_function*)0</font></strong>
+<a name="line292">292: </a><strong><font color="#228B22">#define MPI_NULL_DELETE_FN (MPI_Delete_function*)0</font></strong>
+
+<a name="line294">294: </a><font color="#B22222">/*</font>
+<a name="line295">295: </a><font color="#B22222">  To enable linking PETSc+MPIUNI with any other package that might have its</font>
+<a name="line296">296: </a><font color="#B22222">  own MPIUNI (equivalent implementation) we need to avoid using 'MPI'</font>
+<a name="line297">297: </a><font color="#B22222">  namespace for MPIUNI functions that go into the petsc library.</font>
+
+<a name="line299">299: </a><font color="#B22222">  For C functions below (that get compiled into petsc library) - we map</font>
+<a name="line300">300: </a><font color="#B22222">  the 'MPI' functions to use 'Petsc_MPI' namespace.</font>
+
+<a name="line302">302: </a><font color="#B22222">  With fortran we use similar mapping - thus requiring the use of</font>
+<a name="line303">303: </a><font color="#B22222">  c-preprocessor with mpif.h</font>
+<a name="line304">304: </a><font color="#B22222">*/</font>
+<a name="line305">305: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Abort.html#MPI_Abort">MPI_Abort</a>         Petsc_MPI_Abort</font></strong>
+<a name="line306">306: </a><strong><font color="#228B22">#define MPIUni_Abort      Petsc_MPIUni_Abort</font></strong>
+<a name="line307">307: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Attr_get.html#MPI_Attr_get">MPI_Attr_get</a>      Petsc_MPI_Attr_get</font></strong>
+<a name="line308">308: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Keyval_free.html#MPI_Keyval_free">MPI_Keyval_free</a>   Petsc_MPI_Keyval_free</font></strong>
+<a name="line309">309: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Attr_put.html#MPI_Attr_put">MPI_Attr_put</a>      Petsc_MPI_Attr_put</font></strong>
+<a name="line310">310: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Attr_delete.html#MPI_Attr_delete">MPI_Attr_delete</a>   Petsc_MPI_Attr_delete</font></strong>
+<a name="line311">311: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Keyval_create.html#MPI_Keyval_create">MPI_Keyval_create</a> Petsc_MPI_Keyval_create</font></strong>
+<a name="line312">312: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Comm_free.html#MPI_Comm_free">MPI_Comm_free</a>     Petsc_MPI_Comm_free</font></strong>
+<a name="line313">313: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Comm_dup.html#MPI_Comm_dup">MPI_Comm_dup</a>      Petsc_MPI_Comm_dup</font></strong>
+<a name="line314">314: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Comm_create.html#MPI_Comm_create">MPI_Comm_create</a>   Petsc_MPI_Comm_create</font></strong>
+<a name="line315">315: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Init.html#MPI_Init">MPI_Init</a>          Petsc_MPI_Init</font></strong>
+<a name="line316">316: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Finalize.html#MPI_Finalize">MPI_Finalize</a>      Petsc_MPI_Finalize</font></strong>
+<a name="line317">317: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Initialized.html#MPI_Initialized">MPI_Initialized</a>   Petsc_MPI_Initialized</font></strong>
+<a name="line318">318: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Finalized.html#MPI_Finalized">MPI_Finalized</a>     Petsc_MPI_Finalized</font></strong>
+<a name="line319">319: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Comm_size.html#MPI_Comm_size">MPI_Comm_size</a>     Petsc_MPI_Comm_size</font></strong>
+<a name="line320">320: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Comm_rank.html#MPI_Comm_rank">MPI_Comm_rank</a>     Petsc_MPI_Comm_rank</font></strong>
+<a name="line321">321: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Wtime.html#MPI_Wtime">MPI_Wtime</a>         Petsc_MPI_Wtime</font></strong>
+<a name="line322">322: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Type_get_envelope.html#MPI_Type_get_envelope">MPI_Type_get_envelope</a> Petsc_MPI_Type_get_envelope</font></strong>
+<a name="line323">323: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Type_get_contents.html#MPI_Type_get_contents">MPI_Type_get_contents</a> Petsc_MPI_Type_get_contents</font></strong>
+
+<a name="line325">325: </a><font color="#B22222">/* identical C bindings */</font>
+<a name="line326">326: </a><strong><font color="#228B22">#define MPI_Comm_copy_attr_function   MPI_Copy_function</font></strong>
+<a name="line327">327: </a><strong><font color="#228B22">#define MPI_Comm_delete_attr_function MPI_Delete_function</font></strong>
+<a name="line328">328: </a><strong><font color="#228B22">#define MPI_COMM_NULL_COPY_FN         MPI_NULL_COPY_FN</font></strong>
+<a name="line329">329: </a><strong><font color="#228B22">#define MPI_COMM_NULL_DELETE_FN       MPI_NULL_DELETE_FN</font></strong>
+<a name="line330">330: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Comm_create_keyval.html#MPI_Comm_create_keyval">MPI_Comm_create_keyval</a>        Petsc_MPI_Keyval_create</font></strong>
+<a name="line331">331: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Comm_free_keyval.html#MPI_Comm_free_keyval">MPI_Comm_free_keyval</a>          Petsc_MPI_Keyval_free</font></strong>
+<a name="line332">332: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Comm_get_attr.html#MPI_Comm_get_attr">MPI_Comm_get_attr</a>             Petsc_MPI_Attr_get</font></strong>
+<a name="line333">333: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Comm_set_attr.html#MPI_Comm_set_attr">MPI_Comm_set_attr</a>             Petsc_MPI_Attr_put</font></strong>
+
+<a name="line335">335: </a><strong><font color="#4169E1">MPIUni_PETSC_EXTERN int    MPIUni_Abort(<a href="../docs/manualpages/Sys/MPI_Comm.html#MPI_Comm">MPI_Comm</a>,int)</font></strong>;
+<a name="line336">336: </a><strong><font color="#4169E1">MPIUni_PETSC_EXTERN int    <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Abort.html#MPI_Abort">MPI_Abort</a>(<a href="../docs/manualpages/Sys/MPI_Comm.html#MPI_Comm">MPI_Comm</a>,int)</font></strong>;
+<a name="line337">337: </a><strong><font color="#4169E1">MPIUni_PETSC_EXTERN int    <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Attr_get.html#MPI_Attr_get">MPI_Attr_get</a>(<a href="../docs/manualpages/Sys/MPI_Comm.html#MPI_Comm">MPI_Comm</a> comm,int keyval,void *attribute_val,int *flag)</font></strong>;
+<a name="line338">338: </a><strong><font color="#4169E1">MPIUni_PETSC_EXTERN int    <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Keyval_free.html#MPI_Keyval_free">MPI_Keyval_free</a>(int*)</font></strong>;
+<a name="line339">339: </a><strong><font color="#4169E1">MPIUni_PETSC_EXTERN int    <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Attr_put.html#MPI_Attr_put">MPI_Attr_put</a>(<a href="../docs/manualpages/Sys/MPI_Comm.html#MPI_Comm">MPI_Comm</a>,int,void *)</font></strong>;
+<a name="line340">340: </a><strong><font color="#4169E1">MPIUni_PETSC_EXTERN int    <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Attr_delete.html#MPI_Attr_delete">MPI_Attr_delete</a>(<a href="../docs/manualpages/Sys/MPI_Comm.html#MPI_Comm">MPI_Comm</a>,int)</font></strong>;
+<a name="line341">341: </a><strong><font color="#4169E1">MPIUni_PETSC_EXTERN int    <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Keyval_create.html#MPI_Keyval_create">MPI_Keyval_create</a>(MPI_Copy_function *,MPI_Delete_function *,int *,void *)</font></strong>;
+<a name="line342">342: </a><strong><font color="#4169E1">MPIUni_PETSC_EXTERN int    <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Comm_free.html#MPI_Comm_free">MPI_Comm_free</a>(<a href="../docs/manualpages/Sys/MPI_Comm.html#MPI_Comm">MPI_Comm</a>*)</font></strong>;
+<a name="line343">343: </a><strong><font color="#4169E1">MPIUni_PETSC_EXTERN int    <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Comm_dup.html#MPI_Comm_dup">MPI_Comm_dup</a>(<a href="../docs/manualpages/Sys/MPI_Comm.html#MPI_Comm">MPI_Comm</a>,<a href="../docs/manualpages/Sys/MPI_Comm.html#MPI_Comm">MPI_Comm</a> *)</font></strong>;
+<a name="line344">344: </a><strong><font color="#4169E1">MPIUni_PETSC_EXTERN int    <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Comm_create.html#MPI_Comm_create">MPI_Comm_create</a>(<a href="../docs/manualpages/Sys/MPI_Comm.html#MPI_Comm">MPI_Comm</a>,MPI_Group,<a href="../docs/manualpages/Sys/MPI_Comm.html#MPI_Comm">MPI_Comm</a> *)</font></strong>;
+<a name="line345">345: </a><strong><font color="#4169E1">MPIUni_PETSC_EXTERN int    <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Init.html#MPI_Init">MPI_Init</a>(int *, char ***)</font></strong>;
+<a name="line346">346: </a><strong><font color="#4169E1">MPIUni_PETSC_EXTERN int    <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Finalize.html#MPI_Finalize">MPI_Finalize</a>(void)</font></strong>;
+<a name="line347">347: </a><strong><font color="#4169E1">MPIUni_PETSC_EXTERN int    <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Initialized.html#MPI_Initialized">MPI_Initialized</a>(int*)</font></strong>;
+<a name="line348">348: </a><strong><font color="#4169E1">MPIUni_PETSC_EXTERN int    <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Finalized.html#MPI_Finalized">MPI_Finalized</a>(int*)</font></strong>;
+<a name="line349">349: </a><strong><font color="#4169E1">MPIUni_PETSC_EXTERN int    <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Comm_size.html#MPI_Comm_size">MPI_Comm_size</a>(<a href="../docs/manualpages/Sys/MPI_Comm.html#MPI_Comm">MPI_Comm</a>,int*)</font></strong>;
+<a name="line350">350: </a><strong><font color="#4169E1">MPIUni_PETSC_EXTERN int    <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Comm_rank.html#MPI_Comm_rank">MPI_Comm_rank</a>(<a href="../docs/manualpages/Sys/MPI_Comm.html#MPI_Comm">MPI_Comm</a>,int*)</font></strong>;
+<a name="line351">351: </a><strong><font color="#4169E1">MPIUni_PETSC_EXTERN double <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Wtime.html#MPI_Wtime">MPI_Wtime</a>(void)</font></strong>;
+
+<a name="line353">353: </a><strong><font color="#4169E1">MPIUni_PETSC_EXTERN int <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Type_get_envelope.html#MPI_Type_get_envelope">MPI_Type_get_envelope</a>(MPI_Datatype,int*,int*,int*,int*)</font></strong>;
+<a name="line354">354: </a><strong><font color="#4169E1">MPIUni_PETSC_EXTERN int <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Type_get_contents.html#MPI_Type_get_contents">MPI_Type_get_contents</a>(MPI_Datatype,int,int,int,int*,MPI_Aint*,MPI_Datatype*)</font></strong>;
+
+<a name="line356">356: </a><font color="#B22222">/*</font>
+<a name="line357">357: </a><font color="#B22222">    Routines we have replace with macros that do nothing</font>
+<a name="line358">358: </a><font color="#B22222">    Some return error codes others return success</font>
+<a name="line359">359: </a><font color="#B22222">*/</font>
+
+<a name="line361">361: </a><font color="#4169E1">typedef int MPI_Fint;</font>
+<a name="line362">362: </a><strong><font color="#228B22">#define MPI_Comm_f2c(comm) (<a href="../docs/manualpages/Sys/MPI_Comm.html#MPI_Comm">MPI_Comm</a>)(comm)</font></strong>
+<a name="line363">363: </a><strong><font color="#228B22">#define MPI_Comm_c2f(comm) (MPI_Fint)(comm)</font></strong>
+<a name="line364">364: </a><strong><font color="#228B22">#define MPI_Type_f2c(type) (MPI_Datatype)(type)</font></strong>
+<a name="line365">365: </a><strong><font color="#228B22">#define MPI_Type_c2f(type) (MPI_Fint)(type)</font></strong>
+<a name="line366">366: </a><strong><font color="#228B22">#define MPI_Op_f2c(op)     (MPI_Op)(op)</font></strong>
+<a name="line367">367: </a><strong><font color="#228B22">#define MPI_Op_c2f(op)     (MPI_Fint)(op)</font></strong>
+
+<a name="line369">369: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Send.html#MPI_Send">MPI_Send</a>(buf,count,datatype,dest,tag,comm)  \</font></strong>
+<a name="line370">370: </a><strong><font color="#228B22">     (MPIUNI_ARG(buf),\</font></strong>
+<a name="line371">371: </a><strong><font color="#228B22">      MPIUNI_ARG(count),\</font></strong>
+<a name="line372">372: </a><strong><font color="#228B22">      MPIUNI_ARG(datatype),\</font></strong>
+<a name="line373">373: </a><strong><font color="#228B22">      MPIUNI_ARG(dest),\</font></strong>
+<a name="line374">374: </a><strong><font color="#228B22">      MPIUNI_ARG(tag),\</font></strong>
+<a name="line375">375: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line376">376: </a><strong><font color="#228B22">      MPIUni_Abort(MPI_COMM_WORLD,0))</font></strong>
+<a name="line377">377: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Recv.html#MPI_Recv">MPI_Recv</a>(buf,count,datatype,source,tag,comm,status) \</font></strong>
+<a name="line378">378: </a><strong><font color="#228B22">     (MPIUNI_ARG(buf),\</font></strong>
+<a name="line379">379: </a><strong><font color="#228B22">      MPIUNI_ARG(count),\</font></strong>
+<a name="line380">380: </a><strong><font color="#228B22">      MPIUNI_ARG(datatype),\</font></strong>
+<a name="line381">381: </a><strong><font color="#228B22">      MPIUNI_ARG(source),\</font></strong>
+<a name="line382">382: </a><strong><font color="#228B22">      MPIUNI_ARG(tag),\</font></strong>
+<a name="line383">383: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line384">384: </a><strong><font color="#228B22">      MPIUNI_ARG(status),\</font></strong>
+<a name="line385">385: </a><strong><font color="#228B22">      MPIUni_Abort(MPI_COMM_WORLD,0))</font></strong>
+<a name="line386">386: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Get_count.html#MPI_Get_count">MPI_Get_count</a>(status,datatype,count) \</font></strong>
+<a name="line387">387: </a><strong><font color="#228B22">     (MPIUNI_ARG(status),\</font></strong>
+<a name="line388">388: </a><strong><font color="#228B22">      MPIUNI_ARG(datatype),\</font></strong>
+<a name="line389">389: </a><strong><font color="#228B22">      MPIUNI_ARG(count),\</font></strong>
+<a name="line390">390: </a><strong><font color="#228B22">      MPIUni_Abort(MPI_COMM_WORLD,0))</font></strong>
+<a name="line391">391: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Bsend.html#MPI_Bsend">MPI_Bsend</a>(buf,count,datatype,dest,tag,comm)  \</font></strong>
+<a name="line392">392: </a><strong><font color="#228B22">     (MPIUNI_ARG(buf),\</font></strong>
+<a name="line393">393: </a><strong><font color="#228B22">      MPIUNI_ARG(count),\</font></strong>
+<a name="line394">394: </a><strong><font color="#228B22">      MPIUNI_ARG(datatype),\</font></strong>
+<a name="line395">395: </a><strong><font color="#228B22">      MPIUNI_ARG(dest),\</font></strong>
+<a name="line396">396: </a><strong><font color="#228B22">      MPIUNI_ARG(tag),\</font></strong>
+<a name="line397">397: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line398">398: </a><strong><font color="#228B22">      MPIUni_Abort(MPI_COMM_WORLD,0))</font></strong>
+<a name="line399">399: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Ssend.html#MPI_Ssend">MPI_Ssend</a>(buf,count,datatype,dest,tag,comm) \</font></strong>
+<a name="line400">400: </a><strong><font color="#228B22">     (MPIUNI_ARG(buf),\</font></strong>
+<a name="line401">401: </a><strong><font color="#228B22">      MPIUNI_ARG(count),\</font></strong>
+<a name="line402">402: </a><strong><font color="#228B22">      MPIUNI_ARG(datatype),\</font></strong>
+<a name="line403">403: </a><strong><font color="#228B22">      MPIUNI_ARG(dest),\</font></strong>
+<a name="line404">404: </a><strong><font color="#228B22">      MPIUNI_ARG(tag),\</font></strong>
+<a name="line405">405: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line406">406: </a><strong><font color="#228B22">      MPIUni_Abort(MPI_COMM_WORLD,0))</font></strong>
+<a name="line407">407: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Rsend.html#MPI_Rsend">MPI_Rsend</a>(buf,count,datatype,dest,tag,comm) \</font></strong>
+<a name="line408">408: </a><strong><font color="#228B22">     (MPIUNI_ARG(buf),\</font></strong>
+<a name="line409">409: </a><strong><font color="#228B22">      MPIUNI_ARG(count),\</font></strong>
+<a name="line410">410: </a><strong><font color="#228B22">      MPIUNI_ARG(datatype),\</font></strong>
+<a name="line411">411: </a><strong><font color="#228B22">      MPIUNI_ARG(dest),\</font></strong>
+<a name="line412">412: </a><strong><font color="#228B22">      MPIUNI_ARG(tag),\</font></strong>
+<a name="line413">413: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line414">414: </a><strong><font color="#228B22">      MPIUni_Abort(MPI_COMM_WORLD,0))</font></strong>
+<a name="line415">415: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Buffer_attach.html#MPI_Buffer_attach">MPI_Buffer_attach</a>(buffer,size) \</font></strong>
+<a name="line416">416: </a><strong><font color="#228B22">     (MPIUNI_ARG(buffer),\</font></strong>
+<a name="line417">417: </a><strong><font color="#228B22">      MPIUNI_ARG(size),\</font></strong>
+<a name="line418">418: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line419">419: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Buffer_detach.html#MPI_Buffer_detach">MPI_Buffer_detach</a>(buffer,size)\</font></strong>
+<a name="line420">420: </a><strong><font color="#228B22">     (MPIUNI_ARG(buffer),\</font></strong>
+<a name="line421">421: </a><strong><font color="#228B22">      MPIUNI_ARG(size),\</font></strong>
+<a name="line422">422: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line423">423: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Ibsend.html#MPI_Ibsend">MPI_Ibsend</a>(buf,count,datatype,dest,tag,comm,request) \</font></strong>
+<a name="line424">424: </a><strong><font color="#228B22">     (MPIUNI_ARG(buf),\</font></strong>
+<a name="line425">425: </a><strong><font color="#228B22">      MPIUNI_ARG(count),\</font></strong>
+<a name="line426">426: </a><strong><font color="#228B22">      MPIUNI_ARG(datatype),\</font></strong>
+<a name="line427">427: </a><strong><font color="#228B22">      MPIUNI_ARG(dest),\</font></strong>
+<a name="line428">428: </a><strong><font color="#228B22">      MPIUNI_ARG(tag),\</font></strong>
+<a name="line429">429: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line430">430: </a><strong><font color="#228B22">      MPIUNI_ARG(request),\</font></strong>
+<a name="line431">431: </a><strong><font color="#228B22">      MPIUni_Abort(MPI_COMM_WORLD,0))</font></strong>
+<a name="line432">432: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Issend.html#MPI_Issend">MPI_Issend</a>(buf,count,datatype,dest,tag,comm,request) \</font></strong>
+<a name="line433">433: </a><strong><font color="#228B22">     (MPIUNI_ARG(buf),\</font></strong>
+<a name="line434">434: </a><strong><font color="#228B22">      MPIUNI_ARG(count),\</font></strong>
+<a name="line435">435: </a><strong><font color="#228B22">      MPIUNI_ARG(datatype),\</font></strong>
+<a name="line436">436: </a><strong><font color="#228B22">      MPIUNI_ARG(dest),\</font></strong>
+<a name="line437">437: </a><strong><font color="#228B22">      MPIUNI_ARG(tag),\</font></strong>
+<a name="line438">438: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line439">439: </a><strong><font color="#228B22">      MPIUNI_ARG(request),\</font></strong>
+<a name="line440">440: </a><strong><font color="#228B22">      MPIUni_Abort(MPI_COMM_WORLD,0))</font></strong>
+<a name="line441">441: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Irsend.html#MPI_Irsend">MPI_Irsend</a>(buf,count,datatype,dest,tag,comm,request) \</font></strong>
+<a name="line442">442: </a><strong><font color="#228B22">     (MPIUNI_ARG(buf),\</font></strong>
+<a name="line443">443: </a><strong><font color="#228B22">      MPIUNI_ARG(count),\</font></strong>
+<a name="line444">444: </a><strong><font color="#228B22">      MPIUNI_ARG(datatype),\</font></strong>
+<a name="line445">445: </a><strong><font color="#228B22">      MPIUNI_ARG(dest),\</font></strong>
+<a name="line446">446: </a><strong><font color="#228B22">      MPIUNI_ARG(tag),\</font></strong>
+<a name="line447">447: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line448">448: </a><strong><font color="#228B22">      MPIUNI_ARG(request),\</font></strong>
+<a name="line449">449: </a><strong><font color="#228B22">      MPIUni_Abort(MPI_COMM_WORLD,0))</font></strong>
+<a name="line450">450: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Irecv.html#MPI_Irecv">MPI_Irecv</a>(buf,count,datatype,source,tag,comm,request) \</font></strong>
+<a name="line451">451: </a><strong><font color="#228B22">     (MPIUNI_ARG(buf),\</font></strong>
+<a name="line452">452: </a><strong><font color="#228B22">      MPIUNI_ARG(count),\</font></strong>
+<a name="line453">453: </a><strong><font color="#228B22">      MPIUNI_ARG(datatype),\</font></strong>
+<a name="line454">454: </a><strong><font color="#228B22">      MPIUNI_ARG(source),\</font></strong>
+<a name="line455">455: </a><strong><font color="#228B22">      MPIUNI_ARG(tag),\</font></strong>
+<a name="line456">456: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line457">457: </a><strong><font color="#228B22">      MPIUNI_ARG(request),\</font></strong>
+<a name="line458">458: </a><strong><font color="#228B22">      MPIUni_Abort(MPI_COMM_WORLD,0))</font></strong>
+<a name="line459">459: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Isend.html#MPI_Isend">MPI_Isend</a>(buf,count,datatype,dest,tag,comm,request) \</font></strong>
+<a name="line460">460: </a><strong><font color="#228B22">     (MPIUNI_ARG(buf),\</font></strong>
+<a name="line461">461: </a><strong><font color="#228B22">      MPIUNI_ARG(count),\</font></strong>
+<a name="line462">462: </a><strong><font color="#228B22">      MPIUNI_ARG(datatype),\</font></strong>
+<a name="line463">463: </a><strong><font color="#228B22">      MPIUNI_ARG(dest),\</font></strong>
+<a name="line464">464: </a><strong><font color="#228B22">      MPIUNI_ARG(tag),\</font></strong>
+<a name="line465">465: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line466">466: </a><strong><font color="#228B22">      MPIUNI_ARG(request),\</font></strong>
+<a name="line467">467: </a><strong><font color="#228B22">      MPIUni_Abort(MPI_COMM_WORLD,0))</font></strong>
+<a name="line468">468: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Wait.html#MPI_Wait">MPI_Wait</a>(request,status) \</font></strong>
+<a name="line469">469: </a><strong><font color="#228B22">     (MPIUNI_ARG(request),\</font></strong>
+<a name="line470">470: </a><strong><font color="#228B22">      MPIUNI_ARG(status),\</font></strong>
+<a name="line471">471: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line472">472: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Test.html#MPI_Test">MPI_Test</a>(request,flag,status) \</font></strong>
+<a name="line473">473: </a><strong><font color="#228B22">     (MPIUNI_ARG(request),\</font></strong>
+<a name="line474">474: </a><strong><font color="#228B22">      MPIUNI_ARG(status),\</font></strong>
+<a name="line475">475: </a><strong><font color="#228B22">      *(flag) = 0,\</font></strong>
+<a name="line476">476: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line477">477: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Request_free.html#MPI_Request_free">MPI_Request_free</a>(request) \</font></strong>
+<a name="line478">478: </a><strong><font color="#228B22">     (MPIUNI_ARG(request),\</font></strong>
+<a name="line479">479: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line480">480: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Waitany.html#MPI_Waitany">MPI_Waitany</a>(count,array_of_requests,index,status) \</font></strong>
+<a name="line481">481: </a><strong><font color="#228B22">     (MPIUNI_ARG(count),\</font></strong>
+<a name="line482">482: </a><strong><font color="#228B22">      MPIUNI_ARG(array_of_requests),\</font></strong>
+<a name="line483">483: </a><strong><font color="#228B22">      MPIUNI_ARG(status),\</font></strong>
+<a name="line484">484: </a><strong><font color="#228B22">      *(index) = 0,\</font></strong>
+<a name="line485">485: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line486">486: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Testany.html#MPI_Testany">MPI_Testany</a>(a,b,c,d,e) \</font></strong>
+<a name="line487">487: </a><strong><font color="#228B22">     (MPIUNI_ARG(a),\</font></strong>
+<a name="line488">488: </a><strong><font color="#228B22">      MPIUNI_ARG(b),\</font></strong>
+<a name="line489">489: </a><strong><font color="#228B22">      MPIUNI_ARG(c),\</font></strong>
+<a name="line490">490: </a><strong><font color="#228B22">      MPIUNI_ARG(d),\</font></strong>
+<a name="line491">491: </a><strong><font color="#228B22">      MPIUNI_ARG(e),\</font></strong>
+<a name="line492">492: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line493">493: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Waitall.html#MPI_Waitall">MPI_Waitall</a>(count,array_of_requests,array_of_statuses) \</font></strong>
+<a name="line494">494: </a><strong><font color="#228B22">     (MPIUNI_ARG(count),\</font></strong>
+<a name="line495">495: </a><strong><font color="#228B22">      MPIUNI_ARG(array_of_requests),\</font></strong>
+<a name="line496">496: </a><strong><font color="#228B22">      MPIUNI_ARG(array_of_statuses),\</font></strong>
+<a name="line497">497: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line498">498: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Testall.html#MPI_Testall">MPI_Testall</a>(count,array_of_requests,flag,array_of_statuses) \</font></strong>
+<a name="line499">499: </a><strong><font color="#228B22">     (MPIUNI_ARG(count),\</font></strong>
+<a name="line500">500: </a><strong><font color="#228B22">      MPIUNI_ARG(array_of_requests),\</font></strong>
+<a name="line501">501: </a><strong><font color="#228B22">      MPIUNI_ARG(flag),\</font></strong>
+<a name="line502">502: </a><strong><font color="#228B22">      MPIUNI_ARG(array_of_statuses),\</font></strong>
+<a name="line503">503: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line504">504: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Waitsome.html#MPI_Waitsome">MPI_Waitsome</a>(incount,array_of_requests,outcount,\</font></strong>
+<a name="line505">505: </a><strong><font color="#228B22">                     array_of_indices,array_of_statuses)        \</font></strong>
+<a name="line506">506: </a><strong><font color="#228B22">     (MPIUNI_ARG(incount),\</font></strong>
+<a name="line507">507: </a><strong><font color="#228B22">      MPIUNI_ARG(array_of_requests),\</font></strong>
+<a name="line508">508: </a><strong><font color="#228B22">      MPIUNI_ARG(outcount),\</font></strong>
+<a name="line509">509: </a><strong><font color="#228B22">      MPIUNI_ARG(array_of_indices),\</font></strong>
+<a name="line510">510: </a><strong><font color="#228B22">      MPIUNI_ARG(array_of_statuses),\</font></strong>
+<a name="line511">511: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line512">512: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Comm_group.html#MPI_Comm_group">MPI_Comm_group</a>(comm,group) \</font></strong>
+<a name="line513">513: </a><strong><font color="#228B22">     (MPIUNI_ARG(comm),\</font></strong>
+<a name="line514">514: </a><strong><font color="#228B22">      MPIUNI_ARG(group),\</font></strong>
+<a name="line515">515: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line516">516: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Group_incl.html#MPI_Group_incl">MPI_Group_incl</a>(group,n,ranks,newgroup) \</font></strong>
+<a name="line517">517: </a><strong><font color="#228B22">     (MPIUNI_ARG(group),\</font></strong>
+<a name="line518">518: </a><strong><font color="#228B22">      MPIUNI_ARG(n),\</font></strong>
+<a name="line519">519: </a><strong><font color="#228B22">      MPIUNI_ARG(ranks),\</font></strong>
+<a name="line520">520: </a><strong><font color="#228B22">      MPIUNI_ARG(newgroup),\</font></strong>
+<a name="line521">521: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line522">522: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Testsome.html#MPI_Testsome">MPI_Testsome</a>(incount,array_of_requests,outcount,\</font></strong>
+<a name="line523">523: </a><strong><font color="#228B22">                     array_of_indices,array_of_statuses) \</font></strong>
+<a name="line524">524: </a><strong><font color="#228B22">     (MPIUNI_ARG(incount),\</font></strong>
+<a name="line525">525: </a><strong><font color="#228B22">      MPIUNI_ARG(array_of_requests),\</font></strong>
+<a name="line526">526: </a><strong><font color="#228B22">      MPIUNI_ARG(outcount),\</font></strong>
+<a name="line527">527: </a><strong><font color="#228B22">      MPIUNI_ARG(array_of_indices),\</font></strong>
+<a name="line528">528: </a><strong><font color="#228B22">      MPIUNI_ARG(array_of_statuses),\</font></strong>
+<a name="line529">529: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line530">530: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Iprobe.html#MPI_Iprobe">MPI_Iprobe</a>(source,tag,comm,flag,status) \</font></strong>
+<a name="line531">531: </a><strong><font color="#228B22">     (MPIUNI_ARG(source),\</font></strong>
+<a name="line532">532: </a><strong><font color="#228B22">      MPIUNI_ARG(tag),\</font></strong>
+<a name="line533">533: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line534">534: </a><strong><font color="#228B22">      *(flag)=0,\</font></strong>
+<a name="line535">535: </a><strong><font color="#228B22">      MPIUNI_ARG(status),\</font></strong>
+<a name="line536">536: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line537">537: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Probe.html#MPI_Probe">MPI_Probe</a>(source,tag,comm,status) \</font></strong>
+<a name="line538">538: </a><strong><font color="#228B22">     (MPIUNI_ARG(source),\</font></strong>
+<a name="line539">539: </a><strong><font color="#228B22">      MPIUNI_ARG(tag),\</font></strong>
+<a name="line540">540: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line541">541: </a><strong><font color="#228B22">      MPIUNI_ARG(status),\</font></strong>
+<a name="line542">542: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line543">543: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Cancel.html#MPI_Cancel">MPI_Cancel</a>(request) \</font></strong>
+<a name="line544">544: </a><strong><font color="#228B22">     (MPIUNI_ARG(request),\</font></strong>
+<a name="line545">545: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line546">546: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Test_cancelled.html#MPI_Test_cancelled">MPI_Test_cancelled</a>(status,flag) \</font></strong>
+<a name="line547">547: </a><strong><font color="#228B22">     (MPIUNI_ARG(status),\</font></strong>
+<a name="line548">548: </a><strong><font color="#228B22">      *(flag)=0,\</font></strong>
+<a name="line549">549: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line550">550: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Send_init.html#MPI_Send_init">MPI_Send_init</a>(buf,count,datatype,dest,tag,comm,request) \</font></strong>
+<a name="line551">551: </a><strong><font color="#228B22">     (MPIUNI_ARG(buf),\</font></strong>
+<a name="line552">552: </a><strong><font color="#228B22">      MPIUNI_ARG(count),\</font></strong>
+<a name="line553">553: </a><strong><font color="#228B22">      MPIUNI_ARG(datatype),\</font></strong>
+<a name="line554">554: </a><strong><font color="#228B22">      MPIUNI_ARG(dest),\</font></strong>
+<a name="line555">555: </a><strong><font color="#228B22">      MPIUNI_ARG(tag),\</font></strong>
+<a name="line556">556: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line557">557: </a><strong><font color="#228B22">      MPIUNI_ARG(request),\</font></strong>
+<a name="line558">558: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line559">559: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Bsend_init.html#MPI_Bsend_init">MPI_Bsend_init</a>(buf,count,datatype,dest,tag,comm,request) \</font></strong>
+<a name="line560">560: </a><strong><font color="#228B22">     (MPIUNI_ARG(buf),\</font></strong>
+<a name="line561">561: </a><strong><font color="#228B22">      MPIUNI_ARG(count),\</font></strong>
+<a name="line562">562: </a><strong><font color="#228B22">      MPIUNI_ARG(datatype),\</font></strong>
+<a name="line563">563: </a><strong><font color="#228B22">      MPIUNI_ARG(dest),\</font></strong>
+<a name="line564">564: </a><strong><font color="#228B22">      MPIUNI_ARG(tag),\</font></strong>
+<a name="line565">565: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line566">566: </a><strong><font color="#228B22">      MPIUNI_ARG(request),\</font></strong>
+<a name="line567">567: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line568">568: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Ssend_init.html#MPI_Ssend_init">MPI_Ssend_init</a>(buf,count,datatype,dest,tag,comm,request) \</font></strong>
+<a name="line569">569: </a><strong><font color="#228B22">     (MPIUNI_ARG(buf),\</font></strong>
+<a name="line570">570: </a><strong><font color="#228B22">      MPIUNI_ARG(count),\</font></strong>
+<a name="line571">571: </a><strong><font color="#228B22">      MPIUNI_ARG(datatype),\</font></strong>
+<a name="line572">572: </a><strong><font color="#228B22">      MPIUNI_ARG(dest),\</font></strong>
+<a name="line573">573: </a><strong><font color="#228B22">      MPIUNI_ARG(tag),\</font></strong>
+<a name="line574">574: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line575">575: </a><strong><font color="#228B22">      MPIUNI_ARG(request),\</font></strong>
+<a name="line576">576: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line577">577: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Bsend_init.html#MPI_Bsend_init">MPI_Bsend_init</a>(buf,count,datatype,dest,tag,comm,request) \</font></strong>
+<a name="line578">578: </a><strong><font color="#228B22">     (MPIUNI_ARG(buf),\</font></strong>
+<a name="line579">579: </a><strong><font color="#228B22">      MPIUNI_ARG(count),\</font></strong>
+<a name="line580">580: </a><strong><font color="#228B22">      MPIUNI_ARG(datatype),\</font></strong>
+<a name="line581">581: </a><strong><font color="#228B22">      MPIUNI_ARG(dest),\</font></strong>
+<a name="line582">582: </a><strong><font color="#228B22">      MPIUNI_ARG(tag),\</font></strong>
+<a name="line583">583: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line584">584: </a><strong><font color="#228B22">      MPIUNI_ARG(request),\</font></strong>
+<a name="line585">585: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line586">586: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Rsend_init.html#MPI_Rsend_init">MPI_Rsend_init</a>(buf,count,datatype,dest,tag,comm,request) \</font></strong>
+<a name="line587">587: </a><strong><font color="#228B22">     (MPIUNI_ARG(buf),\</font></strong>
+<a name="line588">588: </a><strong><font color="#228B22">      MPIUNI_ARG(count),\</font></strong>
+<a name="line589">589: </a><strong><font color="#228B22">      MPIUNI_ARG(datatype),\</font></strong>
+<a name="line590">590: </a><strong><font color="#228B22">      MPIUNI_ARG(dest),\</font></strong>
+<a name="line591">591: </a><strong><font color="#228B22">      MPIUNI_ARG(tag),\</font></strong>
+<a name="line592">592: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line593">593: </a><strong><font color="#228B22">      MPIUNI_ARG(request),\</font></strong>
+<a name="line594">594: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line595">595: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Recv_init.html#MPI_Recv_init">MPI_Recv_init</a>(buf,count,datatype,source,tag,comm,request) \</font></strong>
+<a name="line596">596: </a><strong><font color="#228B22">     (MPIUNI_ARG(buf),\</font></strong>
+<a name="line597">597: </a><strong><font color="#228B22">      MPIUNI_ARG(count),\</font></strong>
+<a name="line598">598: </a><strong><font color="#228B22">      MPIUNI_ARG(datatype),\</font></strong>
+<a name="line599">599: </a><strong><font color="#228B22">      MPIUNI_ARG(source),\</font></strong>
+<a name="line600">600: </a><strong><font color="#228B22">      MPIUNI_ARG(tag),\</font></strong>
+<a name="line601">601: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line602">602: </a><strong><font color="#228B22">      MPIUNI_ARG(request),\</font></strong>
+<a name="line603">603: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line604">604: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Start.html#MPI_Start">MPI_Start</a>(request) \</font></strong>
+<a name="line605">605: </a><strong><font color="#228B22">     (MPIUNI_ARG(request),\</font></strong>
+<a name="line606">606: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line607">607: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Startall.html#MPI_Startall">MPI_Startall</a>(count,array_of_requests) \</font></strong>
+<a name="line608">608: </a><strong><font color="#228B22">     (MPIUNI_ARG(count),\</font></strong>
+<a name="line609">609: </a><strong><font color="#228B22">      MPIUNI_ARG(array_of_requests),\</font></strong>
+<a name="line610">610: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line611">611: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Sendrecv.html#MPI_Sendrecv">MPI_Sendrecv</a>(sendbuf,sendcount,sendtype,\</font></strong>
+<a name="line612">612: </a><strong><font color="#228B22">                     dest,sendtag,recvbuf,recvcount,\</font></strong>
+<a name="line613">613: </a><strong><font color="#228B22">                     recvtype,source,recvtag,\</font></strong>
+<a name="line614">614: </a><strong><font color="#228B22">                     comm,status) \</font></strong>
+<a name="line615">615: </a><strong><font color="#228B22">     (MPIUNI_ARG(dest),\</font></strong>
+<a name="line616">616: </a><strong><font color="#228B22">      MPIUNI_ARG(sendtag),\</font></strong>
+<a name="line617">617: </a><strong><font color="#228B22">      MPIUNI_ARG(recvcount),\</font></strong>
+<a name="line618">618: </a><strong><font color="#228B22">      MPIUNI_ARG(recvtype),\</font></strong>
+<a name="line619">619: </a><strong><font color="#228B22">      MPIUNI_ARG(source),\</font></strong>
+<a name="line620">620: </a><strong><font color="#228B22">      MPIUNI_ARG(recvtag),\</font></strong>
+<a name="line621">621: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line622">622: </a><strong><font color="#228B22">      MPIUNI_ARG(status),\</font></strong>
+<a name="line623">623: </a><strong><font color="#228B22">      MPIUNI_Memcpy(recvbuf,sendbuf,(sendcount)*MPI_sizeof(sendtype)))</font></strong>
+<a name="line624">624: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Sendrecv_replace.html#MPI_Sendrecv_replace">MPI_Sendrecv_replace</a>(buf,count,datatype,dest,sendtag,\</font></strong>
+<a name="line625">625: </a><strong><font color="#228B22">                             source,recvtag,comm,status) \</font></strong>
+<a name="line626">626: </a><strong><font color="#228B22">     (MPIUNI_ARG(buf),\</font></strong>
+<a name="line627">627: </a><strong><font color="#228B22">      MPIUNI_ARG(count),\</font></strong>
+<a name="line628">628: </a><strong><font color="#228B22">      MPIUNI_ARG(datatype),\</font></strong>
+<a name="line629">629: </a><strong><font color="#228B22">      MPIUNI_ARG(dest),\</font></strong>
+<a name="line630">630: </a><strong><font color="#228B22">      MPIUNI_ARG(sendtag),\</font></strong>
+<a name="line631">631: </a><strong><font color="#228B22">      MPIUNI_ARG(source),\</font></strong>
+<a name="line632">632: </a><strong><font color="#228B22">      MPIUNI_ARG(recvtag),\</font></strong>
+<a name="line633">633: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line634">634: </a><strong><font color="#228B22">      MPIUNI_ARG(status),\</font></strong>
+<a name="line635">635: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+
+<a name="line637">637: </a><strong><font color="#228B22">#define MPI_COMBINER_NAMED      0</font></strong>
+<a name="line638">638: </a><strong><font color="#228B22">#define MPI_COMBINER_DUP        1</font></strong>
+<a name="line639">639: </a><strong><font color="#228B22">#define MPI_COMBINER_CONTIGUOUS 2</font></strong>
+<a name="line640">640: </a>  <font color="#B22222">/* 32-bit packing scheme: [combiner:4 | type-index:8 | count:12 | base-bytes:8] */</font>
+<a name="line641">641: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Type_dup.html#MPI_Type_dup">MPI_Type_dup</a>(oldtype,newtype) \</font></strong>
+<a name="line642">642: </a><strong><font color="#228B22">     (*(newtype) = oldtype, MPI_SUCCESS)</font></strong>
+<a name="line643">643: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Type_contiguous.html#MPI_Type_contiguous">MPI_Type_contiguous</a>(count,oldtype,newtype) \</font></strong>
+<a name="line644">644: </a><strong><font color="#228B22">     (*(newtype) = (MPI_COMBINER_CONTIGUOUS&lt;&lt;28)|((oldtype)&amp;0x0ff00000)|(((oldtype)&gt;&gt;8&amp;0xfff)*(count))&lt;&lt;8|((oldtype)&amp;0xff), MPI_SUCCESS)</font></strong>
+<a name="line645">645: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Type_vector.html#MPI_Type_vector">MPI_Type_vector</a>(count,blocklength,stride,oldtype,newtype) \</font></strong>
+<a name="line646">646: </a><strong><font color="#228B22">     (MPIUNI_ARG(count),\</font></strong>
+<a name="line647">647: </a><strong><font color="#228B22">      MPIUNI_ARG(blocklength),\</font></strong>
+<a name="line648">648: </a><strong><font color="#228B22">      MPIUNI_ARG(stride),\</font></strong>
+<a name="line649">649: </a><strong><font color="#228B22">      MPIUNI_ARG(oldtype),\</font></strong>
+<a name="line650">650: </a><strong><font color="#228B22">      MPIUNI_ARG(newtype),\</font></strong>
+<a name="line651">651: </a><strong><font color="#228B22">      MPIUni_Abort(MPI_COMM_WORLD,0))</font></strong>
+<a name="line652">652: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Type_hvector.html#MPI_Type_hvector">MPI_Type_hvector</a>(count,blocklength,stride,oldtype,newtype) \</font></strong>
+<a name="line653">653: </a><strong><font color="#228B22">     (MPIUNI_ARG(count),\</font></strong>
+<a name="line654">654: </a><strong><font color="#228B22">      MPIUNI_ARG(blocklength),\</font></strong>
+<a name="line655">655: </a><strong><font color="#228B22">      MPIUNI_ARG(stride),\</font></strong>
+<a name="line656">656: </a><strong><font color="#228B22">      MPIUNI_ARG(oldtype),\</font></strong>
+<a name="line657">657: </a><strong><font color="#228B22">      MPIUNI_ARG(newtype),\</font></strong>
+<a name="line658">658: </a><strong><font color="#228B22">      MPIUni_Abort(MPI_COMM_WORLD,0))</font></strong>
+<a name="line659">659: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Type_indexed.html#MPI_Type_indexed">MPI_Type_indexed</a>(count,array_of_blocklengths,array_of_displacements,oldtype,newtype) \</font></strong>
+<a name="line660">660: </a><strong><font color="#228B22">     (MPIUNI_ARG(count),\</font></strong>
+<a name="line661">661: </a><strong><font color="#228B22">      MPIUNI_ARG(array_of_blocklengths),\</font></strong>
+<a name="line662">662: </a><strong><font color="#228B22">      MPIUNI_ARG(array_of_displacements),\</font></strong>
+<a name="line663">663: </a><strong><font color="#228B22">      MPIUNI_ARG(oldtype),\</font></strong>
+<a name="line664">664: </a><strong><font color="#228B22">      MPIUNI_ARG(newtype),\</font></strong>
+<a name="line665">665: </a><strong><font color="#228B22">      MPIUni_Abort(MPI_COMM_WORLD,0))</font></strong>
+<a name="line666">666: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Type_hindexed.html#MPI_Type_hindexed">MPI_Type_hindexed</a>(count,array_of_blocklengths,array_of_displacements,oldtype,newtype) \</font></strong>
+<a name="line667">667: </a><strong><font color="#228B22">     (MPIUNI_ARG(count),\</font></strong>
+<a name="line668">668: </a><strong><font color="#228B22">      MPIUNI_ARG(array_of_blocklengths),\</font></strong>
+<a name="line669">669: </a><strong><font color="#228B22">      MPIUNI_ARG(array_of_displacements),\</font></strong>
+<a name="line670">670: </a><strong><font color="#228B22">      MPIUNI_ARG(oldtype),\</font></strong>
+<a name="line671">671: </a><strong><font color="#228B22">      MPIUNI_ARG(newtype),\</font></strong>
+<a name="line672">672: </a><strong><font color="#228B22">      MPIUni_Abort(MPI_COMM_WORLD,0))</font></strong>
+<a name="line673">673: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Type_struct.html#MPI_Type_struct">MPI_Type_struct</a>(count,array_of_blocklengths,array_of_displacements,array_of_types,newtype) \</font></strong>
+<a name="line674">674: </a><strong><font color="#228B22">     (MPIUNI_ARG(count),\</font></strong>
+<a name="line675">675: </a><strong><font color="#228B22">      MPIUNI_ARG(array_of_blocklengths),\</font></strong>
+<a name="line676">676: </a><strong><font color="#228B22">      MPIUNI_ARG(array_of_displacements),\</font></strong>
+<a name="line677">677: </a><strong><font color="#228B22">      MPIUNI_ARG(array_of_types),\</font></strong>
+<a name="line678">678: </a><strong><font color="#228B22">      MPIUNI_ARG(newtype),\</font></strong>
+<a name="line679">679: </a><strong><font color="#228B22">      MPIUni_Abort(MPI_COMM_WORLD,0))</font></strong>
+<a name="line680">680: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Address.html#MPI_Address">MPI_Address</a>(location,address) \</font></strong>
+<a name="line681">681: </a><strong><font color="#228B22">     (*(address) = (MPI_Aint)((char *)(location)), MPI_SUCCESS)</font></strong>
+<a name="line682">682: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Type_size.html#MPI_Type_size">MPI_Type_size</a>(datatype,size) (*(size) = MPI_sizeof((datatype)), MPI_SUCCESS)</font></strong>
+<a name="line683">683: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Type_lb.html#MPI_Type_lb">MPI_Type_lb</a>(datatype,lb) (MPIUNI_ARG(datatype), *(lb) = 0, MPI_SUCCESS)</font></strong>
+<a name="line684">684: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Type_ub.html#MPI_Type_ub">MPI_Type_ub</a>(datatype,ub) (*(ub) = MPI_sizeof((datatype)), MPI_SUCCESS)</font></strong>
+<a name="line685">685: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Type_extent.html#MPI_Type_extent">MPI_Type_extent</a>(datatype,extent) \</font></strong>
+<a name="line686">686: </a><strong><font color="#228B22">     (*(extent) = MPI_sizeof((datatype)), MPI_SUCCESS)</font></strong>
+<a name="line687">687: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Type_get_extent.html#MPI_Type_get_extent">MPI_Type_get_extent</a>(datatype,lb,extent) \</font></strong>
+<a name="line688">688: </a><strong><font color="#228B22">     (*(lb) = 0, *(extent) = MPI_sizeof((datatype)), MPI_SUCCESS)</font></strong>
+<a name="line689">689: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Type_commit.html#MPI_Type_commit">MPI_Type_commit</a>(datatype) (MPIUNI_ARG(datatype), MPI_SUCCESS)</font></strong>
+<a name="line690">690: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Type_free.html#MPI_Type_free">MPI_Type_free</a>(datatype) (*(datatype) = MPI_DATATYPE_NULL, MPI_SUCCESS)</font></strong>
+<a name="line691">691: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Get_elements.html#MPI_Get_elements">MPI_Get_elements</a>(status,datatype,count) \</font></strong>
+<a name="line692">692: </a><strong><font color="#228B22">     (MPIUNI_ARG(status),\</font></strong>
+<a name="line693">693: </a><strong><font color="#228B22">      MPIUNI_ARG(datatype),\</font></strong>
+<a name="line694">694: </a><strong><font color="#228B22">      MPIUNI_ARG(count),\</font></strong>
+<a name="line695">695: </a><strong><font color="#228B22">      MPIUni_Abort(MPI_COMM_WORLD,0))</font></strong>
+<a name="line696">696: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Pack.html#MPI_Pack">MPI_Pack</a>(inbuf,incount,datatype,outbuf,outsize,position,comm) \</font></strong>
+<a name="line697">697: </a><strong><font color="#228B22">     (MPIUNI_ARG(inbuf),\</font></strong>
+<a name="line698">698: </a><strong><font color="#228B22">      MPIUNI_ARG(incount),\</font></strong>
+<a name="line699">699: </a><strong><font color="#228B22">      MPIUNI_ARG(datatype),\</font></strong>
+<a name="line700">700: </a><strong><font color="#228B22">      MPIUNI_ARG(outbuf),\</font></strong>
+<a name="line701">701: </a><strong><font color="#228B22">      MPIUNI_ARG(outsize),\</font></strong>
+<a name="line702">702: </a><strong><font color="#228B22">      MPIUNI_ARG(position),\</font></strong>
+<a name="line703">703: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line704">704: </a><strong><font color="#228B22">      MPIUni_Abort(MPI_COMM_WORLD,0))</font></strong>
+<a name="line705">705: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Unpack.html#MPI_Unpack">MPI_Unpack</a>(inbuf,insize,position,outbuf,outcount,datatype,comm) \</font></strong>
+<a name="line706">706: </a><strong><font color="#228B22">     (MPIUNI_ARG(inbuf),\</font></strong>
+<a name="line707">707: </a><strong><font color="#228B22">      MPIUNI_ARG(insize),\</font></strong>
+<a name="line708">708: </a><strong><font color="#228B22">      MPIUNI_ARG(position),\</font></strong>
+<a name="line709">709: </a><strong><font color="#228B22">      MPIUNI_ARG(outbuf),\</font></strong>
+<a name="line710">710: </a><strong><font color="#228B22">      MPIUNI_ARG(outcount),\</font></strong>
+<a name="line711">711: </a><strong><font color="#228B22">      MPIUNI_ARG(datatype),\</font></strong>
+<a name="line712">712: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line713">713: </a><strong><font color="#228B22">      MPIUni_Abort(MPI_COMM_WORLD,0))</font></strong>
+<a name="line714">714: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Pack_size.html#MPI_Pack_size">MPI_Pack_size</a>(incount,datatype,comm,size) \</font></strong>
+<a name="line715">715: </a><strong><font color="#228B22">     (MPIUNI_ARG(incount),\</font></strong>
+<a name="line716">716: </a><strong><font color="#228B22">      MPIUNI_ARG(datatype),\</font></strong>
+<a name="line717">717: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line718">718: </a><strong><font color="#228B22">      MPIUNI_ARG(size),\</font></strong>
+<a name="line719">719: </a><strong><font color="#228B22">      MPIUni_Abort(MPI_COMM_WORLD,0))</font></strong>
+<a name="line720">720: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Barrier.html#MPI_Barrier">MPI_Barrier</a>(comm) \</font></strong>
+<a name="line721">721: </a><strong><font color="#228B22">     (MPIUNI_ARG(comm),\</font></strong>
+<a name="line722">722: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line723">723: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Bcast.html#MPI_Bcast">MPI_Bcast</a>(buffer,count,datatype,root,comm) \</font></strong>
+<a name="line724">724: </a><strong><font color="#228B22">     (MPIUNI_ARG(buffer),\</font></strong>
+<a name="line725">725: </a><strong><font color="#228B22">      MPIUNI_ARG(count),\</font></strong>
+<a name="line726">726: </a><strong><font color="#228B22">      MPIUNI_ARG(datatype),\</font></strong>
+<a name="line727">727: </a><strong><font color="#228B22">      MPIUNI_ARG(root),\</font></strong>
+<a name="line728">728: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line729">729: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line730">730: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Gather.html#MPI_Gather">MPI_Gather</a>(sendbuf,sendcount,sendtype,\</font></strong>
+<a name="line731">731: </a><strong><font color="#228B22">                   recvbuf,recvcount, recvtype,\</font></strong>
+<a name="line732">732: </a><strong><font color="#228B22">                   root,comm) \</font></strong>
+<a name="line733">733: </a><strong><font color="#228B22">     (MPIUNI_ARG(recvcount),\</font></strong>
+<a name="line734">734: </a><strong><font color="#228B22">      MPIUNI_ARG(root),\</font></strong>
+<a name="line735">735: </a><strong><font color="#228B22">      MPIUNI_ARG(recvtype),\</font></strong>
+<a name="line736">736: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line737">737: </a><strong><font color="#228B22">      MPIUNI_Memcpy(recvbuf,sendbuf,(sendcount)*MPI_sizeof(sendtype)))</font></strong>
+<a name="line738">738: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Gatherv.html#MPI_Gatherv">MPI_Gatherv</a>(sendbuf,sendcount,sendtype,\</font></strong>
+<a name="line739">739: </a><strong><font color="#228B22">                    recvbuf,recvcounts,displs,\</font></strong>
+<a name="line740">740: </a><strong><font color="#228B22">                    recvtype,root,comm) \</font></strong>
+<a name="line741">741: </a><strong><font color="#228B22">     (MPIUNI_ARG(recvcounts),\</font></strong>
+<a name="line742">742: </a><strong><font color="#228B22">      MPIUNI_ARG(displs),\</font></strong>
+<a name="line743">743: </a><strong><font color="#228B22">      MPIUNI_ARG(recvtype),\</font></strong>
+<a name="line744">744: </a><strong><font color="#228B22">      MPIUNI_ARG(root),\</font></strong>
+<a name="line745">745: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line746">746: </a><strong><font color="#228B22">      MPIUNI_Memcpy(recvbuf,sendbuf,(sendcount)*MPI_sizeof(sendtype)))</font></strong>
+<a name="line747">747: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Scatter.html#MPI_Scatter">MPI_Scatter</a>(sendbuf,sendcount,sendtype,\</font></strong>
+<a name="line748">748: </a><strong><font color="#228B22">                    recvbuf,recvcount,recvtype,\</font></strong>
+<a name="line749">749: </a><strong><font color="#228B22">                    root,comm) \</font></strong>
+<a name="line750">750: </a><strong><font color="#228B22">     (MPIUNI_ARG(sendcount),\</font></strong>
+<a name="line751">751: </a><strong><font color="#228B22">      MPIUNI_ARG(sendtype),\</font></strong>
+<a name="line752">752: </a><strong><font color="#228B22">      MPIUNI_ARG(recvbuf),\</font></strong>
+<a name="line753">753: </a><strong><font color="#228B22">      MPIUNI_ARG(recvtype),\</font></strong>
+<a name="line754">754: </a><strong><font color="#228B22">      MPIUNI_ARG(root),\</font></strong>
+<a name="line755">755: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line756">756: </a><strong><font color="#228B22">      MPIUNI_Memcpy(recvbuf,sendbuf,(recvcount)*MPI_sizeof(recvtype)))</font></strong>
+<a name="line757">757: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Scatterv.html#MPI_Scatterv">MPI_Scatterv</a>(sendbuf,sendcounts,displs,\</font></strong>
+<a name="line758">758: </a><strong><font color="#228B22">                     sendtype,recvbuf,recvcount,\</font></strong>
+<a name="line759">759: </a><strong><font color="#228B22">                     recvtype,root,comm) \</font></strong>
+<a name="line760">760: </a><strong><font color="#228B22">     (MPIUNI_ARG(displs),\</font></strong>
+<a name="line761">761: </a><strong><font color="#228B22">      MPIUNI_ARG(sendtype),\</font></strong>
+<a name="line762">762: </a><strong><font color="#228B22">      MPIUNI_ARG(sendcounts),\</font></strong>
+<a name="line763">763: </a><strong><font color="#228B22">      MPIUNI_ARG(root),\</font></strong>
+<a name="line764">764: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line765">765: </a><strong><font color="#228B22">      MPIUNI_Memcpy(recvbuf,sendbuf,(recvcount)*MPI_sizeof(recvtype)))</font></strong>
+<a name="line766">766: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Allgather.html#MPI_Allgather">MPI_Allgather</a>(sendbuf,sendcount,sendtype,\</font></strong>
+<a name="line767">767: </a><strong><font color="#228B22">                     recvbuf,recvcount,recvtype,comm) \</font></strong>
+<a name="line768">768: </a><strong><font color="#228B22">     (MPIUNI_ARG(recvcount),\</font></strong>
+<a name="line769">769: </a><strong><font color="#228B22">      MPIUNI_ARG(recvtype),\</font></strong>
+<a name="line770">770: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line771">771: </a><strong><font color="#228B22">      MPIUNI_Memcpy(recvbuf,sendbuf,(sendcount)*MPI_sizeof(sendtype)))</font></strong>
+<a name="line772">772: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Allgatherv.html#MPI_Allgatherv">MPI_Allgatherv</a>(sendbuf,sendcount,sendtype,\</font></strong>
+<a name="line773">773: </a><strong><font color="#228B22">     recvbuf,recvcounts,displs,recvtype,comm) \</font></strong>
+<a name="line774">774: </a><strong><font color="#228B22">     (MPIUNI_ARG(recvcounts),\</font></strong>
+<a name="line775">775: </a><strong><font color="#228B22">      MPIUNI_ARG(displs),\</font></strong>
+<a name="line776">776: </a><strong><font color="#228B22">      MPIUNI_ARG(recvtype),\</font></strong>
+<a name="line777">777: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line778">778: </a><strong><font color="#228B22">      MPIUNI_Memcpy(recvbuf,sendbuf,(sendcount)*MPI_sizeof(sendtype)))</font></strong>
+<a name="line779">779: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Alltoall.html#MPI_Alltoall">MPI_Alltoall</a>(sendbuf,sendcount,sendtype,\</font></strong>
+<a name="line780">780: </a><strong><font color="#228B22">                     recvbuf,recvcount,recvtype,comm) \</font></strong>
+<a name="line781">781: </a><strong><font color="#228B22">     (MPIUNI_ARG(recvcount),\</font></strong>
+<a name="line782">782: </a><strong><font color="#228B22">      MPIUNI_ARG(recvtype),\</font></strong>
+<a name="line783">783: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line784">784: </a><strong><font color="#228B22">      MPIUNI_Memcpy(recvbuf,sendbuf,(sendcount)*MPI_sizeof(sendtype)))</font></strong>
+<a name="line785">785: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Alltoallv.html#MPI_Alltoallv">MPI_Alltoallv</a>(sendbuf,sendcounts,sdispls,sendtype,\</font></strong>
+<a name="line786">786: </a><strong><font color="#228B22">                      recvbuf,recvcounts,rdispls,recvtype,comm) \</font></strong>
+<a name="line787">787: </a><strong><font color="#228B22">     (MPIUNI_ARG(sendbuf),\</font></strong>
+<a name="line788">788: </a><strong><font color="#228B22">      MPIUNI_ARG(sendcounts),\</font></strong>
+<a name="line789">789: </a><strong><font color="#228B22">      MPIUNI_ARG(sdispls),\</font></strong>
+<a name="line790">790: </a><strong><font color="#228B22">      MPIUNI_ARG(sendtype),\</font></strong>
+<a name="line791">791: </a><strong><font color="#228B22">      MPIUNI_ARG(recvbuf),\</font></strong>
+<a name="line792">792: </a><strong><font color="#228B22">      MPIUNI_ARG(recvcounts),\</font></strong>
+<a name="line793">793: </a><strong><font color="#228B22">      MPIUNI_ARG(rdispls),\</font></strong>
+<a name="line794">794: </a><strong><font color="#228B22">      MPIUNI_ARG(recvtype),\</font></strong>
+<a name="line795">795: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line796">796: </a><strong><font color="#228B22">      MPIUni_Abort(MPI_COMM_WORLD,0))</font></strong>
+<a name="line797">797: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Alltoallw.html#MPI_Alltoallw">MPI_Alltoallw</a>(sendbuf,sendcounts,sdispls,sendtypes,\</font></strong>
+<a name="line798">798: </a><strong><font color="#228B22">                      recvbuf,recvcounts,rdispls,recvtypes,comm) \</font></strong>
+<a name="line799">799: </a><strong><font color="#228B22">     (MPIUNI_ARG(sendbuf),\</font></strong>
+<a name="line800">800: </a><strong><font color="#228B22">      MPIUNI_ARG(sendcounts),\</font></strong>
+<a name="line801">801: </a><strong><font color="#228B22">      MPIUNI_ARG(sdispls),\</font></strong>
+<a name="line802">802: </a><strong><font color="#228B22">      MPIUNI_ARG(sendtypes),\</font></strong>
+<a name="line803">803: </a><strong><font color="#228B22">      MPIUNI_ARG(recvbuf),\</font></strong>
+<a name="line804">804: </a><strong><font color="#228B22">      MPIUNI_ARG(recvcount),\</font></strong>
+<a name="line805">805: </a><strong><font color="#228B22">      MPIUNI_ARG(rdispls),\</font></strong>
+<a name="line806">806: </a><strong><font color="#228B22">      MPIUNI_ARG(recvtypes),\</font></strong>
+<a name="line807">807: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line808">808: </a><strong><font color="#228B22">      MPIUni_Abort(MPI_COMM_WORLD,0))</font></strong>
+<a name="line809">809: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Reduce.html#MPI_Reduce">MPI_Reduce</a>(sendbuf,recvbuf,count,datatype,op,root,comm) \</font></strong>
+<a name="line810">810: </a><strong><font color="#228B22">     (MPIUNI_ARG(op),\</font></strong>
+<a name="line811">811: </a><strong><font color="#228B22">      MPIUNI_ARG(root),\</font></strong>
+<a name="line812">812: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line813">813: </a><strong><font color="#228B22">      MPIUNI_Memcpy(recvbuf,sendbuf,(count)*MPI_sizeof(datatype)))</font></strong>
+<a name="line814">814: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Allreduce.html#MPI_Allreduce">MPI_Allreduce</a>(sendbuf, recvbuf,count,datatype,op,comm) \</font></strong>
+<a name="line815">815: </a><strong><font color="#228B22">     (MPIUNI_ARG(op),\</font></strong>
+<a name="line816">816: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line817">817: </a><strong><font color="#228B22">      MPIUNI_Memcpy(recvbuf,sendbuf,(count)*MPI_sizeof(datatype)))</font></strong>
+<a name="line818">818: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Scan.html#MPI_Scan">MPI_Scan</a>(sendbuf, recvbuf,count,datatype,op,comm) \</font></strong>
+<a name="line819">819: </a><strong><font color="#228B22">     (MPIUNI_ARG(op),\</font></strong>
+<a name="line820">820: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line821">821: </a><strong><font color="#228B22">      MPIUNI_Memcpy(recvbuf,sendbuf,(count)*MPI_sizeof(datatype)))</font></strong>
+<a name="line822">822: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Exscan.html#MPI_Exscan">MPI_Exscan</a>(sendbuf,recvbuf,count,datatype,op,comm) \</font></strong>
+<a name="line823">823: </a><strong><font color="#228B22">     (MPIUNI_ARG(sendbuf),\</font></strong>
+<a name="line824">824: </a><strong><font color="#228B22">      MPIUNI_ARG(recvbuf),\</font></strong>
+<a name="line825">825: </a><strong><font color="#228B22">      MPIUNI_ARG(count),\</font></strong>
+<a name="line826">826: </a><strong><font color="#228B22">      MPIUNI_ARG(datatype),\</font></strong>
+<a name="line827">827: </a><strong><font color="#228B22">      MPIUNI_ARG(op),\</font></strong>
+<a name="line828">828: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line829">829: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line830">830: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Reduce_scatter.html#MPI_Reduce_scatter">MPI_Reduce_scatter</a>(sendbuf,recvbuf,recvcounts,datatype,op,comm) \</font></strong>
+<a name="line831">831: </a><strong><font color="#228B22">     (MPIUNI_ARG(sendbuf),\</font></strong>
+<a name="line832">832: </a><strong><font color="#228B22">      MPIUNI_ARG(recvbuf),\</font></strong>
+<a name="line833">833: </a><strong><font color="#228B22">      MPIUNI_ARG(recvcounts),\</font></strong>
+<a name="line834">834: </a><strong><font color="#228B22">      MPIUNI_ARG(datatype),\</font></strong>
+<a name="line835">835: </a><strong><font color="#228B22">      MPIUNI_ARG(op),\</font></strong>
+<a name="line836">836: </a><strong><font color="#228B22">      MPIUNI_ARG(comm),\</font></strong>
+<a name="line837">837: </a><strong><font color="#228B22">      MPIUni_Abort(MPI_COMM_WORLD,0))</font></strong>
+
+<a name="line839">839: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Op_create.html#MPI_Op_create">MPI_Op_create</a>(function,commute,op) \</font></strong>
+<a name="line840">840: </a><strong><font color="#228B22">     (MPIUNI_ARG(function),\</font></strong>
+<a name="line841">841: </a><strong><font color="#228B22">      MPIUNI_ARG(commute),\</font></strong>
+<a name="line842">842: </a><strong><font color="#228B22">      MPIUNI_ARG(op),\</font></strong>
+<a name="line843">843: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line844">844: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Op_free.html#MPI_Op_free">MPI_Op_free</a>(op) \</font></strong>
+<a name="line845">845: </a><strong><font color="#228B22">     (*(op) = MPI_OP_NULL, MPI_SUCCESS)</font></strong>
+
+<a name="line847">847: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Group_size.html#MPI_Group_size">MPI_Group_size</a>(group,size) \</font></strong>
+<a name="line848">848: </a><strong><font color="#228B22">  (MPIUNI_ARG(group),\</font></strong>
+<a name="line849">849: </a><strong><font color="#228B22">   *(size)=1,\</font></strong>
+<a name="line850">850: </a><strong><font color="#228B22">   MPI_SUCCESS)</font></strong>
+<a name="line851">851: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Group_rank.html#MPI_Group_rank">MPI_Group_rank</a>(group,rank) \</font></strong>
+<a name="line852">852: </a><strong><font color="#228B22">  (MPIUNI_ARG(group),\</font></strong>
+<a name="line853">853: </a><strong><font color="#228B22">   *(rank)=0,\</font></strong>
+<a name="line854">854: </a><strong><font color="#228B22">   MPI_SUCCESS)</font></strong>
+<a name="line855">855: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Group_translate_ranks.html#MPI_Group_translate_ranks">MPI_Group_translate_ranks</a>(group1,n,ranks1,group2,ranks2) \</font></strong>
+<a name="line856">856: </a><strong><font color="#228B22">     (MPIUNI_ARG(group1),\</font></strong>
+<a name="line857">857: </a><strong><font color="#228B22">      MPIUNI_ARG(group2),\</font></strong>
+<a name="line858">858: </a><strong><font color="#228B22">      MPIUNI_Memcpy((ranks2),(ranks1),(n)*sizeof(int)))</font></strong>
+<a name="line859">859: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Group_compare.html#MPI_Group_compare">MPI_Group_compare</a>(group1,group2,result) \</font></strong>
+<a name="line860">860: </a><strong><font color="#228B22">    (MPIUNI_ARG(group1),\</font></strong>
+<a name="line861">861: </a><strong><font color="#228B22">     MPIUNI_ARG(group2),\</font></strong>
+<a name="line862">862: </a><strong><font color="#228B22">     *(result)=1,\</font></strong>
+<a name="line863">863: </a><strong><font color="#228B22">     MPI_SUCCESS)</font></strong>
+<a name="line864">864: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Group_union.html#MPI_Group_union">MPI_Group_union</a>(group1,group2,newgroup) MPI_SUCCESS</font></strong>
+<a name="line865">865: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Group_intersection.html#MPI_Group_intersection">MPI_Group_intersection</a>(group1,group2,newgroup) MPI_SUCCESS</font></strong>
+<a name="line866">866: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Group_difference.html#MPI_Group_difference">MPI_Group_difference</a>(group1,group2,newgroup) MPI_SUCCESS</font></strong>
+<a name="line867">867: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Group_excl.html#MPI_Group_excl">MPI_Group_excl</a>(group,n,ranks,newgroup) MPI_SUCCESS</font></strong>
+<a name="line868">868: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Group_range_incl.html#MPI_Group_range_incl">MPI_Group_range_incl</a>(group,n,ranges,newgroup) MPI_SUCCESS</font></strong>
+<a name="line869">869: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Group_range_excl.html#MPI_Group_range_excl">MPI_Group_range_excl</a>(group,n,ranges,newgroup) MPI_SUCCESS</font></strong>
+<a name="line870">870: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Group_free.html#MPI_Group_free">MPI_Group_free</a>(group) \</font></strong>
+<a name="line871">871: </a><strong><font color="#228B22">     (*(group) = MPI_GROUP_NULL, MPI_SUCCESS)</font></strong>
+
+<a name="line873">873: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Comm_compare.html#MPI_Comm_compare">MPI_Comm_compare</a>(comm1,comm2,result) \</font></strong>
+<a name="line874">874: </a><strong><font color="#228B22">     (MPIUNI_ARG(comm1),\</font></strong>
+<a name="line875">875: </a><strong><font color="#228B22">      MPIUNI_ARG(comm2),\</font></strong>
+<a name="line876">876: </a><strong><font color="#228B22">      *(result)=MPI_IDENT,\</font></strong>
+<a name="line877">877: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line878">878: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Comm_split.html#MPI_Comm_split">MPI_Comm_split</a>(comm,color,key,newcomm) \</font></strong>
+<a name="line879">879: </a><strong><font color="#228B22">     (MPIUNI_ARG(color),\</font></strong>
+<a name="line880">880: </a><strong><font color="#228B22">      MPIUNI_ARG(key),\</font></strong>
+<a name="line881">881: </a><strong><font color="#228B22">      <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Comm_dup.html#MPI_Comm_dup">MPI_Comm_dup</a>(comm,newcomm))</font></strong>
+<a name="line882">882: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Comm_test_inter.html#MPI_Comm_test_inter">MPI_Comm_test_inter</a>(comm,flag) (*(flag)=1, MPI_SUCCESS)</font></strong>
+<a name="line883">883: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Comm_remote_size.html#MPI_Comm_remote_size">MPI_Comm_remote_size</a>(comm,size) (*(size)=1 ,MPI_SUCCESS)</font></strong>
+<a name="line884">884: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Comm_remote_group.html#MPI_Comm_remote_group">MPI_Comm_remote_group</a>(comm,group) MPI_SUCCESS</font></strong>
+<a name="line885">885: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Intercomm_create.html#MPI_Intercomm_create">MPI_Intercomm_create</a>(local_comm,local_leader,peer_comm,\</font></strong>
+<a name="line886">886: </a><strong><font color="#228B22">     remote_leader,tag,newintercomm) MPI_SUCCESS</font></strong>
+<a name="line887">887: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Intercomm_merge.html#MPI_Intercomm_merge">MPI_Intercomm_merge</a>(intercomm,high,newintracomm) MPI_SUCCESS</font></strong>
+<a name="line888">888: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Topo_test.html#MPI_Topo_test">MPI_Topo_test</a>(comm,flag) MPI_SUCCESS</font></strong>
+<a name="line889">889: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Cart_create.html#MPI_Cart_create">MPI_Cart_create</a>(comm_old,ndims,dims,periods,\</font></strong>
+<a name="line890">890: </a><strong><font color="#228B22">     reorder,comm_cart) MPIUni_Abort(MPI_COMM_WORLD,0)</font></strong>
+<a name="line891">891: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Dims_create.html#MPI_Dims_create">MPI_Dims_create</a>(nnodes,ndims,dims) MPIUni_Abort(MPI_COMM_WORLD,0)</font></strong>
+<a name="line892">892: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Graph_create.html#MPI_Graph_create">MPI_Graph_create</a>(comm,a,b,c,d,e) MPIUni_Abort(MPI_COMM_WORLD,0)</font></strong>
+<a name="line893">893: </a><strong><font color="#228B22">#define MPI_Graphdims_Get(comm,nnodes,nedges) MPIUni_Abort(MPI_COMM_WORLD,0)</font></strong>
+<a name="line894">894: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Graph_get.html#MPI_Graph_get">MPI_Graph_get</a>(comm,a,b,c,d) MPIUni_Abort(MPI_COMM_WORLD,0)</font></strong>
+<a name="line895">895: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Cartdim_get.html#MPI_Cartdim_get">MPI_Cartdim_get</a>(comm,ndims) MPIUni_Abort(MPI_COMM_WORLD,0)</font></strong>
+<a name="line896">896: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Cart_get.html#MPI_Cart_get">MPI_Cart_get</a>(comm,maxdims,dims,periods,coords) \</font></strong>
+<a name="line897">897: </a><strong><font color="#228B22">     MPIUni_Abort(MPI_COMM_WORLD,0)</font></strong>
+<a name="line898">898: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Cart_rank.html#MPI_Cart_rank">MPI_Cart_rank</a>(comm,coords,rank) MPIUni_Abort(MPI_COMM_WORLD,0)</font></strong>
+<a name="line899">899: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Cart_coords.html#MPI_Cart_coords">MPI_Cart_coords</a>(comm,rank,maxdims,coords) \</font></strong>
+<a name="line900">900: </a><strong><font color="#228B22">     MPIUni_Abort(MPI_COMM_WORLD,0)</font></strong>
+<a name="line901">901: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Graph_neighbors_count.html#MPI_Graph_neighbors_count">MPI_Graph_neighbors_count</a>(comm,rank,nneighbors) \</font></strong>
+<a name="line902">902: </a><strong><font color="#228B22">     MPIUni_Abort(MPI_COMM_WORLD,0)</font></strong>
+<a name="line903">903: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Graph_neighbors.html#MPI_Graph_neighbors">MPI_Graph_neighbors</a>(comm,rank,maxneighbors,neighbors) \</font></strong>
+<a name="line904">904: </a><strong><font color="#228B22">     MPIUni_Abort(MPI_COMM_WORLD,0)</font></strong>
+<a name="line905">905: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Cart_shift.html#MPI_Cart_shift">MPI_Cart_shift</a>(comm,direction,disp,rank_source,rank_dest) \</font></strong>
+<a name="line906">906: </a><strong><font color="#228B22">     MPIUni_Abort(MPI_COMM_WORLD,0)</font></strong>
+<a name="line907">907: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Cart_sub.html#MPI_Cart_sub">MPI_Cart_sub</a>(comm,remain_dims,newcomm) MPIUni_Abort(MPI_COMM_WORLD,0)</font></strong>
+<a name="line908">908: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Cart_map.html#MPI_Cart_map">MPI_Cart_map</a>(comm,ndims,dims,periods,newrank) MPIUni_Abort(MPI_COMM_WORLD,0)</font></strong>
+<a name="line909">909: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Graph_map.html#MPI_Graph_map">MPI_Graph_map</a>(comm,a,b,c,d) MPIUni_Abort(MPI_COMM_WORLD,0)</font></strong>
+
+<a name="line911">911: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Get_processor_name.html#MPI_Get_processor_name">MPI_Get_processor_name</a>(name,result_len)                         \</font></strong>
+<a name="line912">912: </a><strong><font color="#228B22">     (*(result_len) = 9,MPIUNI_Memcpy(name,</font><font color="#666666">"localhost"</font><font color="#228B22">,10*sizeof(char)))</font></strong>
+<a name="line913">913: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Errhandler_create.html#MPI_Errhandler_create">MPI_Errhandler_create</a>(function,errhandler) \</font></strong>
+<a name="line914">914: </a><strong><font color="#228B22">     (MPIUNI_ARG(function),\</font></strong>
+<a name="line915">915: </a><strong><font color="#228B22">      *(errhandler) = MPI_ERRORS_RETURN,\</font></strong>
+<a name="line916">916: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line917">917: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Errhandler_set.html#MPI_Errhandler_set">MPI_Errhandler_set</a>(comm,errhandler) \</font></strong>
+<a name="line918">918: </a><strong><font color="#228B22">     (MPIUNI_ARG(comm),\</font></strong>
+<a name="line919">919: </a><strong><font color="#228B22">      MPIUNI_ARG(errhandler),\</font></strong>
+<a name="line920">920: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line921">921: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Errhandler_get.html#MPI_Errhandler_get">MPI_Errhandler_get</a>(comm,errhandler) \</font></strong>
+<a name="line922">922: </a><strong><font color="#228B22">     (MPIUNI_ARG(comm),\</font></strong>
+<a name="line923">923: </a><strong><font color="#228B22">      (*errhandler) = MPI_ERRORS_RETURN,\</font></strong>
+<a name="line924">924: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line925">925: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Errhandler_free.html#MPI_Errhandler_free">MPI_Errhandler_free</a>(errhandler) \</font></strong>
+<a name="line926">926: </a><strong><font color="#228B22">     (*(errhandler) = MPI_ERRHANDLER_NULL,\</font></strong>
+<a name="line927">927: </a><strong><font color="#228B22">      MPI_SUCCESS)</font></strong>
+<a name="line928">928: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Error_string.html#MPI_Error_string">MPI_Error_string</a>(errorcode,string,result_len) \</font></strong>
+<a name="line929">929: </a><strong><font color="#228B22">     (MPIUNI_ARG(errorcode),\</font></strong>
+<a name="line930">930: </a><strong><font color="#228B22">      *(result_len) = 9,\</font></strong>
+<a name="line931">931: </a><strong><font color="#228B22">      MPIUNI_Memcpy(string,</font><font color="#666666">"MPI error"</font><font color="#228B22">,10*sizeof(char)))</font></strong>
+<a name="line932">932: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Error_class.html#MPI_Error_class">MPI_Error_class</a>(errorcode,errorclass) \</font></strong>
+<a name="line933">933: </a><strong><font color="#228B22">     (*(errorclass) = errorcode, MPI_SUCCESS)</font></strong>
+<a name="line934">934: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Wtick.html#MPI_Wtick">MPI_Wtick</a>() 1.0</font></strong>
+<a name="line935">935: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Pcontrol.html#MPI_Pcontrol">MPI_Pcontrol</a>(level) MPI_SUCCESS</font></strong>
+
+<a name="line937">937: </a><font color="#B22222">/* MPI-IO additions */</font>
+
+<a name="line939">939: </a><font color="#4169E1">typedef int MPI_File;</font>
+<a name="line940">940: </a><strong><font color="#228B22">#define MPI_FILE_NULL 0</font></strong>
+
+<a name="line942">942: </a><font color="#4169E1">typedef int MPI_Offset;</font>
+
+<a name="line944">944: </a><strong><font color="#228B22">#define MPI_MODE_RDONLY  0</font></strong>
+<a name="line945">945: </a><strong><font color="#228B22">#define MPI_MODE_WRONLY  0</font></strong>
+<a name="line946">946: </a><strong><font color="#228B22">#define MPI_MODE_CREATE  0</font></strong>
+
+<a name="line948">948: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_File_open.html#MPI_File_open">MPI_File_open</a>(comm,filename,amode,info,mpi_fh) \</font></strong>
+<a name="line949">949: </a><strong><font color="#228B22">  (MPIUNI_ARG(comm),\</font></strong>
+<a name="line950">950: </a><strong><font color="#228B22">   MPIUNI_ARG(filename),\</font></strong>
+<a name="line951">951: </a><strong><font color="#228B22">   MPIUNI_ARG(amode),\</font></strong>
+<a name="line952">952: </a><strong><font color="#228B22">   MPIUNI_ARG(info),\</font></strong>
+<a name="line953">953: </a><strong><font color="#228B22">   MPIUNI_ARG(mpi_fh),\</font></strong>
+<a name="line954">954: </a><strong><font color="#228B22">   MPIUni_Abort(MPI_COMM_WORLD,0))</font></strong>
+
+<a name="line956">956: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_File_close.html#MPI_File_close">MPI_File_close</a>(mpi_fh) \</font></strong>
+<a name="line957">957: </a><strong><font color="#228B22">  (MPIUNI_ARG(mpi_fh),\</font></strong>
+<a name="line958">958: </a><strong><font color="#228B22">   MPIUni_Abort(MPI_COMM_WORLD,0))</font></strong>
+
+<a name="line960">960: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_File_set_view.html#MPI_File_set_view">MPI_File_set_view</a>(mpi_fh,disp,etype,filetype,datarep,info) \</font></strong>
+<a name="line961">961: </a><strong><font color="#228B22">  (MPIUNI_ARG(mpi_fh),\</font></strong>
+<a name="line962">962: </a><strong><font color="#228B22">   MPIUNI_ARG(disp),\</font></strong>
+<a name="line963">963: </a><strong><font color="#228B22">   MPIUNI_ARG(etype),\</font></strong>
+<a name="line964">964: </a><strong><font color="#228B22">   MPIUNI_ARG(filetype),\</font></strong>
+<a name="line965">965: </a><strong><font color="#228B22">   MPIUNI_ARG(datarep),\</font></strong>
+<a name="line966">966: </a><strong><font color="#228B22">   MPIUNI_ARG(info),\</font></strong>
+<a name="line967">967: </a><strong><font color="#228B22">   MPIUni_Abort(MPI_COMM_WORLD,0))</font></strong>
+
+<a name="line969">969: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_File_write_all.html#MPI_File_write_all">MPI_File_write_all</a>(mpi_fh,buf,count,datatype,status) \</font></strong>
+<a name="line970">970: </a><strong><font color="#228B22">  (MPIUNI_ARG(mpi_fh),\</font></strong>
+<a name="line971">971: </a><strong><font color="#228B22">   MPIUNI_ARG(buf),\</font></strong>
+<a name="line972">972: </a><strong><font color="#228B22">   MPIUNI_ARG(count),\</font></strong>
+<a name="line973">973: </a><strong><font color="#228B22">   MPIUNI_ARG(datatype),\</font></strong>
+<a name="line974">974: </a><strong><font color="#228B22">   MPIUNI_ARG(status),\</font></strong>
+<a name="line975">975: </a><strong><font color="#228B22">   MPIUni_Abort(MPI_COMM_WORLD,0))</font></strong>
+
+<a name="line977">977: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_File_read_all.html#MPI_File_read_all">MPI_File_read_all</a>(mpi_fh,buf,count,datatype,status) \</font></strong>
+<a name="line978">978: </a><strong><font color="#228B22">  (MPIUNI_ARG(mpi_fh),\</font></strong>
+<a name="line979">979: </a><strong><font color="#228B22">   MPIUNI_ARG(buf),\</font></strong>
+<a name="line980">980: </a><strong><font color="#228B22">   MPIUNI_ARG(count),\</font></strong>
+<a name="line981">981: </a><strong><font color="#228B22">   MPIUNI_ARG(datatype),\</font></strong>
+<a name="line982">982: </a><strong><font color="#228B22">   MPIUNI_ARG(status),\</font></strong>
+<a name="line983">983: </a><strong><font color="#228B22">   MPIUni_Abort(MPI_COMM_WORLD,0))</font></strong>
+
+<a name="line985">985: </a>  <font color="#B22222">/* called from <a href="../docs/manualpages/Sys/PetscInitialize.html#PetscInitialize">PetscInitialize</a>() - so return success */</font>
+<a name="line986">986: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Register_datarep.html#MPI_Register_datarep">MPI_Register_datarep</a>(name,read_conv_fn,write_conv_fn,extent_fn,state) \</font></strong>
+<a name="line987">987: </a><strong><font color="#228B22">  (MPIUNI_ARG(name),\</font></strong>
+<a name="line988">988: </a><strong><font color="#228B22">   MPIUNI_ARG(read_conv_fn),\</font></strong>
+<a name="line989">989: </a><strong><font color="#228B22">   MPIUNI_ARG(write_conv_fn),\</font></strong>
+<a name="line990">990: </a><strong><font color="#228B22">   MPIUNI_ARG(extent_fn),\</font></strong>
+<a name="line991">991: </a><strong><font color="#228B22">   MPIUNI_ARG(state),\</font></strong>
+<a name="line992">992: </a><strong><font color="#228B22">   MPI_SUCCESS)</font></strong>
+
+<a name="line994">994: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Type_create_subarray.html#MPI_Type_create_subarray">MPI_Type_create_subarray</a>(ndims,array_of_sizes,array_of_subsizes,array_of_starts,order,oldtype,newtype) \</font></strong>
+<a name="line995">995: </a><strong><font color="#228B22">  (MPIUNI_ARG(ndims),\</font></strong>
+<a name="line996">996: </a><strong><font color="#228B22">   MPIUNI_ARG(array_of_sizes),\</font></strong>
+<a name="line997">997: </a><strong><font color="#228B22">   MPIUNI_ARG(array_of_subsizes),\</font></strong>
+<a name="line998">998: </a><strong><font color="#228B22">   MPIUNI_ARG(array_of_starts),\</font></strong>
+<a name="line999">999: </a><strong><font color="#228B22">   MPIUNI_ARG(order),\</font></strong>
+<a name="line1000">1000: </a><strong><font color="#228B22">   MPIUNI_ARG(oldtype),\</font></strong>
+<a name="line1001">1001: </a><strong><font color="#228B22">   MPIUNI_ARG(newtype),\</font></strong>
+<a name="line1002">1002: </a><strong><font color="#228B22">   MPIUni_Abort(MPI_COMM_WORLD,0))</font></strong>
+
+<a name="line1004">1004: </a><strong><font color="#228B22">#define <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Type_create_resized.html#MPI_Type_create_resized">MPI_Type_create_resized</a>(oldtype,lb,extent,newtype) \</font></strong>
+<a name="line1005">1005: </a><strong><font color="#228B22">  (MPIUNI_ARG(oldtype),\</font></strong>
+<a name="line1006">1006: </a><strong><font color="#228B22">   MPIUNI_ARG(lb),\</font></strong>
+<a name="line1007">1007: </a><strong><font color="#228B22">   MPIUNI_ARG(extent),\</font></strong>
+<a name="line1008">1008: </a><strong><font color="#228B22">   MPIUNI_ARG(newtype),\</font></strong>
+<a name="line1009">1009: </a><strong><font color="#228B22">   MPIUni_Abort(MPI_COMM_WORLD,0))</font></strong>
+
+<a name="line1011">1011: </a><font color="#A020F0">#if defined(__cplusplus)</font>
+<a name="line1012">1012: </a>}
+<a name="line1013">1013: </a><font color="#A020F0">#endif</font>
+<a name="line1014">1014: </a><font color="#A020F0">#endif</font>
+</pre>
+</body>
+
+</html>

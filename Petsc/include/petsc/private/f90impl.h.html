@@ -1,0 +1,76 @@
+<center><a href="f90impl.h">Actual source code: f90impl.h</a></center><br>
+
+<html>
+<head> <link rel="canonical" href="http://www.mcs.anl.gov/petsc/petsc-current/include/petsc/private/f90impl.h.html" />
+<title></title>
+<meta name="generator" content="c2html 0.9.4">
+<meta name="date" content="2017-12-10T05:58:40+00:00">
+</head>
+
+<body bgcolor="#FFFFFF">
+   <div id="version" align=right><b>petsc-3.8.3 2017-12-09</b></div>
+   <div id="bugreport" align=right><a href="mailto:petsc-maint@mcs.anl.gov?subject=Typo or Error in Documentation &body=Please describe the typo or error in the documentation: petsc-3.8.3 v3.8.3 include/petsc/private/f90impl.h.html "><small>Report Typos and Errors</small></a></div>
+<pre width="80">
+
+<a name="line4">  4: </a> #include <A href="../../../include/petsc/private/fortranimpl.h.html">&lt;petsc/private/fortranimpl.h&gt;</A>
+
+<a name="line6">  6: </a><font color="#B22222">/* PGI compilers pass in f90 pointers as 2 arguments */</font>
+<a name="line7">  7: </a><font color="#A020F0">#if defined(PETSC_HAVE_F90_2PTR_ARG)</font>
+<a name="line8">  8: </a><strong><font color="#228B22">#define PETSC_F90_2PTR_PROTO_NOVAR ,void*</font></strong>
+<a name="line9">  9: </a><strong><font color="#228B22">#define PETSC_F90_2PTR_PROTO(ptr) ,void* ptr</font></strong>
+<a name="line10"> 10: </a><strong><font color="#228B22">#define PETSC_F90_2PTR_PARAM(ptr) , ptr</font></strong>
+<a name="line11"> 11: </a><font color="#A020F0">#else</font>
+<a name="line12"> 12: </a><strong><font color="#228B22">#define PETSC_F90_2PTR_PROTO_NOVAR</font></strong>
+<a name="line13"> 13: </a><strong><font color="#228B22">#define PETSC_F90_2PTR_PROTO(ptr)</font></strong>
+<a name="line14"> 14: </a><strong><font color="#228B22">#define PETSC_F90_2PTR_PARAM(ptr)</font></strong>
+<a name="line15"> 15: </a><font color="#A020F0">#endif</font>
+
+<a name="line17"> 17: </a><font color="#A020F0">#if defined(PETSC_USING_F90)</font>
+
+<a name="line19"> 19: </a><strong><font color="#228B22">#define F90Array1d void</font></strong>
+<a name="line20"> 20: </a><strong><font color="#228B22">#define F90Array2d void</font></strong>
+<a name="line21"> 21: </a><strong><font color="#228B22">#define F90Array3d void</font></strong>
+<a name="line22"> 22: </a><strong><font color="#228B22">#define F90Array4d void</font></strong>
+
+<a name="line24"> 24: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> F90Array1dCreate(void*,<a href="../../../docs/manualpages/Sys/PetscDataType.html#PetscDataType">PetscDataType</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,F90Array1d* PETSC_F90_2PTR_PROTO_NOVAR)</font></strong>;
+<a name="line25"> 25: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> F90Array1dAccess(F90Array1d*,<a href="../../../docs/manualpages/Sys/PetscDataType.html#PetscDataType">PetscDataType</a>,void** PETSC_F90_2PTR_PROTO_NOVAR)</font></strong>;
+<a name="line26"> 26: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> F90Array1dDestroy(F90Array1d*,<a href="../../../docs/manualpages/Sys/PetscDataType.html#PetscDataType">PetscDataType</a> PETSC_F90_2PTR_PROTO_NOVAR)</font></strong>;
+<a name="line27"> 27: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> F90Array1dGetNextRecord(F90Array1d*,void** PETSC_F90_2PTR_PROTO_NOVAR)</font></strong>;
+
+<a name="line29"> 29: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> F90Array2dCreate(void*,<a href="../../../docs/manualpages/Sys/PetscDataType.html#PetscDataType">PetscDataType</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,F90Array2d* PETSC_F90_2PTR_PROTO_NOVAR)</font></strong>;
+<a name="line30"> 30: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> F90Array2dAccess(F90Array2d*,<a href="../../../docs/manualpages/Sys/PetscDataType.html#PetscDataType">PetscDataType</a>,void** PETSC_F90_2PTR_PROTO_NOVAR)</font></strong>;
+<a name="line31"> 31: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> F90Array2dDestroy(F90Array2d*,<a href="../../../docs/manualpages/Sys/PetscDataType.html#PetscDataType">PetscDataType</a> PETSC_F90_2PTR_PROTO_NOVAR)</font></strong>;
+<a name="line32"> 32: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> F90Array2dGetNextRecord(F90Array2d*,void** PETSC_F90_2PTR_PROTO_NOVAR)</font></strong>;
+
+<a name="line34"> 34: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> F90Array3dCreate(void*,<a href="../../../docs/manualpages/Sys/PetscDataType.html#PetscDataType">PetscDataType</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,F90Array3d* PETSC_F90_2PTR_PROTO_NOVAR)</font></strong>;
+<a name="line35"> 35: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> F90Array3dAccess(F90Array3d*,<a href="../../../docs/manualpages/Sys/PetscDataType.html#PetscDataType">PetscDataType</a>,void** PETSC_F90_2PTR_PROTO_NOVAR)</font></strong>;
+<a name="line36"> 36: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> F90Array3dDestroy(F90Array3d*,<a href="../../../docs/manualpages/Sys/PetscDataType.html#PetscDataType">PetscDataType</a> PETSC_F90_2PTR_PROTO_NOVAR)</font></strong>;
+<a name="line37"> 37: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> F90Array3dGetNextRecord(F90Array3d*,void** PETSC_F90_2PTR_PROTO_NOVAR)</font></strong>;
+
+<a name="line39"> 39: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> F90Array4dCreate(void*,<a href="../../../docs/manualpages/Sys/PetscDataType.html#PetscDataType">PetscDataType</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,F90Array4d* PETSC_F90_2PTR_PROTO_NOVAR)</font></strong>;
+<a name="line40"> 40: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> F90Array4dAccess(F90Array4d*,<a href="../../../docs/manualpages/Sys/PetscDataType.html#PetscDataType">PetscDataType</a>,void** PETSC_F90_2PTR_PROTO_NOVAR)</font></strong>;
+<a name="line41"> 41: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> F90Array4dDestroy(F90Array4d*,<a href="../../../docs/manualpages/Sys/PetscDataType.html#PetscDataType">PetscDataType</a> PETSC_F90_2PTR_PROTO_NOVAR)</font></strong>;
+<a name="line42"> 42: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> F90Array4dGetNextRecord(F90Array4d*,void** PETSC_F90_2PTR_PROTO_NOVAR)</font></strong>;
+
+
+<a name="line45"> 45: </a><font color="#B22222">/*</font>
+<a name="line46"> 46: </a><font color="#B22222">  F90Array1dCreate - Given a C pointer to a one dimensional</font>
+<a name="line47"> 47: </a><font color="#B22222">  array and its length; this fills in the appropriate Fortran 90</font>
+<a name="line48"> 48: </a><font color="#B22222">  pointer data structure.</font>
+
+<a name="line50"> 50: </a><font color="#B22222">  Input Parameters:</font>
+<a name="line51"> 51: </a><font color="#B22222">+   array - regular C pointer (address)</font>
+<a name="line52"> 52: </a><font color="#B22222">.   type  - DataType of the array</font>
+<a name="line53"> 53: </a><font color="#B22222">.   start - starting index of the array</font>
+<a name="line54"> 54: </a><font color="#B22222">-   len   - length of array (in items)</font>
+
+<a name="line56"> 56: </a><font color="#B22222">  Output Parameters:</font>
+<a name="line57"> 57: </a><font color="#B22222">.   ptr - Fortran 90 pointer</font>
+<a name="line58"> 58: </a><font color="#B22222">*/</font>
+
+<a name="line60"> 60: </a><font color="#A020F0">#endif </font><font color="#B22222">/* PETSC_USING_F90 */</font><font color="#A020F0"></font>
+<a name="line61"> 61: </a><font color="#A020F0">#endif</font>
+</pre>
+</body>
+
+</html>

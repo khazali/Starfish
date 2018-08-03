@@ -1,0 +1,118 @@
+<center><a href="dmmbimpl.h">Actual source code: dmmbimpl.h</a></center><br>
+
+<html>
+<head> <link rel="canonical" href="http://www.mcs.anl.gov/petsc/petsc-current/include/petsc/private/dmmbimpl.h.html" />
+<title></title>
+<meta name="generator" content="c2html 0.9.4">
+<meta name="date" content="2017-12-10T05:58:36+00:00">
+</head>
+
+<body bgcolor="#FFFFFF">
+   <div id="version" align=right><b>petsc-3.8.3 2017-12-09</b></div>
+   <div id="bugreport" align=right><a href="mailto:petsc-maint@mcs.anl.gov?subject=Typo or Error in Documentation &body=Please describe the typo or error in the documentation: petsc-3.8.3 v3.8.3 include/petsc/private/dmmbimpl.h.html "><small>Report Typos and Errors</small></a></div>
+<pre width="80">
+<a name="line1">  1: </a><font color="#A020F0">#if !defined(_DMMBIMPL_H)</font>
+<a name="line2">  2: </a><strong><font color="#228B22">#define _DMMBIMPL_H</font></strong>
+
+<a name="line4">  4: </a> #include <A href="../../../include/petscdmmoab.h.html">&lt;petscdmmoab.h&gt;</A>
+<a name="line5">  5: </a><font color="#A020F0">#include </font><font color="#666666">"petsc/private/dmimpl.h"</font><font color="#A020F0"></font>
+
+<a name="line7">  7: </a><font color="#B22222">/* This is an integer map, in addition it is also a container class</font>
+<a name="line8">  8: </a><font color="#B22222">   Design points:</font>
+<a name="line9">  9: </a><font color="#B22222">     - Low storage is the most important design point</font>
+<a name="line10"> 10: </a><font color="#B22222">     - We want flexible insertion and deletion</font>
+<a name="line11"> 11: </a><font color="#B22222">     - We can live with O(log) query, but we need O(1) iteration over strata</font>
+<a name="line12"> 12: </a><font color="#B22222">*/</font>
+<a name="line13"> 13: </a><font color="#4169E1">typedef</font> <font color="#4169E1">struct</font> {
+<a name="line14"> 14: </a><strong><font color="#FF0000">  moab:</font></strong>:Interface    *mbiface;
+<a name="line15"> 15: </a><font color="#A020F0">#ifdef MOAB_HAVE_MPI</font>
+<a name="line16"> 16: </a><strong><font color="#FF0000">  moab:</font></strong>:ParallelComm *pcomm;
+<a name="line17"> 17: </a><font color="#A020F0">#endif</font>
+<a name="line18"> 18: </a><strong><font color="#FF0000">  moab:</font></strong>:Range        *tag_range; <font color="#B22222">/* entities to which this tag applies */</font>
+<a name="line19"> 19: </a><strong><font color="#FF0000">  moab:</font></strong>:Tag           tag;
+<a name="line20"> 20: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>            tag_size;
+<a name="line21"> 21: </a>  <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>           new_tag;
+<a name="line22"> 22: </a>  <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>           is_global_vec;
+<a name="line23"> 23: </a>  <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>           is_native_vec;
+<a name="line24"> 24: </a>  <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>                 local;
+<a name="line25"> 25: </a>} Vec_MOAB;
+
+<a name="line27"> 27: </a>namespace moab {
+<a name="line28"> 28: </a>class NestedRefine;
+<a name="line29"> 29: </a>}
+
+<a name="line31"> 31: </a><font color="#4169E1">typedef</font> <font color="#4169E1">struct</font> {
+<a name="line32"> 32: </a>  <font color="#B22222">/* common data */</font>
+<a name="line33"> 33: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                dim;                            <font color="#B22222">/* Current topological dimension handled by DMMoab */</font>
+<a name="line34"> 34: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                bs;                             <font color="#B22222">/* Block size that controls the strided vs interlaced configuration in discrete systems -</font>
+<a name="line35"> 35: </a><font color="#B22222">                                                             This affects the layout and hence the degree-of-freedom of the different fields (components) */</font>
+
+<a name="line37"> 37: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>               *dfill, *ofill;                  <font color="#B22222">/* The diagonal and off-diagonal block-fill to indicate coupling between components */</font>
+<a name="line38"> 38: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>               *materials;                      <font color="#B22222">/* The array that caches the material data for each element */</font>
+
+<a name="line40"> 40: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                numFields;
+<a name="line41"> 41: </a>  const char              **fieldNames;
+
+<a name="line43"> 43: </a>  <font color="#B22222">/* level specific data */</font>
+<a name="line44"> 44: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                n, nloc, nghost;                <font color="#B22222">/* Number of global, local only and shared vertices for current partition */</font>
+<a name="line45"> 45: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                nele, neleloc, neleghost;       <font color="#B22222">/* Number of global, local only and shared elements for current partition */</font>
+<a name="line46"> 46: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                *gsindices;                     <font color="#B22222">/* Global ID for all local+ghosted vertices */</font>
+<a name="line47"> 47: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                *gidmap, *lidmap;               <font color="#B22222">/* Global ID indices, Local ID indices, field-based local map, field-based global map */</font>
+<a name="line48"> 48: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                seqstart, seqend;               <font color="#B22222">/* Local start and end entity IDs for vertices */</font>
+<a name="line49"> 49: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                vstart, vend;                   <font color="#B22222">/* Global start and end index for distributed <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a> */</font>
+<a name="line50"> 50: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                nghostrings;                    <font color="#B22222">/* Number of ghost ring layers */</font>
+<a name="line51"> 51: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                gminmax[2], lminmax[2];         <font color="#B22222">/* Local and global min/max in the ID sequence */</font>
+<a name="line52"> 52: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                refct;
+
+<a name="line54"> 54: </a>  <font color="#B22222">/* store the mapping information */</font>
+<a name="line55"> 55: </a>  <a href="../../../docs/manualpages/IS/ISLocalToGlobalMapping.html#ISLocalToGlobalMapping">ISLocalToGlobalMapping</a>  ltog_map;
+<a name="line56"> 56: </a>  <a href="../../../docs/manualpages/Vec/VecScatter.html#VecScatter">VecScatter</a>              ltog_sendrecv;
+
+<a name="line58"> 58: </a>  <font color="#B22222">/* MOAB objects cached internally in DMMoab */</font>
+
+<a name="line60"> 60: </a>  <font color="#B22222">/* common data */</font>
+<a name="line61"> 61: </a><strong><font color="#FF0000">  moab:</font></strong>:Interface         *mbiface;                       <font color="#B22222">/* MOAB Interface/Core reference */</font>
+<a name="line62"> 62: </a><font color="#A020F0">#ifdef MOAB_HAVE_MPI</font>
+<a name="line63"> 63: </a><strong><font color="#FF0000">  moab:</font></strong>:ParallelComm      *pcomm;                         <font color="#B22222">/* MOAB ParallelComm reference */</font>
+<a name="line64"> 64: </a><font color="#A020F0">#endif</font>
+<a name="line65"> 65: </a><strong><font color="#FF0000">  moab:</font></strong>:Tag               ltog_tag;                       <font color="#B22222">/* MOAB supports "global id" tags */</font>
+<a name="line66"> 66: </a><strong><font color="#FF0000">  moab:</font></strong>:Tag               material_tag;                   <font color="#B22222">/* MOAB supports "material_set" tags */</font>
+<a name="line67"> 67: </a>  <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>               icreatedinstance;               <font color="#B22222">/* true if <a href="../../../docs/manualpages/DM/DM.html#DM">DM</a> created moab instance internally, will destroy instance in <a href="../../../docs/manualpages/DM/DMDestroy.html#DMDestroy">DMDestroy</a> */</font>
+
+<a name="line69"> 69: </a>  <font color="#B22222">/* store options to customize DMMoab I/O */</font>
+<a name="line70"> 70: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                rw_dbglevel;
+<a name="line71"> 71: </a>  <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>               partition_by_rank;
+<a name="line72"> 72: </a>  char                    extra_read_options[PETSC_MAX_PATH_LEN];
+<a name="line73"> 73: </a>  char                    extra_write_options[PETSC_MAX_PATH_LEN];
+<a name="line74"> 74: </a>  MoabReadMode            read_mode;
+<a name="line75"> 75: </a>  MoabWriteMode           write_mode;
+
+<a name="line77"> 77: </a>  <font color="#B22222">/* level specific data */</font>
+<a name="line78"> 78: </a><strong><font color="#FF0000">  moab:</font></strong>:Range             *vowned, *vghost, *vlocal;      <font color="#B22222">/* Vertex entities: strictly owned, strictly ghosted, owned+ghosted */</font>
+<a name="line79"> 79: </a><strong><font color="#FF0000">  moab:</font></strong>:Range             *elocal, *eghost;               <font color="#B22222">/* Topological dimensional entities: strictly owned, strictly ghosted */</font>
+<a name="line80"> 80: </a><strong><font color="#FF0000">  moab:</font></strong>:Range             *bndyvtx, *bndyfaces, *bndyelems; <font color="#B22222">/* Boundary entities: skin vertices, skin faces and elements on the outer skin */</font>
+<a name="line81"> 81: </a><strong><font color="#FF0000">  moab:</font></strong>:EntityHandle      fileset;                        <font color="#B22222">/* The Global set to which all local entities belong */</font>
+
+<a name="line83"> 83: </a>  <font color="#B22222">/* level hierarchy in MOAB */</font>
+<a name="line84"> 84: </a><strong><font color="#FF0000">  moab:</font></strong>:NestedRefine     *hierarchy;
+<a name="line85"> 85: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                nhlevels, hlevel;
+<a name="line86"> 86: </a><strong><font color="#FF0000">  moab:</font></strong>:EntityHandle     *hsets;
+
+<a name="line88"> 88: </a>  <font color="#B22222">/* Sub-mesh level data-strucuture */</font>
+<a name="line89"> 89: </a>  <a href="../../../docs/manualpages/DM/DM.html#DM">DM</a>                     *parent;
+
+<a name="line91"> 91: </a>} DM_Moab;
+
+<a name="line93"> 93: </a><font color="#4169E1">typedef</font> <font color="#4169E1">struct</font> {
+<a name="line94"> 94: </a>  DM_Moab             *pdmmoab;
+<a name="line95"> 95: </a><strong><font color="#FF0000">  moab:</font></strong>:NestedRefine  *hierarchy;
+<a name="line96"> 96: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>             nhlevels, hlevel;
+<a name="line97"> 97: </a><strong><font color="#FF0000">  moab:</font></strong>:EntityHandle  *hsets;
+<a name="line98"> 98: </a>} SubDM_MOAB;
+
+<a name="line100">100: </a><font color="#A020F0">#endif </font><font color="#B22222">/* _DMMBIMPL_H */</font><font color="#A020F0"></font>
+
+</pre>
+</body>
+
+</html>

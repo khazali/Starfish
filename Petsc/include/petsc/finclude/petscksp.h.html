@@ -1,0 +1,77 @@
+<center><a href="petscksp.h">Actual source code: petscksp.h</a></center><br>
+
+<html>
+<head> <link rel="canonical" href="http://www.mcs.anl.gov/petsc/petsc-current/include/petsc/finclude/petscksp.h.html" />
+<title></title>
+<meta name="generator" content="c2html 0.9.4">
+<meta name="date" content="2017-12-10T05:58:30+00:00">
+</head>
+
+<body bgcolor="#FFFFFF">
+   <div id="version" align=right><b>petsc-3.8.3 2017-12-09</b></div>
+   <div id="bugreport" align=right><a href="mailto:petsc-maint@mcs.anl.gov?subject=Typo or Error in Documentation &body=Please describe the typo or error in the documentation: petsc-3.8.3 v3.8.3 include/petsc/finclude/petscksp.h.html "><small>Report Typos and Errors</small></a></div>
+<pre width="80">
+<a name="line1">  1: </a>!
+<a name="line2">  2: </a>!
+<a name="line3">  3: </a>!  Include file <font color="#4169E1">for</font> Fortran use of the <a href="../../../docs/manualpages/KSP/KSP.html#KSP">KSP</a> package in PETSc
+<a name="line4">  4: </a>!
+<a name="line5">  5: </a><font color="#A020F0">#if !defined (__PETSCKSPDEF_H)</font>
+
+<a name="line8">  8: </a><font color="#A020F0">#include </font><font color="#666666">"petsc/finclude/petscpc.h"</font><font color="#A020F0"></font>
+
+<a name="line10"> 10: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSP.html#KSP">KSP</a> type(tKSP)</font></strong>
+<a name="line11"> 11: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPGuess.html#KSPGuess">KSPGuess</a> type(tKSPGuess)</font></strong>
+
+<a name="line13"> 13: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPType.html#KSPType">KSPType</a> character*(80)</font></strong>
+<a name="line14"> 14: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPGuessType.html#KSPGuessType">KSPGuessType</a> character*(80)</font></strong>
+<a name="line15"> 15: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPCGType.html#KSPCGType">KSPCGType</a> <a href="../../../docs/manualpages/Sys/PetscEnum.html#PetscEnum">PetscEnum</a></font></strong>
+<a name="line16"> 16: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPFCDTruncationType.html#KSPFCDTruncationType">KSPFCDTruncationType</a> <a href="../../../docs/manualpages/Sys/PetscEnum.html#PetscEnum">PetscEnum</a></font></strong>
+<a name="line17"> 17: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPConvergedReason.html#KSPConvergedReason">KSPConvergedReason</a> <a href="../../../docs/manualpages/Sys/PetscEnum.html#PetscEnum">PetscEnum</a></font></strong>
+<a name="line18"> 18: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPNormType.html#KSPNormType">KSPNormType</a> <a href="../../../docs/manualpages/Sys/PetscEnum.html#PetscEnum">PetscEnum</a></font></strong>
+<a name="line19"> 19: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPGMRESCGSRefinementType.html#KSPGMRESCGSRefinementType">KSPGMRESCGSRefinementType</a> <a href="../../../docs/manualpages/Sys/PetscEnum.html#PetscEnum">PetscEnum</a></font></strong>
+<a name="line20"> 20: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/MatSchurComplementAinvType.html#MatSchurComplementAinvType">MatSchurComplementAinvType</a> <a href="../../../docs/manualpages/Sys/PetscEnum.html#PetscEnum">PetscEnum</a></font></strong>
+<a name="line21"> 21: </a>!
+<a name="line22"> 22: </a>!  Various Krylov subspace methods
+<a name="line23"> 23: </a>!
+<a name="line24"> 24: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPRICHARDSON.html#KSPRICHARDSON">KSPRICHARDSON</a> 'richardson'</font></strong>
+<a name="line25"> 25: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPCHEBYSHEV.html#KSPCHEBYSHEV">KSPCHEBYSHEV</a> 'chebyshev'</font></strong>
+<a name="line26"> 26: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPCG.html#KSPCG">KSPCG</a> 'cg'</font></strong>
+<a name="line27"> 27: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPCGNE.html#KSPCGNE">KSPCGNE</a> 'cgne'</font></strong>
+<a name="line28"> 28: </a><strong><font color="#228B22">#define KSPSTCG 'stcg'</font></strong>
+<a name="line29"> 29: </a><strong><font color="#228B22">#define KSPGLTR 'gltr'</font></strong>
+<a name="line30"> 30: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPFCG.html#KSPFCG">KSPFCG</a> 'fcg'</font></strong>
+<a name="line31"> 31: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPGMRES.html#KSPGMRES">KSPGMRES</a> 'gmres'</font></strong>
+<a name="line32"> 32: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPFGMRES.html#KSPFGMRES">KSPFGMRES</a> 'fgmres'</font></strong>
+<a name="line33"> 33: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPLGMRES.html#KSPLGMRES">KSPLGMRES</a> 'lgmres'</font></strong>
+<a name="line34"> 34: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPDGMRES.html#KSPDGMRES">KSPDGMRES</a> 'dgmres'</font></strong>
+<a name="line35"> 35: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPPGMRES.html#KSPPGMRES">KSPPGMRES</a> 'pgmres'</font></strong>
+<a name="line36"> 36: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPTCQMR.html#KSPTCQMR">KSPTCQMR</a> 'tcqmr'</font></strong>
+<a name="line37"> 37: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPBCGS.html#KSPBCGS">KSPBCGS</a> 'bcgs'</font></strong>
+<a name="line38"> 38: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPIBCGS.html#KSPIBCGS">KSPIBCGS</a> 'ibcgs'</font></strong>
+<a name="line39"> 39: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPFBCGS.html#KSPFBCGS">KSPFBCGS</a>  'fbcgs'</font></strong>
+<a name="line40"> 40: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPFBCGSR.html#KSPFBCGSR">KSPFBCGSR</a> 'fbcgsr'</font></strong>
+<a name="line41"> 41: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPBCGSL.html#KSPBCGSL">KSPBCGSL</a> 'bcgsl'</font></strong>
+<a name="line42"> 42: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPCGS.html#KSPCGS">KSPCGS</a> 'cgs'</font></strong>
+<a name="line43"> 43: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPTFQMR.html#KSPTFQMR">KSPTFQMR</a> 'tfqmr'</font></strong>
+<a name="line44"> 44: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPCR.html#KSPCR">KSPCR</a> 'cr'</font></strong>
+<a name="line45"> 45: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPLSQR.html#KSPLSQR">KSPLSQR</a> 'lsqr'</font></strong>
+<a name="line46"> 46: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPPREONLY.html#KSPPREONLY">KSPPREONLY</a> 'preonly'</font></strong>
+<a name="line47"> 47: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPQCG.html#KSPQCG">KSPQCG</a> 'qcg'</font></strong>
+<a name="line48"> 48: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPBICG.html#KSPBICG">KSPBICG</a> 'bicg'</font></strong>
+<a name="line49"> 49: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPMINRES.html#KSPMINRES">KSPMINRES</a> 'minres'</font></strong>
+<a name="line50"> 50: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPSYMMLQ.html#KSPSYMMLQ">KSPSYMMLQ</a> 'symmlq'</font></strong>
+<a name="line51"> 51: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPLCD.html#KSPLCD">KSPLCD</a> 'lcd'</font></strong>
+<a name="line52"> 52: </a><strong><font color="#228B22">#define KSPPYTHON 'python'</font></strong>
+<a name="line53"> 53: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPGCR.html#KSPGCR">KSPGCR</a> 'gcr'</font></strong>
+<a name="line54"> 54: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPTSIRM.html#KSPTSIRM">KSPTSIRM</a> 'tsirm'</font></strong>
+<a name="line55"> 55: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/KSP/KSPCGLS.html#KSPCGLS">KSPCGLS</a> 'cgls'</font></strong>
+<a name="line56"> 56: </a>!
+<a name="line57"> 57: </a>!  Various Initial guesses <font color="#4169E1">for</font> Krylov subspace methods
+<a name="line58"> 58: </a>!
+<a name="line59"> 59: </a><strong><font color="#228B22">#define KSPGUESSFISCHER 'fischer'</font></strong>
+<a name="line60"> 60: </a><strong><font color="#228B22">#define KSPGUESSPOD 'pod'</font></strong>
+<a name="line61"> 61: </a><font color="#A020F0">#endif</font>
+</pre>
+</body>
+
+</html>

@@ -1,0 +1,32 @@
+<center><a href="petscviewersaws.h">Actual source code: petscviewersaws.h</a></center><br>
+
+<html>
+<head> <link rel="canonical" href="http://www.mcs.anl.gov/petsc/petsc-current/include/petscviewersaws.h.html" />
+<title></title>
+<meta name="generator" content="c2html 0.9.4">
+<meta name="date" content="2017-12-10T05:58:23+00:00">
+</head>
+
+<body bgcolor="#FFFFFF">
+   <div id="version" align=right><b>petsc-3.8.3 2017-12-09</b></div>
+   <div id="bugreport" align=right><a href="mailto:petsc-maint@mcs.anl.gov?subject=Typo or Error in Documentation &body=Please describe the typo or error in the documentation: petsc-3.8.3 v3.8.3 include/petscviewersaws.h.html "><small>Report Typos and Errors</small></a></div>
+<pre width="80">
+
+
+<a name="line5">  5: </a> #include <A href="petscviewer.h.html">&lt;petscviewer.h&gt;</A>
+<a name="line6">  6: </a><font color="#A020F0">#include &lt;SAWs.h&gt;</font>
+<a name="line7">  7: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Viewer/PetscViewerSAWsOpen.html#PetscViewerSAWsOpen">PetscViewerSAWsOpen</a>(<a href="../docs/manualpages/Sys/MPI_Comm.html#MPI_Comm">MPI_Comm</a>,<a href="../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>*)</font></strong>;
+<a name="line8">  8: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>    <a href="../docs/manualpages/Viewer/PETSC_VIEWER_SAWS_.html#PETSC_VIEWER_SAWS_">PETSC_VIEWER_SAWS_</a>(<a href="../docs/manualpages/Sys/MPI_Comm.html#MPI_Comm">MPI_Comm</a>)</font></strong>;
+<a name="line9">  9: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> PETSC_VIEWER_SAWS_Destroy(<a href="../docs/manualpages/Sys/MPI_Comm.html#MPI_Comm">MPI_Comm</a>)</font></strong>;
+<a name="line10"> 10: </a><strong><font color="#228B22">#define PETSC_VIEWER_SAWS_WORLD <a href="../docs/manualpages/Viewer/PETSC_VIEWER_SAWS_.html#PETSC_VIEWER_SAWS_">PETSC_VIEWER_SAWS_</a>(<a href="../docs/manualpages/Sys/PETSC_COMM_WORLD.html#PETSC_COMM_WORLD">PETSC_COMM_WORLD</a>)</font></strong>
+<a name="line11"> 11: </a><strong><font color="#228B22">#define PETSC_VIEWER_SAWS_SELF  <a href="../docs/manualpages/Viewer/PETSC_VIEWER_SAWS_.html#PETSC_VIEWER_SAWS_">PETSC_VIEWER_SAWS_</a>(<a href="../docs/manualpages/Sys/PETSC_COMM_SELF.html#PETSC_COMM_SELF">PETSC_COMM_SELF</a>)</font></strong>
+
+<a name="line13"> 13: </a><strong><font color="#228B22">#define PetscStackCallSAWs(func,args) do {<a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> _ierr; \</font></strong>
+<a name="line14"> 14: </a><strong><font color="#228B22">    PetscStackPush(#func);_func args;PetscStackPop; if (_ierr) {<a href="../docs/manualpages/Sys/SETERRQ2.html#SETERRQ2">SETERRQ2</a>(<a href="../docs/manualpages/Sys/PETSC_COMM_SELF.html#PETSC_COMM_SELF">PETSC_COMM_SELF</a>,PETSC_ERR_LIB,</font><font color="#666666">"Error in %s() %d"</font><font color="#228B22">,#func,_ierr);} \</font></strong>
+<a name="line15"> 15: </a><strong><font color="#228B22">} while (0)</font></strong>
+
+<a name="line17"> 17: </a><font color="#A020F0">#endif</font>
+</pre>
+</body>
+
+</html>

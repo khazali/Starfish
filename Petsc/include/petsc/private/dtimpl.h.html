@@ -1,0 +1,33 @@
+<center><a href="dtimpl.h">Actual source code: dtimpl.h</a></center><br>
+
+<html>
+<head> <link rel="canonical" href="http://www.mcs.anl.gov/petsc/petsc-current/include/petsc/private/dtimpl.h.html" />
+<title></title>
+<meta name="generator" content="c2html 0.9.4">
+<meta name="date" content="2017-12-10T05:58:40+00:00">
+</head>
+
+<body bgcolor="#FFFFFF">
+   <div id="version" align=right><b>petsc-3.8.3 2017-12-09</b></div>
+   <div id="bugreport" align=right><a href="mailto:petsc-maint@mcs.anl.gov?subject=Typo or Error in Documentation &body=Please describe the typo or error in the documentation: petsc-3.8.3 v3.8.3 include/petsc/private/dtimpl.h.html "><small>Report Typos and Errors</small></a></div>
+<pre width="80">
+<a name="line1">  1: </a><font color="#A020F0">#if !defined(_DT_H)</font>
+<a name="line2">  2: </a><strong><font color="#228B22">#define _DT_H</font></strong>
+
+<a name="line4">  4: </a> #include <A href="../../../include/petscdt.h.html">&lt;petscdt.h&gt;</A>
+
+<a name="line6">  6: </a><font color="#4169E1"><a name="_p_PetscQuadrature"></a>struct _p_PetscQuadrature </font>{
+<a name="line7">  7: </a>  PETSCHEADER(int);
+<a name="line8">  8: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>         dim;       <font color="#B22222">/* The spatial dimension */</font>
+<a name="line9">  9: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>         Nc;        <font color="#B22222">/* The number of components */</font>
+<a name="line10"> 10: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>         order;     <font color="#B22222">/* The order, i.e. the highest degree polynomial that is exactly integrated */</font>
+<a name="line11"> 11: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>         numPoints; <font color="#B22222">/* The number of quadrature points on an element */</font>
+<a name="line12"> 12: </a>  const <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a> *points;    <font color="#B22222">/* The quadrature point coordinates */</font>
+<a name="line13"> 13: </a>  const <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a> *weights;   <font color="#B22222">/* The quadrature weights */</font>
+<a name="line14"> 14: </a>};
+
+<a name="line16"> 16: </a><font color="#A020F0">#endif</font>
+</pre>
+</body>
+
+</html>

@@ -1,0 +1,97 @@
+<center><a href="dmnetworkimpl.h">Actual source code: dmnetworkimpl.h</a></center><br>
+
+<html>
+<head> <link rel="canonical" href="http://www.mcs.anl.gov/petsc/petsc-current/include/petsc/private/dmnetworkimpl.h.html" />
+<title></title>
+<meta name="generator" content="c2html 0.9.4">
+<meta name="date" content="2017-12-10T05:58:36+00:00">
+</head>
+
+<body bgcolor="#FFFFFF">
+   <div id="version" align=right><b>petsc-3.8.3 2017-12-09</b></div>
+   <div id="bugreport" align=right><a href="mailto:petsc-maint@mcs.anl.gov?subject=Typo or Error in Documentation &body=Please describe the typo or error in the documentation: petsc-3.8.3 v3.8.3 include/petsc/private/dmnetworkimpl.h.html "><small>Report Typos and Errors</small></a></div>
+<pre width="80">
+<a name="line1">  1: </a><font color="#A020F0">#if !defined(_NETWORKIMPL_H)</font>
+<a name="line2">  2: </a><strong><font color="#228B22">#define _NETWORKIMPL_H</font></strong>
+
+<a name="line4">  4: </a> #include <A href="../../../include/petscmat.h.html">&lt;petscmat.h&gt;</A>
+<a name="line5">  5: </a> #include <A href="../../../include/petscdmnetwork.h.html">&lt;petscdmnetwork.h&gt;</A>
+<a name="line6">  6: </a><font color="#A020F0">#include </font><font color="#666666">"petsc/private/dmimpl.h"</font><font color="#A020F0"></font>
+
+<a name="line8">  8: </a><strong><font color="#228B22">#define MAX_DATA_AT_POINT 36</font></strong>
+
+<a name="line10"> 10: </a><font color="#4169E1">typedef struct _p_DMNetworkComponentHeader *DMNetworkComponentHeader;</font>
+<a name="line11"> 11: </a><font color="#4169E1"><a name="_p_DMNetworkComponentHeader"></a>struct _p_DMNetworkComponentHeader </font>{
+<a name="line12"> 12: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> index;    <font color="#B22222">/* index for user input global edge and vertex */</font>
+<a name="line13"> 13: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> ndata;
+<a name="line14"> 14: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> size[MAX_DATA_AT_POINT];
+<a name="line15"> 15: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> key[MAX_DATA_AT_POINT];
+<a name="line16"> 16: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> offset[MAX_DATA_AT_POINT];
+<a name="line17"> 17: </a>} PETSC_ATTRIBUTEALIGNED(<font color="#4169E1">sizeof</font>(<a href="../../../docs/manualpages/Sys/PetscScalar.html#PetscScalar">PetscScalar</a>));
+
+<a name="line19"> 19: </a><font color="#4169E1">typedef struct _p_DMNetworkComponentValue *DMNetworkComponentValue;</font>
+<a name="line20"> 20: </a><font color="#4169E1"><a name="_p_DMNetworkComponentValue"></a>struct _p_DMNetworkComponentValue </font>{
+<a name="line21"> 21: </a>  void* data[MAX_DATA_AT_POINT];
+<a name="line22"> 22: </a>} PETSC_ATTRIBUTEALIGNED(<font color="#4169E1">sizeof</font>(<a href="../../../docs/manualpages/Sys/PetscScalar.html#PetscScalar">PetscScalar</a>));
+
+<a name="line24"> 24: </a><font color="#4169E1">typedef</font> <font color="#4169E1">struct</font> {
+<a name="line25"> 25: </a>  char     name[32-<font color="#4169E1">sizeof</font>(<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>)];
+<a name="line26"> 26: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> size;
+<a name="line27"> 27: </a>} DMNetworkComponent PETSC_ATTRIBUTEALIGNED(<font color="#4169E1">sizeof</font>(<a href="../../../docs/manualpages/Sys/PetscScalar.html#PetscScalar">PetscScalar</a>));
+
+
+<a name="line30"> 30: </a><font color="#B22222">/* Indexing data structures for vertex and edges */</font>
+<a name="line31"> 31: </a><font color="#4169E1">typedef</font> <font color="#4169E1">struct</font> {
+<a name="line32"> 32: </a>  <a href="../../../docs/manualpages/IS/PetscSection.html#PetscSection">PetscSection</a>                      DofSection;
+<a name="line33"> 33: </a>  <a href="../../../docs/manualpages/IS/PetscSection.html#PetscSection">PetscSection</a>                      GlobalDofSection;
+<a name="line34"> 34: </a>  <a href="../../../docs/manualpages/IS/ISLocalToGlobalMapping.html#ISLocalToGlobalMapping">ISLocalToGlobalMapping</a>            mapping;
+<a name="line35"> 35: </a>  <a href="../../../docs/manualpages/PetscSF/PetscSF.html#PetscSF">PetscSF</a>                           sf;
+<a name="line36"> 36: </a>} DMNetworkVertexInfo;
+
+<a name="line38"> 38: </a><font color="#4169E1">typedef</font> <font color="#4169E1">struct</font> {
+<a name="line39"> 39: </a>  <a href="../../../docs/manualpages/IS/PetscSection.html#PetscSection">PetscSection</a>                      DofSection;
+<a name="line40"> 40: </a>  <a href="../../../docs/manualpages/IS/PetscSection.html#PetscSection">PetscSection</a>                      GlobalDofSection;
+<a name="line41"> 41: </a>  <a href="../../../docs/manualpages/IS/ISLocalToGlobalMapping.html#ISLocalToGlobalMapping">ISLocalToGlobalMapping</a>            mapping;
+<a name="line42"> 42: </a>  <a href="../../../docs/manualpages/PetscSF/PetscSF.html#PetscSF">PetscSF</a>                           sf;
+<a name="line43"> 43: </a>} DMNetworkEdgeInfo;
+
+<a name="line45"> 45: </a><font color="#4169E1">typedef</font> <font color="#4169E1">struct</font> {
+<a name="line46"> 46: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                          refct;       <font color="#B22222">/* reference count */</font>
+<a name="line47"> 47: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                          NEdges;      <font color="#B22222">/* Number of global edges */</font>
+<a name="line48"> 48: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                          NVertices;   <font color="#B22222">/* Number of global vertices */</font>
+<a name="line49"> 49: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                          nEdges;      <font color="#B22222">/* Number of local edges */</font>
+<a name="line50"> 50: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                          nVertices;   <font color="#B22222">/* Number of local vertices */</font>
+<a name="line51"> 51: </a>  int                               *edges;      <font color="#B22222">/* Edge list */</font>
+<a name="line52"> 52: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                          pStart,pEnd; <font color="#B22222">/* Start and end indices for topological points */</font>
+<a name="line53"> 53: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                          vStart,vEnd; <font color="#B22222">/* Start and end indices for vertices */</font>
+<a name="line54"> 54: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                          eStart,eEnd; <font color="#B22222">/* Start and end indices for edges */</font>
+<a name="line55"> 55: </a>  <a href="../../../docs/manualpages/DM/DM.html#DM">DM</a>                                plex;        <font color="#B22222">/* <a href="../../../docs/manualpages/DM/DM.html#DM">DM</a> created from Plex */</font>
+<a name="line56"> 56: </a>  <a href="../../../docs/manualpages/IS/PetscSection.html#PetscSection">PetscSection</a>                      DataSection; <font color="#B22222">/* Section for managing parameter distribution */</font>
+<a name="line57"> 57: </a>  <a href="../../../docs/manualpages/IS/PetscSection.html#PetscSection">PetscSection</a>                      DofSection;  <font color="#B22222">/* Section for managing data distribution */</font>
+<a name="line58"> 58: </a>  <a href="../../../docs/manualpages/IS/PetscSection.html#PetscSection">PetscSection</a>                      GlobalDofSection; <font color="#B22222">/* Global Dof section */</font>
+
+<a name="line60"> 60: </a>  DMNetworkVertexInfo               vertex;
+<a name="line61"> 61: </a>  DMNetworkEdgeInfo                 edge;
+
+<a name="line63"> 63: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                          ncomponent; <font color="#B22222">/* Number of components */</font>
+<a name="line64"> 64: </a>  DMNetworkComponent                component[10]; <font color="#B22222">/* List of components */</font>
+<a name="line65"> 65: </a>  DMNetworkComponentHeader          header;
+<a name="line66"> 66: </a>  DMNetworkComponentValue           cvalue;
+<a name="line67"> 67: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                          dataheadersize;
+<a name="line68"> 68: </a>  DMNetworkComponentGenericDataType *componentdataarray; <font color="#B22222">/* Array to hold the data */</font>
+
+<a name="line70"> 70: </a>  <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>                         userEdgeJacobian,userVertexJacobian;  <font color="#B22222">/* Global flag for using user's sub Jacobians */</font>
+<a name="line71"> 71: </a>  <a href="../../../docs/manualpages/Mat/Mat.html#Mat">Mat</a>                               *Je;  <font color="#B22222">/* Pointer array to hold local sub Jacobians for edges, 3 elements for an edge */</font>
+<a name="line72"> 72: </a>  <a href="../../../docs/manualpages/Mat/Mat.html#Mat">Mat</a>                               *Jv;  <font color="#B22222">/* Pointer array to hold local sub Jacobians for vertices, 1+2*nsupportedges for a vertex */</font>
+<a name="line73"> 73: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                          *Jvptr;   <font color="#B22222">/* index of Jv for v-th vertex</font>
+<a name="line74"> 74: </a><font color="#B22222">                                              Jvpt[v-vStart]:    Jacobian(v,v)</font>
+<a name="line75"> 75: </a><font color="#B22222">                                              Jvpt[v-vStart]+2i+1: Jacobian(v,e[i]),   e[i]: i-th supporting edge</font>
+<a name="line76"> 76: </a><font color="#B22222">                                              Jvpt[v-vStart]+2i+2: Jacobian(v,vc[i]), vc[i]: i-th connected vertex</font>
+<a name="line77"> 77: </a><font color="#B22222">                                              */</font>
+<a name="line78"> 78: </a>} DM_Network;
+
+<a name="line80"> 80: </a><font color="#A020F0">#endif </font><font color="#B22222">/* _NETWORKIMPL_H */</font><font color="#A020F0"></font>
+</pre>
+</body>
+
+</html>

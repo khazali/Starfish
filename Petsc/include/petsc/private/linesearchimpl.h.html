@@ -1,0 +1,93 @@
+<center><a href="linesearchimpl.h">Actual source code: linesearchimpl.h</a></center><br>
+
+<html>
+<head> <link rel="canonical" href="http://www.mcs.anl.gov/petsc/petsc-current/include/petsc/private/linesearchimpl.h.html" />
+<title></title>
+<meta name="generator" content="c2html 0.9.4">
+<meta name="date" content="2017-12-10T05:58:45+00:00">
+</head>
+
+<body bgcolor="#FFFFFF">
+   <div id="version" align=right><b>petsc-3.8.3 2017-12-09</b></div>
+   <div id="bugreport" align=right><a href="mailto:petsc-maint@mcs.anl.gov?subject=Typo or Error in Documentation &body=Please describe the typo or error in the documentation: petsc-3.8.3 v3.8.3 include/petsc/private/linesearchimpl.h.html "><small>Report Typos and Errors</small></a></div>
+<pre width="80">
+<a name="line1">  1: </a><font color="#A020F0">#ifndef __LINESEARCHIMPL_H</font>
+
+<a name="line4">  4: </a> #include <A href="../../../include/petscsnes.h.html">&lt;petscsnes.h&gt;</A>
+<a name="line5">  5: </a> #include <A href="../../../include/petsc/private/petscimpl.h.html">&lt;petsc/private/petscimpl.h&gt;</A>
+
+<a name="line7">  7: </a>PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a> SNESLineSearchRegisterAllCalled;
+<a name="line8">  8: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../../../docs/manualpages/SNES/SNESLineSearchRegisterAll.html#SNESLineSearchRegisterAll">SNESLineSearchRegisterAll</a>(void)</font></strong>;
+<a name="line9">  9: </a>PETSC_EXTERN <a href="../../../docs/manualpages/Profiling/PetscLogEvent.html#PetscLogEvent">PetscLogEvent</a> SNESLINESEARCH_Apply;
+
+<a name="line11"> 11: </a><font color="#4169E1">typedef struct _LineSearchOps *LineSearchOps;</font>
+
+<a name="line13"> 13: </a><font color="#4169E1"><a name="_LineSearchOps"></a>struct _LineSearchOps </font>{
+<a name="line14"> 14: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*view)(<a href="../../../docs/manualpages/SNES/SNESLineSearch.html#SNESLineSearch">SNESLineSearch</a>, <a href="../../../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>);
+<a name="line15"> 15: </a>  SNESLineSearchApplyFunc        apply;
+<a name="line16"> 16: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*precheck)(<a href="../../../docs/manualpages/SNES/SNESLineSearch.html#SNESLineSearch">SNESLineSearch</a>,<a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>,<a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>,<a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>*,void*);
+<a name="line17"> 17: </a>  SNESLineSearchVIProjectFunc    viproject;
+<a name="line18"> 18: </a>  SNESLineSearchVINormFunc       vinorm;
+<a name="line19"> 19: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*postcheck)(<a href="../../../docs/manualpages/SNES/SNESLineSearch.html#SNESLineSearch">SNESLineSearch</a>,<a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>,<a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>,<a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>,<a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a> *,<a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a> *,void*);
+<a name="line20"> 20: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*setfromoptions)(PetscOptionItems*,<a href="../../../docs/manualpages/SNES/SNESLineSearch.html#SNESLineSearch">SNESLineSearch</a>);
+<a name="line21"> 21: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*reset)(<a href="../../../docs/manualpages/SNES/SNESLineSearch.html#SNESLineSearch">SNESLineSearch</a>);
+<a name="line22"> 22: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*destroy)(<a href="../../../docs/manualpages/SNES/SNESLineSearch.html#SNESLineSearch">SNESLineSearch</a>);
+<a name="line23"> 23: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*setup)(<a href="../../../docs/manualpages/SNES/SNESLineSearch.html#SNESLineSearch">SNESLineSearch</a>);
+<a name="line24"> 24: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*snesfunc)(<a href="../../../docs/manualpages/SNES/SNES.html#SNES">SNES</a>,<a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>,<a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>);
+<a name="line25"> 25: </a>};
+
+<a name="line27"> 27: </a><strong><font color="#228B22">#define MAXSNESLSMONITORS 5</font></strong>
+
+<a name="line29"> 29: </a><font color="#4169E1"><a name="_p_LineSearch"></a>struct _p_LineSearch </font>{
+<a name="line30"> 30: </a>  PETSCHEADER(<font color="#4169E1">struct _LineSearchOps</font>);
+
+<a name="line32"> 32: </a>  <a href="../../../docs/manualpages/SNES/SNES.html#SNES">SNES</a>                 snes;
+
+<a name="line34"> 34: </a>  void                 *data;
+
+<a name="line36"> 36: </a>  <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>            setupcalled;
+
+<a name="line38"> 38: </a>  <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>                  vec_sol;
+<a name="line39"> 39: </a>  <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>                  vec_sol_new;
+<a name="line40"> 40: </a>  <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>                  vec_func;
+<a name="line41"> 41: </a>  <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>                  vec_func_new;
+<a name="line42"> 42: </a>  <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>                  vec_update;
+
+<a name="line44"> 44: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>             nwork;
+<a name="line45"> 45: </a>  <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>                  *work;
+
+<a name="line47"> 47: </a>  <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a>            lambda;
+
+<a name="line49"> 49: </a>  <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>            norms;
+<a name="line50"> 50: </a>  <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a>            fnorm;
+<a name="line51"> 51: </a>  <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a>            ynorm;
+<a name="line52"> 52: </a>  <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a>            xnorm;
+<a name="line53"> 53: </a>  <a href="../../../docs/manualpages/SNES/SNESLineSearchReason.html#SNESLineSearchReason">SNESLineSearchReason</a> result;
+<a name="line54"> 54: </a>  <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>            keeplambda;
+
+<a name="line56"> 56: </a>  <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a>            damping;
+<a name="line57"> 57: </a>  <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a>            maxstep;
+<a name="line58"> 58: </a>  <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a>            steptol;
+<a name="line59"> 59: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>             max_its;
+<a name="line60"> 60: </a>  <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a>            rtol;
+<a name="line61"> 61: </a>  <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a>            atol;
+<a name="line62"> 62: </a>  <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a>            ltol;
+<a name="line63"> 63: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>             order;
+
+<a name="line65"> 65: </a>  <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a>            precheck_picard_angle;
+
+<a name="line67"> 67: </a>  void *               precheckctx;
+<a name="line68"> 68: </a>  void *               postcheckctx;
+
+<a name="line70"> 70: </a>  <a href="../../../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>         monitor;
+<a name="line71"> 71: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a>      (*monitorftns[MAXSNESLSMONITORS])(<a href="../../../docs/manualpages/SNES/SNESLineSearch.html#SNESLineSearch">SNESLineSearch</a>,void*);      <font color="#B22222">/* monitor routine */</font>
+<a name="line72"> 72: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a>      (*monitordestroy[MAXSNESLSMONITORS])(void**);                 <font color="#B22222">/* monitor context destroy routine */</font>
+<a name="line73"> 73: </a>  void                *monitorcontext[MAXSNESLSMONITORS];                           <font color="#B22222">/* monitor context */</font>
+<a name="line74"> 74: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>            numbermonitors;                                             <font color="#B22222">/* number of monitors */</font>
+<a name="line75"> 75: </a>};
+
+<a name="line77"> 77: </a><font color="#A020F0">#endif</font>
+</pre>
+</body>
+
+</html>

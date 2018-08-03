@@ -1,0 +1,117 @@
+<center><a href="petscfvimpl.h">Actual source code: petscfvimpl.h</a></center><br>
+
+<html>
+<head> <link rel="canonical" href="http://www.mcs.anl.gov/petsc/petsc-current/include/petsc/private/petscfvimpl.h.html" />
+<title></title>
+<meta name="generator" content="c2html 0.9.4">
+<meta name="date" content="2017-12-10T05:58:58+00:00">
+</head>
+
+<body bgcolor="#FFFFFF">
+   <div id="version" align=right><b>petsc-3.8.3 2017-12-09</b></div>
+   <div id="bugreport" align=right><a href="mailto:petsc-maint@mcs.anl.gov?subject=Typo or Error in Documentation &body=Please describe the typo or error in the documentation: petsc-3.8.3 v3.8.3 include/petsc/private/petscfvimpl.h.html "><small>Report Typos and Errors</small></a></div>
+<pre width="80">
+<a name="line1">  1: </a><font color="#A020F0">#if !defined(_PETSCFVIMPL_H)</font>
+<a name="line2">  2: </a><strong><font color="#228B22">#define _PETSCFVIMPL_H</font></strong>
+
+<a name="line4">  4: </a> #include <A href="../../../include/petscfv.h.html">&lt;petscfv.h&gt;</A>
+<a name="line5">  5: </a> #include <A href="../../../include/petsc/private/petscimpl.h.html">&lt;petsc/private/petscimpl.h&gt;</A>
+
+<a name="line7">  7: </a>PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a> PetscLimiterRegisterAllCalled;
+<a name="line8">  8: </a>PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a> PetscFVRegisterAllCalled;
+<a name="line9">  9: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../../../docs/manualpages/DM/PetscLimiterRegisterAll.html#PetscLimiterRegisterAll">PetscLimiterRegisterAll</a>(void)</font></strong>;
+<a name="line10"> 10: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../../../docs/manualpages/DM/PetscFVRegisterAll.html#PetscFVRegisterAll">PetscFVRegisterAll</a>(void)</font></strong>;
+
+<a name="line12"> 12: </a><font color="#4169E1">typedef struct _PetscLimiterOps *PetscLimiterOps;</font>
+<a name="line13"> 13: </a><font color="#4169E1"><a name="_PetscLimiterOps"></a>struct _PetscLimiterOps </font>{
+<a name="line14"> 14: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*setfromoptions)(<a href="../../../docs/manualpages/DM/PetscLimiter.html#PetscLimiter">PetscLimiter</a>);
+<a name="line15"> 15: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*setup)(<a href="../../../docs/manualpages/DM/PetscLimiter.html#PetscLimiter">PetscLimiter</a>);
+<a name="line16"> 16: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*view)(<a href="../../../docs/manualpages/DM/PetscLimiter.html#PetscLimiter">PetscLimiter</a>,<a href="../../../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>);
+<a name="line17"> 17: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*destroy)(<a href="../../../docs/manualpages/DM/PetscLimiter.html#PetscLimiter">PetscLimiter</a>);
+<a name="line18"> 18: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*limit)(<a href="../../../docs/manualpages/DM/PetscLimiter.html#PetscLimiter">PetscLimiter</a>, <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a>, <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a> *);
+<a name="line19"> 19: </a>};
+
+<a name="line21"> 21: </a><font color="#4169E1"><a name="_p_PetscLimiter"></a>struct _p_PetscLimiter </font>{
+<a name="line22"> 22: </a>  PETSCHEADER(<font color="#4169E1">struct _PetscLimiterOps</font>);
+<a name="line23"> 23: </a>  void           *data;             <font color="#B22222">/* Implementation object */</font>
+<a name="line24"> 24: </a>};
+
+<a name="line26"> 26: </a><font color="#4169E1">typedef</font> <font color="#4169E1">struct</font> {
+<a name="line27"> 27: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> dummy;
+<a name="line28"> 28: </a>} PetscLimiter_Sin;
+
+<a name="line30"> 30: </a><font color="#4169E1">typedef</font> <font color="#4169E1">struct</font> {
+<a name="line31"> 31: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> dummy;
+<a name="line32"> 32: </a>} PetscLimiter_Zero;
+
+<a name="line34"> 34: </a><font color="#4169E1">typedef</font> <font color="#4169E1">struct</font> {
+<a name="line35"> 35: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> dummy;
+<a name="line36"> 36: </a>} PetscLimiter_None;
+
+<a name="line38"> 38: </a><font color="#4169E1">typedef</font> <font color="#4169E1">struct</font> {
+<a name="line39"> 39: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> dummy;
+<a name="line40"> 40: </a>} PetscLimiter_Minmod;
+
+<a name="line42"> 42: </a><font color="#4169E1">typedef</font> <font color="#4169E1">struct</font> {
+<a name="line43"> 43: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> dummy;
+<a name="line44"> 44: </a>} PetscLimiter_VanLeer;
+
+<a name="line46"> 46: </a><font color="#4169E1">typedef</font> <font color="#4169E1">struct</font> {
+<a name="line47"> 47: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> dummy;
+<a name="line48"> 48: </a>} PetscLimiter_VanAlbada;
+
+<a name="line50"> 50: </a><font color="#4169E1">typedef</font> <font color="#4169E1">struct</font> {
+<a name="line51"> 51: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> dummy;
+<a name="line52"> 52: </a>} PetscLimiter_Superbee;
+
+<a name="line54"> 54: </a><font color="#4169E1">typedef</font> <font color="#4169E1">struct</font> {
+<a name="line55"> 55: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> dummy;
+<a name="line56"> 56: </a>} PetscLimiter_MC;
+
+<a name="line58"> 58: </a><font color="#4169E1">typedef struct _PetscFVOps *PetscFVOps;</font>
+<a name="line59"> 59: </a><font color="#4169E1"><a name="_PetscFVOps"></a>struct _PetscFVOps </font>{
+<a name="line60"> 60: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*setfromoptions)(<a href="../../../docs/manualpages/DM/PetscFV.html#PetscFV">PetscFV</a>);
+<a name="line61"> 61: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*setup)(<a href="../../../docs/manualpages/DM/PetscFV.html#PetscFV">PetscFV</a>);
+<a name="line62"> 62: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*view)(<a href="../../../docs/manualpages/DM/PetscFV.html#PetscFV">PetscFV</a>,<a href="../../../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>);
+<a name="line63"> 63: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*destroy)(<a href="../../../docs/manualpages/DM/PetscFV.html#PetscFV">PetscFV</a>);
+<a name="line64"> 64: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*computegradient)(<a href="../../../docs/manualpages/DM/PetscFV.html#PetscFV">PetscFV</a>, <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>, const <a href="../../../docs/manualpages/Sys/PetscScalar.html#PetscScalar">PetscScalar</a>[], <a href="../../../docs/manualpages/Sys/PetscScalar.html#PetscScalar">PetscScalar</a> []);
+<a name="line65"> 65: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*integraterhsfunction)(<a href="../../../docs/manualpages/DM/PetscFV.html#PetscFV">PetscFV</a>, <a href="../../../docs/manualpages/DM/PetscDS.html#PetscDS">PetscDS</a>, <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>, <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>, <a href="../../../docs/manualpages/DM/PetscFVFaceGeom.html#PetscFVFaceGeom">PetscFVFaceGeom</a> *, <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a> *, <a href="../../../docs/manualpages/Sys/PetscScalar.html#PetscScalar">PetscScalar</a>[], <a href="../../../docs/manualpages/Sys/PetscScalar.html#PetscScalar">PetscScalar</a>[], <a href="../../../docs/manualpages/Sys/PetscScalar.html#PetscScalar">PetscScalar</a>[], <a href="../../../docs/manualpages/Sys/PetscScalar.html#PetscScalar">PetscScalar</a>[]);
+<a name="line66"> 66: </a>};
+
+<a name="line68"> 68: </a><font color="#4169E1"><a name="_p_PetscFV"></a>struct _p_PetscFV </font>{
+<a name="line69"> 69: </a>  PETSCHEADER(<font color="#4169E1">struct _PetscFVOps</font>);
+<a name="line70"> 70: </a>  void           *data;             <font color="#B22222">/* Implementation object */</font>
+<a name="line71"> 71: </a>  <a href="../../../docs/manualpages/DM/PetscLimiter.html#PetscLimiter">PetscLimiter</a>    limiter;          <font color="#B22222">/* The slope limiter */</font>
+<a name="line72"> 72: </a>  <a href="../../../docs/manualpages/DM/PetscDualSpace.html#PetscDualSpace">PetscDualSpace</a>  dualSpace;        <font color="#B22222">/* The dual space P', usually simple */</font>
+<a name="line73"> 73: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>        numComponents;    <font color="#B22222">/* The number of field components */</font>
+<a name="line74"> 74: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>        dim;              <font color="#B22222">/* The spatial dimension */</font>
+<a name="line75"> 75: </a>  <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>       computeGradients; <font color="#B22222">/* Flag for gradient computation */</font>
+<a name="line76"> 76: </a>  <a href="../../../docs/manualpages/Sys/PetscScalar.html#PetscScalar">PetscScalar</a>    *fluxWork;         <font color="#B22222">/* The work array for flux calculation */</font>
+<a name="line77"> 77: </a>  <a href="../../../docs/manualpages/DM/PetscQuadrature.html#PetscQuadrature">PetscQuadrature</a> quadrature;       <font color="#B22222">/* Suitable quadrature on the volume */</font>
+<a name="line78"> 78: </a>  <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a>      *B, *D, *H;        <font color="#B22222">/* Tabulation of pseudo-basis and derivatives at quadrature points */</font>
+<a name="line79"> 79: </a>  char          **componentNames;   <font color="#B22222">/* Names of the component fields */</font>
+<a name="line80"> 80: </a>};
+
+<a name="line82"> 82: </a><font color="#4169E1">typedef</font> <font color="#4169E1">struct</font> {
+<a name="line83"> 83: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> cellType;
+<a name="line84"> 84: </a>} PetscFV_Upwind;
+
+<a name="line86"> 86: </a><font color="#4169E1">typedef</font> <font color="#4169E1">struct</font> {
+<a name="line87"> 87: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>     maxFaces, workSize;
+<a name="line88"> 88: </a>  <a href="../../../docs/manualpages/Sys/PetscScalar.html#PetscScalar">PetscScalar</a> *B, *Binv, *tau, *work;
+<a name="line89"> 89: </a>} PetscFV_LeastSquares;
+
+<a name="line91"> 91: </a><strong><font color="#4169E1"><a name="PetscFVInterpolate_Static"></a>PETSC_STATIC_INLINE <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> PetscFVInterpolate_Static(<a href="../../../docs/manualpages/DM/PetscFV.html#PetscFV">PetscFV</a> fv, const <a href="../../../docs/manualpages/Sys/PetscScalar.html#PetscScalar">PetscScalar</a> x[], <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> q, <a href="../../../docs/manualpages/Sys/PetscScalar.html#PetscScalar">PetscScalar</a> interpolant[])</font></strong>
+<a name="line92"> 92: </a>{
+<a name="line93"> 93: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>       Nc, fc;
+
+<a name="line97"> 97: </a>  <a href="../../../docs/manualpages/DT/PetscFVGetNumComponents.html#PetscFVGetNumComponents">PetscFVGetNumComponents</a>(fv, &amp;Nc);
+<a name="line98"> 98: </a>  <font color="#4169E1">for</font> (fc = 0; fc &lt; Nc; ++fc) {interpolant[fc] = x[fc];}
+<a name="line99"> 99: </a>  <font color="#4169E1">return</font>(0);
+<a name="line100">100: </a>}
+
+<a name="line102">102: </a><font color="#A020F0">#endif</font>
+</pre>
+</body>
+
+</html>

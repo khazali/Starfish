@@ -1,0 +1,128 @@
+﻿Build started 2/8/2016 5:03:25 PM.
+     1>Project "C:\Users\AliReza\Documents\Visual Studio 2015\Projects\paralution-1.1.0\visualstudio\paralution_omp\paralution_omp\paralution_omp_VS13.vcxproj" on node 2 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /Od /Gm- /EHsc /RTC1 /MDd /GS /Zc:wchar_t /Zc:forScope /Zc:inline /openmp- /Fo"x64\Debug\\" /Fd"x64\Debug\paralution.pdb" /Gd /TP /errorReport:prompt ..\..\..\src\base\backend_manager.cpp ..\..\..\src\base\base_matrix.cpp ..\..\..\src\base\base_paralution.cpp ..\..\..\src\base\base_stencil.cpp ..\..\..\src\base\base_vector.cpp ..\..\..\src\base\local_matrix.cpp ..\..\..\src\base\local_stencil.cpp ..\..\..\src\base\local_vector.cpp ..\..\..\src\base\operator.cpp ..\..\..\src\base\vector.cpp ..\..\..\src\base\host\host_affinity.cpp ..\..\..\src\base\host\host_conversion.cpp ..\..\..\src\base\host\host_io.cpp ..\..\..\src\base\host\host_matrix_bcsr.cpp ..\..\..\src\base\host\host_matrix_coo.cpp ..\..\..\src\base\host\host_matrix_csr.cpp ..\..\..\src\base\host\host_matrix_dense.cpp ..\..\..\src\base\host\host_matrix_dia.cpp ..\..\..\src\base\host\host_matrix_ell.cpp ..\..\..\src\base\host\host_matrix_hyb.cpp ..\..\..\src\base\host\host_matrix_mcsr.cpp ..\..\..\src\base\host\host_stencil_laplace2d.cpp ..\..\..\src\base\host\host_vector.cpp ..\..\..\src\solvers\chebyshev.cpp ..\..\..\src\solvers\iter_ctrl.cpp ..\..\..\src\solvers\mixed_precision.cpp ..\..\..\src\solvers\solver.cpp ..\..\..\src\solvers\deflation\dpcg.cpp ..\..\..\src\solvers\direct\inversion.cpp ..\..\..\src\solvers\direct\lu.cpp ..\..\..\src\solvers\direct\qr.cpp ..\..\..\src\solvers\eigenvalue\ampe_sira.cpp ..\..\..\src\solvers\eigenvalue\cg_hn.cpp ..\..\..\src\solvers\krylov\bicgstab.cpp ..\..\..\src\solvers\krylov\cg.cpp ..\..\..\src\solvers\krylov\cr.cpp ..\..\..\src\solvers\krylov\fgmres.cpp ..\..\..\src\solvers\krylov\gmres.cpp ..\..\..\src\solvers\krylov\idr.cpp ..\..\..\src\solvers\multigrid\amg.cpp ..\..\..\src\solvers\multigrid\base_amg.cpp ..\..\..\src\solvers\multigrid\base_multigrid.cpp ..\..\..\src\solvers\multigrid\multigrid.cpp ..\..\..\src\solvers\preconditioners\preconditioner_ai.cpp ..\..\..\src\solvers\preconditioners\preconditioner_as.cpp ..\..\..\src\solvers\preconditioners\preconditioner_blockprecond.cpp ..\..\..\src\solvers\preconditioners\preconditioner.cpp ..\..\..\src\solvers\preconditioners\preconditioner_multicolored.cpp ..\..\..\src\solvers\preconditioners\preconditioner_multicolored_gs.cpp ..\..\..\src\solvers\preconditioners\preconditioner_multicolored_ilu.cpp ..\..\..\src\solvers\preconditioners\preconditioner_multielimination.cpp ..\..\..\src\solvers\preconditioners\preconditioner_saddlepoint.cpp ..\..\..\src\utils\allocate_free.cpp ..\..\..\src\utils\log.cpp ..\..\..\src\utils\math_functions.cpp ..\..\..\src\utils\time_functions.cpp
+         backend_manager.cpp
+         base_matrix.cpp
+         base_paralution.cpp
+         base_stencil.cpp
+         base_vector.cpp
+         local_matrix.cpp
+         local_stencil.cpp
+         local_vector.cpp
+         operator.cpp
+         vector.cpp
+         host_affinity.cpp
+         host_conversion.cpp
+         host_io.cpp
+         host_matrix_bcsr.cpp
+         host_matrix_coo.cpp
+         host_matrix_csr.cpp
+         host_matrix_dense.cpp
+         host_matrix_dia.cpp
+         host_matrix_ell.cpp
+         host_matrix_hyb.cpp
+         Generating Code...
+         Compiling...
+         host_matrix_mcsr.cpp
+         host_stencil_laplace2d.cpp
+         host_vector.cpp
+         chebyshev.cpp
+         iter_ctrl.cpp
+         mixed_precision.cpp
+         solver.cpp
+         dpcg.cpp
+         inversion.cpp
+         lu.cpp
+         qr.cpp
+         ampe_sira.cpp
+         cg_hn.cpp
+         bicgstab.cpp
+         cg.cpp
+         cr.cpp
+         fgmres.cpp
+         gmres.cpp
+         idr.cpp
+         amg.cpp
+         Generating Code...
+         Compiling...
+         base_amg.cpp
+         base_multigrid.cpp
+         multigrid.cpp
+         preconditioner_ai.cpp
+         preconditioner_as.cpp
+         preconditioner_blockprecond.cpp
+         preconditioner.cpp
+         preconditioner_multicolored.cpp
+         preconditioner_multicolored_gs.cpp
+         preconditioner_multicolored_ilu.cpp
+         preconditioner_multielimination.cpp
+         preconditioner_saddlepoint.cpp
+         allocate_free.cpp
+         log.cpp
+         math_functions.cpp
+         time_functions.cpp
+         Generating Code...
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\Lib.exe /OUT:"C:\Users\AliReza\Documents\Visual Studio 2015\Projects\paralution-1.1.0\visualstudio\paralution_omp\x64\Debug\paralution.lib" /NOLOGO /MACHINE:X64 x64\Debug\backend_manager.obj
+         x64\Debug\base_matrix.obj
+         x64\Debug\base_paralution.obj
+         x64\Debug\base_stencil.obj
+         x64\Debug\base_vector.obj
+         x64\Debug\local_matrix.obj
+         x64\Debug\local_stencil.obj
+         x64\Debug\local_vector.obj
+         x64\Debug\operator.obj
+         x64\Debug\vector.obj
+         x64\Debug\host_affinity.obj
+         x64\Debug\host_conversion.obj
+         x64\Debug\host_io.obj
+         x64\Debug\host_matrix_bcsr.obj
+         x64\Debug\host_matrix_coo.obj
+         x64\Debug\host_matrix_csr.obj
+         x64\Debug\host_matrix_dense.obj
+         x64\Debug\host_matrix_dia.obj
+         x64\Debug\host_matrix_ell.obj
+         x64\Debug\host_matrix_hyb.obj
+         x64\Debug\host_matrix_mcsr.obj
+         x64\Debug\host_stencil_laplace2d.obj
+         x64\Debug\host_vector.obj
+         x64\Debug\chebyshev.obj
+         x64\Debug\iter_ctrl.obj
+         x64\Debug\mixed_precision.obj
+         x64\Debug\solver.obj
+         x64\Debug\dpcg.obj
+         x64\Debug\inversion.obj
+         x64\Debug\lu.obj
+         x64\Debug\qr.obj
+         x64\Debug\ampe_sira.obj
+         x64\Debug\cg_hn.obj
+         x64\Debug\bicgstab.obj
+         x64\Debug\cg.obj
+         x64\Debug\cr.obj
+         x64\Debug\fgmres.obj
+         x64\Debug\gmres.obj
+         x64\Debug\idr.obj
+         x64\Debug\amg.obj
+         x64\Debug\base_amg.obj
+         x64\Debug\base_multigrid.obj
+         x64\Debug\multigrid.obj
+         x64\Debug\preconditioner_ai.obj
+         x64\Debug\preconditioner_as.obj
+         x64\Debug\preconditioner_blockprecond.obj
+         x64\Debug\preconditioner.obj
+         x64\Debug\preconditioner_multicolored.obj
+         x64\Debug\preconditioner_multicolored_gs.obj
+         x64\Debug\preconditioner_multicolored_ilu.obj
+         x64\Debug\preconditioner_multielimination.obj
+         x64\Debug\preconditioner_saddlepoint.obj
+         x64\Debug\allocate_free.obj
+         x64\Debug\log.obj
+         x64\Debug\math_functions.obj
+         x64\Debug\time_functions.obj
+         paralution_omp_VS13.vcxproj -> C:\Users\AliReza\Documents\Visual Studio 2015\Projects\paralution-1.1.0\visualstudio\paralution_omp\x64\Debug\paralution.lib
+     1>Done Building Project "C:\Users\AliReza\Documents\Visual Studio 2015\Projects\paralution-1.1.0\visualstudio\paralution_omp\paralution_omp\paralution_omp_VS13.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:57.66

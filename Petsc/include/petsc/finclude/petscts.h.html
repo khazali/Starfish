@@ -1,0 +1,122 @@
+<center><a href="petscts.h">Actual source code: petscts.h</a></center><br>
+
+<html>
+<head> <link rel="canonical" href="http://www.mcs.anl.gov/petsc/petsc-current/include/petsc/finclude/petscts.h.html" />
+<title></title>
+<meta name="generator" content="c2html 0.9.4">
+<meta name="date" content="2017-12-10T05:58:32+00:00">
+</head>
+
+<body bgcolor="#FFFFFF">
+   <div id="version" align=right><b>petsc-3.8.3 2017-12-09</b></div>
+   <div id="bugreport" align=right><a href="mailto:petsc-maint@mcs.anl.gov?subject=Typo or Error in Documentation &body=Please describe the typo or error in the documentation: petsc-3.8.3 v3.8.3 include/petsc/finclude/petscts.h.html "><small>Report Typos and Errors</small></a></div>
+<pre width="80">
+<a name="line1">  1: </a>!
+<a name="line2">  2: </a>!  Include file <font color="#4169E1">for</font> Fortran use of the <a href="../../../docs/manualpages/TS/TS.html#TS">TS</a> (timestepping) package in PETSc
+<a name="line3">  3: </a>!
+<a name="line4">  4: </a><font color="#A020F0">#if !defined (__PETSCTSDEF_H)</font>
+
+<a name="line7">  7: </a><font color="#A020F0">#include </font><font color="#666666">"petsc/finclude/petscsnes.h"</font><font color="#A020F0"></font>
+
+<a name="line9">  9: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TS.html#TS">TS</a> type(tTS)</font></strong>
+<a name="line10"> 10: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSAdapt.html#TSAdapt">TSAdapt</a> type(tTSAdapt)</font></strong>
+<a name="line11"> 11: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSTrajectory.html#TSTrajectory">TSTrajectory</a> type(tTSTrajectory)</font></strong>
+
+<a name="line13"> 13: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSType.html#TSType">TSType</a> character*(80)</font></strong>
+<a name="line14"> 14: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSAdaptType.html#TSAdaptType">TSAdaptType</a> character*(80)</font></strong>
+<a name="line15"> 15: </a><strong><font color="#228B22">#define TSTrajectoryType character*(80)</font></strong>
+<a name="line16"> 16: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSEquationType.html#TSEquationType">TSEquationType</a> <a href="../../../docs/manualpages/Sys/PetscEnum.html#PetscEnum">PetscEnum</a></font></strong>
+<a name="line17"> 17: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSConvergedReason.html#TSConvergedReason">TSConvergedReason</a> <a href="../../../docs/manualpages/Sys/PetscEnum.html#PetscEnum">PetscEnum</a></font></strong>
+<a name="line18"> 18: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSExactFinalTimeOption.html#TSExactFinalTimeOption">TSExactFinalTimeOption</a> <a href="../../../docs/manualpages/Sys/PetscEnum.html#PetscEnum">PetscEnum</a></font></strong>
+<a name="line19"> 19: </a><strong><font color="#228B22">#define TSSundialsType <a href="../../../docs/manualpages/Sys/PetscEnum.html#PetscEnum">PetscEnum</a></font></strong>
+<a name="line20"> 20: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSProblemType.html#TSProblemType">TSProblemType</a> <a href="../../../docs/manualpages/Sys/PetscEnum.html#PetscEnum">PetscEnum</a></font></strong>
+<a name="line21"> 21: </a><strong><font color="#228B22">#define TSSundialsGramSchmidtType <a href="../../../docs/manualpages/Sys/PetscEnum.html#PetscEnum">PetscEnum</a></font></strong>
+<a name="line22"> 22: </a><strong><font color="#228B22">#define TSSundialsLmmType <a href="../../../docs/manualpages/Sys/PetscEnum.html#PetscEnum">PetscEnum</a></font></strong>
+
+<a name="line24"> 24: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSEULER.html#TSEULER">TSEULER</a>           'euler'</font></strong>
+<a name="line25"> 25: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSBEULER.html#TSBEULER">TSBEULER</a>          'beuler'</font></strong>
+<a name="line26"> 26: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSPSEUDO.html#TSPSEUDO">TSPSEUDO</a>          'pseudo'</font></strong>
+<a name="line27"> 27: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSCN.html#TSCN">TSCN</a>              'cn'</font></strong>
+<a name="line28"> 28: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSSUNDIALS.html#TSSUNDIALS">TSSUNDIALS</a>        'sundials'</font></strong>
+<a name="line29"> 29: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSRK.html#TSRK">TSRK</a>              'rk'</font></strong>
+<a name="line30"> 30: </a><strong><font color="#228B22">#define TSPYTHON          'python'</font></strong>
+<a name="line31"> 31: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSTHETA.html#TSTHETA">TSTHETA</a>           'theta'</font></strong>
+<a name="line32"> 32: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSALPHA.html#TSALPHA">TSALPHA</a>           'alpha'</font></strong>
+<a name="line33"> 33: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSGLLE.html#TSGLLE">TSGLLE</a>            'glle'</font></strong>
+<a name="line34"> 34: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSSSP.html#TSSSP">TSSSP</a>             'ssp'</font></strong>
+<a name="line35"> 35: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSARKIMEX.html#TSARKIMEX">TSARKIMEX</a>         'arkimex'</font></strong>
+<a name="line36"> 36: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSROSW.html#TSROSW">TSROSW</a>            'rosw'</font></strong>
+<a name="line37"> 37: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSEIMEX.html#TSEIMEX">TSEIMEX</a>           'eimex'</font></strong>
+
+<a name="line39"> 39: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSTRAJECTORYBASIC.html#TSTRAJECTORYBASIC">TSTRAJECTORYBASIC</a> 'basic'</font></strong>
+
+<a name="line41"> 41: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSSSPType.html#TSSSPType">TSSSPType</a> character*(80)</font></strong>
+<a name="line42"> 42: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSSSPRKS2.html#TSSSPRKS2">TSSSPRKS2</a>  'rks2'</font></strong>
+<a name="line43"> 43: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSSSPRKS3.html#TSSSPRKS3">TSSSPRKS3</a>  'rks3'</font></strong>
+<a name="line44"> 44: </a><strong><font color="#228B22">#define TSSSPRK104 'rk104'</font></strong>
+
+<a name="line46"> 46: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSGLLEAdaptType.html#TSGLLEAdaptType">TSGLLEAdaptType</a> character*(80)</font></strong>
+<a name="line47"> 47: </a><strong><font color="#228B22">#define TSGLLEADAPT_NONE 'none'</font></strong>
+<a name="line48"> 48: </a><strong><font color="#228B22">#define TSGLLEADAPT_SIZE 'size'</font></strong>
+<a name="line49"> 49: </a><strong><font color="#228B22">#define TSGLLEADAPT_BOTH 'both'</font></strong>
+
+<a name="line51"> 51: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSAdaptType.html#TSAdaptType">TSAdaptType</a> character*(80)</font></strong>
+<a name="line52"> 52: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSADAPTNONE.html#TSADAPTNONE">TSADAPTNONE</a>  'none'</font></strong>
+<a name="line53"> 53: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSADAPTBASIC.html#TSADAPTBASIC">TSADAPTBASIC</a> 'basic'</font></strong>
+<a name="line54"> 54: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSADAPTDSP.html#TSADAPTDSP">TSADAPTDSP</a>   'dsp'</font></strong>
+<a name="line55"> 55: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSADAPTCFL.html#TSADAPTCFL">TSADAPTCFL</a>   'cfl'</font></strong>
+<a name="line56"> 56: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSADAPTGLEE.html#TSADAPTGLEE">TSADAPTGLEE</a>  'glee'</font></strong>
+
+<a name="line58"> 58: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSRKType.html#TSRKType">TSRKType</a> character*(80)</font></strong>
+<a name="line59"> 59: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSRK1FE.html#TSRK1FE">TSRK1FE</a>   '1fe'</font></strong>
+<a name="line60"> 60: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSRK2A.html#TSRK2A">TSRK2A</a>    '2a'</font></strong>
+<a name="line61"> 61: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSRK3.html#TSRK3">TSRK3</a>     '3'</font></strong>
+<a name="line62"> 62: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSRK3BS.html#TSRK3BS">TSRK3BS</a>   '3bs'</font></strong>
+<a name="line63"> 63: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSRK4.html#TSRK4">TSRK4</a>     '4'</font></strong>
+<a name="line64"> 64: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSRK5F.html#TSRK5F">TSRK5F</a>    '5f'</font></strong>
+<a name="line65"> 65: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSRK5DP.html#TSRK5DP">TSRK5DP</a>   '5dp'</font></strong>
+<a name="line66"> 66: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSRK5BS.html#TSRK5BS">TSRK5BS</a>   '5bs'</font></strong>
+
+<a name="line68"> 68: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSARKIMEXType.html#TSARKIMEXType">TSARKIMEXType</a> character*(80)</font></strong>
+<a name="line69"> 69: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSARKIMEX1BEE.html#TSARKIMEX1BEE">TSARKIMEX1BEE</a>   '1bee'</font></strong>
+<a name="line70"> 70: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSARKIMEXA2.html#TSARKIMEXA2">TSARKIMEXA2</a>     'a2'</font></strong>
+<a name="line71"> 71: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSARKIMEXL2.html#TSARKIMEXL2">TSARKIMEXL2</a>     'l2'</font></strong>
+<a name="line72"> 72: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSARKIMEXARS122.html#TSARKIMEXARS122">TSARKIMEXARS122</a> 'ars122'</font></strong>
+<a name="line73"> 73: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSARKIMEX2C.html#TSARKIMEX2C">TSARKIMEX2C</a>     '2c'</font></strong>
+<a name="line74"> 74: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSARKIMEX2D.html#TSARKIMEX2D">TSARKIMEX2D</a>     '2d'</font></strong>
+<a name="line75"> 75: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSARKIMEX2E.html#TSARKIMEX2E">TSARKIMEX2E</a>     '2e'</font></strong>
+<a name="line76"> 76: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSARKIMEXPRSSP2.html#TSARKIMEXPRSSP2">TSARKIMEXPRSSP2</a> 'prssp2'</font></strong>
+<a name="line77"> 77: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSARKIMEX3.html#TSARKIMEX3">TSARKIMEX3</a>      '3'</font></strong>
+<a name="line78"> 78: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSARKIMEXBPR3.html#TSARKIMEXBPR3">TSARKIMEXBPR3</a>   'bpr3'</font></strong>
+<a name="line79"> 79: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSARKIMEXARS443.html#TSARKIMEXARS443">TSARKIMEXARS443</a> 'ars443'</font></strong>
+<a name="line80"> 80: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSARKIMEX4.html#TSARKIMEX4">TSARKIMEX4</a>      '4'</font></strong>
+<a name="line81"> 81: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSARKIMEX5.html#TSARKIMEX5">TSARKIMEX5</a>      '5'</font></strong>
+
+<a name="line83"> 83: </a><strong><font color="#228B22">#define TSROSWType character*(80)</font></strong>
+<a name="line84"> 84: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSROSW2M.html#TSROSW2M">TSROSW2M</a>          '2m'</font></strong>
+<a name="line85"> 85: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSROSW2P.html#TSROSW2P">TSROSW2P</a>          '2p'</font></strong>
+<a name="line86"> 86: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSROSWRA3PW.html#TSROSWRA3PW">TSROSWRA3PW</a>       'ra3pw'</font></strong>
+<a name="line87"> 87: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSROSWRA34PW2.html#TSROSWRA34PW2">TSROSWRA34PW2</a>     'ra34pw2'</font></strong>
+<a name="line88"> 88: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSROSWRODAS3.html#TSROSWRODAS3">TSROSWRODAS3</a>      'rodas3'</font></strong>
+<a name="line89"> 89: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSROSWSANDU3.html#TSROSWSANDU3">TSROSWSANDU3</a>      'sandu3'</font></strong>
+<a name="line90"> 90: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSROSWASSP3P3S1C.html#TSROSWASSP3P3S1C">TSROSWASSP3P3S1C</a>  'assp3p3s1c'</font></strong>
+<a name="line91"> 91: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSROSWLASSP3P4S2C.html#TSROSWLASSP3P4S2C">TSROSWLASSP3P4S2C</a> 'lassp3p4s2c'</font></strong>
+<a name="line92"> 92: </a><strong><font color="#228B22">#define TSROSWLLSSP3P3S2C 'llssp3p3s2c'</font></strong>
+<a name="line93"> 93: </a><strong><font color="#228B22">#define TSROSWARK3        'ark3'</font></strong>
+<a name="line94"> 94: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSROSWTHETA1.html#TSROSWTHETA1">TSROSWTHETA1</a>      'theta1'</font></strong>
+<a name="line95"> 95: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSROSWTHETA2.html#TSROSWTHETA2">TSROSWTHETA2</a>      'theta2'</font></strong>
+<a name="line96"> 96: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSROSWGRK4T.html#TSROSWGRK4T">TSROSWGRK4T</a>       'grk4t'</font></strong>
+<a name="line97"> 97: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSROSWSHAMP4.html#TSROSWSHAMP4">TSROSWSHAMP4</a>      'shamp4'</font></strong>
+<a name="line98"> 98: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSROSWVELDD4.html#TSROSWVELDD4">TSROSWVELDD4</a>      'veldd4'</font></strong>
+<a name="line99"> 99: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSROSW4L.html#TSROSW4L">TSROSW4L</a>          '4l'</font></strong>
+
+<a name="line101">101: </a><strong><font color="#228B22">#define <a href="../../../docs/manualpages/TS/TSEIMEXType.html#TSEIMEXType">TSEIMEXType</a> character*(80)</font></strong>
+<a name="line102">102: </a><strong><font color="#228B22">#define TSEIMEXS2     's2'</font></strong>
+<a name="line103">103: </a><strong><font color="#228B22">#define TSEIMEXS3     's3'</font></strong>
+<a name="line104">104: </a><strong><font color="#228B22">#define TSEIMEXS4     's4'</font></strong>
+
+<a name="line106">106: </a><font color="#A020F0">#endif</font>
+</pre>
+</body>
+
+</html>

@@ -1,0 +1,74 @@
+<center><a href="petscviewerhdf5.h">Actual source code: petscviewerhdf5.h</a></center><br>
+
+<html>
+<head> <link rel="canonical" href="http://www.mcs.anl.gov/petsc/petsc-current/include/petscviewerhdf5.h.html" />
+<title></title>
+<meta name="generator" content="c2html 0.9.4">
+<meta name="date" content="2017-12-10T05:58:22+00:00">
+</head>
+
+<body bgcolor="#FFFFFF">
+   <div id="version" align=right><b>petsc-3.8.3 2017-12-09</b></div>
+   <div id="bugreport" align=right><a href="mailto:petsc-maint@mcs.anl.gov?subject=Typo or Error in Documentation &body=Please describe the typo or error in the documentation: petsc-3.8.3 v3.8.3 include/petscviewerhdf5.h.html "><small>Report Typos and Errors</small></a></div>
+<pre width="80">
+
+
+<a name="line5">  5: </a> #include <A href="petscviewer.h.html">&lt;petscviewer.h&gt;</A>
+
+<a name="line7">  7: </a><font color="#A020F0">#if defined(PETSC_HAVE_HDF5)</font>
+
+<a name="line9">  9: </a><font color="#A020F0">#include &lt;hdf5.h&gt;</font>
+<a name="line10"> 10: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Viewer/PetscViewerHDF5GetFileId.html#PetscViewerHDF5GetFileId">PetscViewerHDF5GetFileId</a>(<a href="../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>,hid_t*)</font></strong>;
+<a name="line11"> 11: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> PetscViewerHDF5OpenGroup(<a href="../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>, hid_t *, hid_t *)</font></strong>;
+<a name="line12"> 12: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> PetscViewerHDF5ReadSizes(<a href="../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>, const char[], <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> *, <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> *)</font></strong>;
+
+<a name="line14"> 14: </a><font color="#B22222">/* On 32 bit systems HDF5 is limited by size of integer, because hsize_t is defined as size_t */</font>
+<a name="line15"> 15: </a><strong><font color="#228B22">#define PETSC_HDF5_INT_MAX  2147483647</font></strong>
+<a name="line16"> 16: </a><strong><font color="#228B22">#define PETSC_HDF5_INT_MIN -2147483647</font></strong>
+
+<a name="line18"> 18: </a><strong><font color="#4169E1"><a name="PetscHDF5IntCast"></a>PETSC_STATIC_INLINE <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> PetscHDF5IntCast(<a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> a,hsize_t *b)</font></strong>
+<a name="line19"> 19: </a>{
+<a name="line21"> 21: </a><font color="#A020F0">#if defined(PETSC_USE_64BIT_INDICES) &amp;&amp; (PETSC_SIZEOF_SIZE_T == 4)</font>
+<a name="line22"> 22: </a>  <font color="#4169E1">if</font> ((a) &gt; PETSC_HDF5_INT_MAX) <a href="../docs/manualpages/Sys/SETERRQ.html#SETERRQ">SETERRQ</a>(<a href="../docs/manualpages/Sys/PETSC_COMM_SELF.html#PETSC_COMM_SELF">PETSC_COMM_SELF</a>,PETSC_ERR_ARG_OUTOFRANGE,<font color="#666666">"Array too long for HDF5"</font>);
+<a name="line23"> 23: </a><font color="#A020F0">#endif</font>
+<a name="line24"> 24: </a>  *b =  (hsize_t)(a);
+<a name="line25"> 25: </a>  <font color="#4169E1">return</font>(0);
+<a name="line26"> 26: </a>}
+<a name="line27"> 27: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Viewer/PetscDataTypeToHDF5DataType.html#PetscDataTypeToHDF5DataType">PetscDataTypeToHDF5DataType</a>(<a href="../docs/manualpages/Sys/PetscDataType.html#PetscDataType">PetscDataType</a>,hid_t*)</font></strong>;
+<a name="line28"> 28: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Viewer/PetscHDF5DataTypeToPetscDataType.html#PetscHDF5DataTypeToPetscDataType">PetscHDF5DataTypeToPetscDataType</a>(hid_t,<a href="../docs/manualpages/Sys/PetscDataType.html#PetscDataType">PetscDataType</a>*)</font></strong>;
+
+<a name="line30"> 30: </a><strong><font color="#228B22">#define PetscStackCallHDF5(func,args) do {                        \</font></strong>
+<a name="line31"> 31: </a><strong><font color="#228B22">    herr_t _status;                                               \</font></strong>
+<a name="line32"> 32: </a><strong><font color="#228B22">    PetscStackPush(#func);_status = func args;PetscStackPop; if (_status) <a href="../docs/manualpages/Sys/SETERRQ2.html#SETERRQ2">SETERRQ2</a>(<a href="../docs/manualpages/Sys/PETSC_COMM_SELF.html#PETSC_COMM_SELF">PETSC_COMM_SELF</a>,PETSC_ERR_LIB,</font><font color="#666666">"Error in HDF5 call %s() Status %d"</font><font color="#228B22">,#func,(int)_status); \</font></strong>
+<a name="line33"> 33: </a><strong><font color="#228B22">  } while (0)</font></strong>
+
+<a name="line35"> 35: </a><strong><font color="#228B22">#define PetscStackCallHDF5Return(ret,func,args) do {              \</font></strong>
+<a name="line36"> 36: </a><strong><font color="#228B22">    PetscStackPush(#func);ret = func args;PetscStackPop; if (ret &lt; 0) <a href="../docs/manualpages/Sys/SETERRQ2.html#SETERRQ2">SETERRQ2</a>(<a href="../docs/manualpages/Sys/PETSC_COMM_SELF.html#PETSC_COMM_SELF">PETSC_COMM_SELF</a>,PETSC_ERR_LIB,</font><font color="#666666">"Error in HDF5 call %s() Status %d"</font><font color="#228B22">,#func,(int)ret); \</font></strong>
+<a name="line37"> 37: </a><strong><font color="#228B22">  } while (0)</font></strong>
+
+<a name="line39"> 39: </a><font color="#A020F0">#endif  </font><font color="#B22222">/* defined(PETSC_HAVE_HDF5) */</font><font color="#A020F0"></font>
+
+<a name="line41"> 41: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Viewer/PetscViewerHDF5ReadAttribute.html#PetscViewerHDF5ReadAttribute">PetscViewerHDF5ReadAttribute</a>(<a href="../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>,const char[],const char[],<a href="../docs/manualpages/Sys/PetscDataType.html#PetscDataType">PetscDataType</a>,void*)</font></strong>;
+<a name="line42"> 42: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Viewer/PetscViewerHDF5WriteAttribute.html#PetscViewerHDF5WriteAttribute">PetscViewerHDF5WriteAttribute</a>(<a href="../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>,const char[],const char[],<a href="../docs/manualpages/Sys/PetscDataType.html#PetscDataType">PetscDataType</a>,const void*)</font></strong>;
+<a name="line43"> 43: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Viewer/PetscViewerHDF5HasAttribute.html#PetscViewerHDF5HasAttribute">PetscViewerHDF5HasAttribute</a>(<a href="../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>, const char[], const char[], <a href="../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a> *)</font></strong>;
+<a name="line44"> 44: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> PetscViewerHDF5WriteSDS(<a href="../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>,float *,int,int *,int)</font></strong>;
+
+<a name="line46"> 46: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Viewer/PetscViewerHDF5Open.html#PetscViewerHDF5Open">PetscViewerHDF5Open</a>(<a href="../docs/manualpages/Sys/MPI_Comm.html#MPI_Comm">MPI_Comm</a>,const char[],<a href="../docs/manualpages/Sys/PetscFileMode.html#PetscFileMode">PetscFileMode</a>,<a href="../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>*)</font></strong>;
+<a name="line47"> 47: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Viewer/PetscViewerHDF5PushGroup.html#PetscViewerHDF5PushGroup">PetscViewerHDF5PushGroup</a>(<a href="../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>,const char *)</font></strong>;
+<a name="line48"> 48: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Viewer/PetscViewerHDF5PopGroup.html#PetscViewerHDF5PopGroup">PetscViewerHDF5PopGroup</a>(<a href="../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>)</font></strong>;
+<a name="line49"> 49: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Viewer/PetscViewerHDF5GetGroup.html#PetscViewerHDF5GetGroup">PetscViewerHDF5GetGroup</a>(<a href="../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>, const char **)</font></strong>;
+<a name="line50"> 50: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Viewer/PetscViewerHDF5IncrementTimestep.html#PetscViewerHDF5IncrementTimestep">PetscViewerHDF5IncrementTimestep</a>(<a href="../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>)</font></strong>;
+<a name="line51"> 51: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Viewer/PetscViewerHDF5SetTimestep.html#PetscViewerHDF5SetTimestep">PetscViewerHDF5SetTimestep</a>(<a href="../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>,<a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>)</font></strong>;
+<a name="line52"> 52: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Viewer/PetscViewerHDF5GetTimestep.html#PetscViewerHDF5GetTimestep">PetscViewerHDF5GetTimestep</a>(<a href="../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>,<a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>*)</font></strong>;
+
+<a name="line54"> 54: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Viewer/PetscViewerHDF5SetBaseDimension2.html#PetscViewerHDF5SetBaseDimension2">PetscViewerHDF5SetBaseDimension2</a>(<a href="../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>,<a href="../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>)</font></strong>;
+<a name="line55"> 55: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Viewer/PetscViewerHDF5GetBaseDimension2.html#PetscViewerHDF5GetBaseDimension2">PetscViewerHDF5GetBaseDimension2</a>(<a href="../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>,<a href="../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>*)</font></strong>;
+
+<a name="line57"> 57: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Viewer/PetscViewerHDF5SetSPOutput.html#PetscViewerHDF5SetSPOutput">PetscViewerHDF5SetSPOutput</a>(<a href="../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>,<a href="../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>)</font></strong>;
+<a name="line58"> 58: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Viewer/PetscViewerHDF5GetSPOutput.html#PetscViewerHDF5GetSPOutput">PetscViewerHDF5GetSPOutput</a>(<a href="../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>,<a href="../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>*)</font></strong>;
+
+<a name="line60"> 60: </a><font color="#A020F0">#endif</font>
+</pre>
+</body>
+
+</html>

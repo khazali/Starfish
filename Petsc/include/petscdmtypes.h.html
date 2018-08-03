@@ -1,0 +1,84 @@
+<center><a href="petscdmtypes.h">Actual source code: petscdmtypes.h</a></center><br>
+
+<html>
+<head> <link rel="canonical" href="http://www.mcs.anl.gov/petsc/petsc-current/include/petscdmtypes.h.html" />
+<title></title>
+<meta name="generator" content="c2html 0.9.4">
+<meta name="date" content="2017-12-10T05:16:10+00:00">
+</head>
+
+<body bgcolor="#FFFFFF">
+   <div id="version" align=right><b>petsc-3.8.3 2017-12-09</b></div>
+   <div id="bugreport" align=right><a href="mailto:petsc-maint@mcs.anl.gov?subject=Typo or Error in Documentation &body=Please describe the typo or error in the documentation: petsc-3.8.3 v3.8.3 include/petscdmtypes.h.html "><small>Report Typos and Errors</small></a></div>
+<pre width="80">
+<a name="line1">  1: </a><font color="#A020F0">#if !defined(_PETSCDMTYPES_H)</font>
+<a name="line2">  2: </a><strong><font color="#228B22">#define _PETSCDMTYPES_H</font></strong>
+
+<a name="line4">  4: </a><font color="#B22222">/*S</font>
+<a name="line5">  5: </a><font color="#B22222">     <a href="../docs/manualpages/DM/DM.html#DM">DM</a> - Abstract PETSc object that manages an abstract grid object and its interactions with the algebraic solvers</font>
+
+<a name="line7">  7: </a><font color="#B22222">   Level: intermediate</font>
+
+<a name="line9">  9: </a><font color="#B22222">  Concepts: grids, grid refinement</font>
+
+<a name="line11"> 11: </a><font color="#B22222">   Notes: The <a href="../docs/manualpages/DMDA/DMDACreate.html#DMDACreate">DMDACreate</a>() based object and the <a href="../docs/manualpages/DM/DMCompositeCreate.html#DMCompositeCreate">DMCompositeCreate</a>() based object are examples of DMs</font>
+
+<a name="line13"> 13: </a><font color="#B22222">.seealso:  <a href="../docs/manualpages/DM/DMCompositeCreate.html#DMCompositeCreate">DMCompositeCreate</a>(), <a href="../docs/manualpages/DMDA/DMDACreate.html#DMDACreate">DMDACreate</a>(), <a href="../docs/manualpages/DM/DMSetType.html#DMSetType">DMSetType</a>(), <a href="../docs/manualpages/DM/DMType.html#DMType">DMType</a></font>
+<a name="line14"> 14: </a><font color="#B22222">S*/</font>
+<a name="line15"> 15: </a><font color="#4169E1">typedef struct _p_DM* <a href="../docs/manualpages/DM/DM.html#DM">DM</a>;</font>
+
+<a name="line17"> 17: </a><font color="#B22222">/*E</font>
+<a name="line18"> 18: </a><font color="#B22222">  <a href="../docs/manualpages/DM/DMBoundaryType.html#DMBoundaryType">DMBoundaryType</a> - Describes the choice for fill of ghost cells on physical domain boundaries.</font>
+
+<a name="line20"> 20: </a><font color="#B22222">  Level: beginner</font>
+
+<a name="line22"> 22: </a><font color="#B22222">  A boundary may be of type <a href="../docs/manualpages/DM/DMBoundaryType.html#DMBoundaryType">DM_BOUNDARY_NONE</a> (no ghost nodes), <a href="../docs/manualpages/DM/DMBoundaryType.html#DMBoundaryType">DM_BOUNDARY_GHOSTED</a> (ghost vertices/cells</font>
+<a name="line23"> 23: </a><font color="#B22222">  exist but aren't filled, you can put values into them and then apply a stencil that uses those ghost locations),</font>
+<a name="line24"> 24: </a><font color="#B22222">  <a href="../docs/manualpages/DM/DMBoundaryType.html#DMBoundaryType">DM_BOUNDARY_MIRROR</a> (the ghost value is the same as the value 1 grid point in; that is the 0th grid point in the real mesh acts like a mirror to define the ghost point value; </font>
+<a name="line25"> 25: </a><font color="#B22222">  not yet implemented for 3d), <a href="../docs/manualpages/DM/DMBoundaryType.html#DMBoundaryType">DM_BOUNDARY_PERIODIC</a> (ghost vertices/cells filled by the opposite</font>
+<a name="line26"> 26: </a><font color="#B22222">  edge of the domain), or <a href="../docs/manualpages/DM/DMBoundaryType.html#DMBoundaryType">DM_BOUNDARY_TWIST</a> (like periodic, only glued backwards like a Mobius strip).</font>
+
+<a name="line28"> 28: </a><font color="#B22222">  Note: This is information for the boundary of the __PHYSICAL__ domain. It has nothing to do with boundaries between</font>
+<a name="line29"> 29: </a><font color="#B22222">  processes, that width is always determined by the stencil width, see <a href="../docs/manualpages/DMDA/DMDASetStencilWidth.html#DMDASetStencilWidth">DMDASetStencilWidth</a>().</font>
+
+<a name="line31"> 31: </a><font color="#B22222">  Note: If the physical grid points have values  0 1 2 3 with <a href="../docs/manualpages/DM/DMBoundaryType.html#DMBoundaryType">DM_BOUNDARY_MIRROR</a> then the local vector with ghost points has the values 1 0 1 2 3 2</font>
+
+<a name="line33"> 33: </a><font color="#B22222">  Developer notes: Should <a href="../docs/manualpages/DM/DMBoundaryType.html#DMBoundaryType">DM_BOUNDARY_MIRROR</a> have the same meaning with <a href="../docs/manualpages/DMDA/DMDAInterpolationType.html#DMDAInterpolationType">DMDA_Q0</a>, that is a staggered grid? In that case should the ghost point have the same value</font>
+<a name="line34"> 34: </a><font color="#B22222">  as the 0th grid point where the physical boundary serves as the mirror?</font>
+
+<a name="line36"> 36: </a><font color="#B22222">  References: http://scicomp.stackexchange.com/questions/5355/writing-the-poisson-equation-finite-difference-matrix-with-neumann-boundary-cond</font>
+
+<a name="line38"> 38: </a><font color="#B22222">.seealso: <a href="../docs/manualpages/DMDA/DMDASetBoundaryType.html#DMDASetBoundaryType">DMDASetBoundaryType</a>(), <a href="../docs/manualpages/DMDA/DMDACreate1d.html#DMDACreate1d">DMDACreate1d</a>(), <a href="../docs/manualpages/DMDA/DMDACreate2d.html#DMDACreate2d">DMDACreate2d</a>(), <a href="../docs/manualpages/DMDA/DMDACreate3d.html#DMDACreate3d">DMDACreate3d</a>(), <a href="../docs/manualpages/DMDA/DMDACreate.html#DMDACreate">DMDACreate</a>()</font>
+<a name="line39"> 39: </a><font color="#B22222">E*/</font>
+<a name="line40"> 40: </a><font color="#4169E1">typedef</font> <font color="#4169E1">enum</font> {<a href="../docs/manualpages/DM/DMBoundaryType.html#DMBoundaryType">DM_BOUNDARY_NONE</a>, <a href="../docs/manualpages/DM/DMBoundaryType.html#DMBoundaryType">DM_BOUNDARY_GHOSTED</a>, <a href="../docs/manualpages/DM/DMBoundaryType.html#DMBoundaryType">DM_BOUNDARY_MIRROR</a>, <a href="../docs/manualpages/DM/DMBoundaryType.html#DMBoundaryType">DM_BOUNDARY_PERIODIC</a>, <a href="../docs/manualpages/DM/DMBoundaryType.html#DMBoundaryType">DM_BOUNDARY_TWIST</a>} <a href="../docs/manualpages/DM/DMBoundaryType.html#DMBoundaryType">DMBoundaryType</a>;
+
+<a name="line42"> 42: </a><font color="#B22222">/*E</font>
+<a name="line43"> 43: </a><font color="#B22222">  <a href="../docs/manualpages/DM/DMPointLocationType.html#DMPointLocationType">DMPointLocationType</a> - Describes the method to handle point location failure</font>
+
+<a name="line45"> 45: </a><font color="#B22222">  Level: beginner</font>
+
+<a name="line47"> 47: </a><font color="#B22222">  If a search using <a href="../docs/manualpages/DM/DMPointLocationType.html#DMPointLocationType">DM_POINTLOCATION_NONE</a> fails, the failure is signaled with a negative cell number. On the</font>
+<a name="line48"> 48: </a><font color="#B22222">  other hand, if <a href="../docs/manualpages/DM/DMPointLocationType.html#DMPointLocationType">DM_POINTLOCATION_NEAREST</a> is used, on failure, the (approximate) nearest point in the mesh is</font>
+<a name="line49"> 49: </a><font color="#B22222">  used, replacing the given point in the input vector. <a href="../docs/manualpages/DM/DMPointLocationType.html#DMPointLocationType">DM_POINTLOCATION_REMOVE</a> returns values only for points</font>
+<a name="line50"> 50: </a><font color="#B22222">  which were located.</font>
+
+<a name="line52"> 52: </a><font color="#B22222">.seealso: <a href="../docs/manualpages/DM/DMLocatePoints.html#DMLocatePoints">DMLocatePoints</a>()</font>
+<a name="line53"> 53: </a><font color="#B22222">E*/</font>
+<a name="line54"> 54: </a><font color="#4169E1">typedef</font> <font color="#4169E1">enum</font> {<a href="../docs/manualpages/DM/DMPointLocationType.html#DMPointLocationType">DM_POINTLOCATION_NONE</a>, <a href="../docs/manualpages/DM/DMPointLocationType.html#DMPointLocationType">DM_POINTLOCATION_NEAREST</a>, <a href="../docs/manualpages/DM/DMPointLocationType.html#DMPointLocationType">DM_POINTLOCATION_REMOVE</a>} <a href="../docs/manualpages/DM/DMPointLocationType.html#DMPointLocationType">DMPointLocationType</a>;
+
+<a name="line56"> 56: </a><font color="#B22222">/*S</font>
+<a name="line57"> 57: </a><font color="#B22222">  <a href="../docs/manualpages/DM/PetscPartitioner.html#PetscPartitioner">PetscPartitioner</a> - PETSc object that manages a graph partitioner</font>
+
+<a name="line59"> 59: </a><font color="#B22222">  Level: intermediate</font>
+
+<a name="line61"> 61: </a><font color="#B22222">  Concepts: partition, mesh</font>
+
+<a name="line63"> 63: </a><font color="#B22222">.seealso: <a href="../docs/manualpages/DMPLEX/PetscPartitionerCreate.html#PetscPartitionerCreate">PetscPartitionerCreate</a>(), <a href="../docs/manualpages/DMPLEX/PetscPartitionerSetType.html#PetscPartitionerSetType">PetscPartitionerSetType</a>(), <a href="../docs/manualpages/DM/PetscPartitionerType.html#PetscPartitionerType">PetscPartitionerType</a></font>
+<a name="line64"> 64: </a><font color="#B22222">S*/</font>
+<a name="line65"> 65: </a><font color="#4169E1">typedef struct _p_PetscPartitioner *<a href="../docs/manualpages/DM/PetscPartitioner.html#PetscPartitioner">PetscPartitioner</a>;</font>
+
+<a name="line67"> 67: </a><font color="#A020F0">#endif</font>
+</pre>
+</body>
+
+</html>

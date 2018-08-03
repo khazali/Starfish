@@ -1,0 +1,63 @@
+<center><a href="petscmatlab.h">Actual source code: petscmatlab.h</a></center><br>
+
+<html>
+<head> <link rel="canonical" href="http://www.mcs.anl.gov/petsc/petsc-current/include/petscmatlab.h.html" />
+<title></title>
+<meta name="generator" content="c2html 0.9.4">
+<meta name="date" content="2017-12-10T05:58:21+00:00">
+</head>
+
+<body bgcolor="#FFFFFF">
+   <div id="version" align=right><b>petsc-3.8.3 2017-12-09</b></div>
+   <div id="bugreport" align=right><a href="mailto:petsc-maint@mcs.anl.gov?subject=Typo or Error in Documentation &body=Please describe the typo or error in the documentation: petsc-3.8.3 v3.8.3 include/petscmatlab.h.html "><small>Report Typos and Errors</small></a></div>
+<pre width="80">
+<a name="line1">  1: </a><font color="#B22222">/*</font>
+<a name="line2">  2: </a><font color="#B22222">    Defines an interface to the MATLAB Engine from PETSc</font>
+<a name="line3">  3: </a><font color="#B22222">*/</font>
+
+
+<a name="line8">  8: </a>PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscClassId.html#PetscClassId">PetscClassId</a> MATLABENGINE_CLASSID;
+
+<a name="line10"> 10: </a><font color="#B22222">/*S</font>
+<a name="line11"> 11: </a><font color="#B22222">     <a href="../docs/manualpages/Sys/PetscMatlabEngine.html#PetscMatlabEngine">PetscMatlabEngine</a> - Object used to communicate with MATLAB</font>
+
+<a name="line13"> 13: </a><font color="#B22222">   Level: intermediate</font>
+
+<a name="line15"> 15: </a><font color="#B22222">.seealso:  <a href="../docs/manualpages/Sys/PetscMatlabEngineCreate.html#PetscMatlabEngineCreate">PetscMatlabEngineCreate</a>(), <a href="../docs/manualpages/Sys/PetscMatlabEngineDestroy.html#PetscMatlabEngineDestroy">PetscMatlabEngineDestroy</a>(), <a href="../docs/manualpages/Sys/PetscMatlabEngineEvaluate.html#PetscMatlabEngineEvaluate">PetscMatlabEngineEvaluate</a>(),</font>
+<a name="line16"> 16: </a><font color="#B22222">           <a href="../docs/manualpages/Sys/PetscMatlabEngineGetOutput.html#PetscMatlabEngineGetOutput">PetscMatlabEngineGetOutput</a>(), <a href="../docs/manualpages/Sys/PetscMatlabEnginePut.html#PetscMatlabEnginePut">PetscMatlabEnginePut</a>(), <a href="../docs/manualpages/Sys/PetscMatlabEngineGet.html#PetscMatlabEngineGet">PetscMatlabEngineGet</a>(),</font>
+<a name="line17"> 17: </a><font color="#B22222">           <a href="../docs/manualpages/Sys/PetscMatlabEnginePrintOutput.html#PetscMatlabEnginePrintOutput">PetscMatlabEnginePrintOutput</a>(), <a href="../docs/manualpages/Sys/PetscMatlabEnginePutArray.html#PetscMatlabEnginePutArray">PetscMatlabEnginePutArray</a>(), <a href="../docs/manualpages/Sys/PetscMatlabEngineGetArray.html#PetscMatlabEngineGetArray">PetscMatlabEngineGetArray</a>(),</font>
+<a name="line18"> 18: </a><font color="#B22222">           <a href="../docs/manualpages/Sys/PETSC_MATLAB_ENGINE_.html#PETSC_MATLAB_ENGINE_">PETSC_MATLAB_ENGINE_</a>(), <a href="../docs/manualpages/Sys/PETSC_MATLAB_ENGINE_SELF.html#PETSC_MATLAB_ENGINE_SELF">PETSC_MATLAB_ENGINE_SELF</a>, <a href="../docs/manualpages/Sys/PETSC_MATLAB_ENGINE_WORLD.html#PETSC_MATLAB_ENGINE_WORLD">PETSC_MATLAB_ENGINE_WORLD</a></font>
+<a name="line19"> 19: </a><font color="#B22222">S*/</font>
+<a name="line20"> 20: </a><font color="#4169E1">typedef struct _p_PetscMatlabEngine* <a href="../docs/manualpages/Sys/PetscMatlabEngine.html#PetscMatlabEngine">PetscMatlabEngine</a>;</font>
+
+<a name="line22"> 22: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Sys/PetscMatlabEngineCreate.html#PetscMatlabEngineCreate">PetscMatlabEngineCreate</a>(<a href="../docs/manualpages/Sys/MPI_Comm.html#MPI_Comm">MPI_Comm</a>,const char[],<a href="../docs/manualpages/Sys/PetscMatlabEngine.html#PetscMatlabEngine">PetscMatlabEngine</a>*)</font></strong>;
+<a name="line23"> 23: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Sys/PetscMatlabEngineDestroy.html#PetscMatlabEngineDestroy">PetscMatlabEngineDestroy</a>(<a href="../docs/manualpages/Sys/PetscMatlabEngine.html#PetscMatlabEngine">PetscMatlabEngine</a>*)</font></strong>;
+<a name="line24"> 24: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Sys/PetscMatlabEngineEvaluate.html#PetscMatlabEngineEvaluate">PetscMatlabEngineEvaluate</a>(<a href="../docs/manualpages/Sys/PetscMatlabEngine.html#PetscMatlabEngine">PetscMatlabEngine</a>,const char[],...)</font></strong>;
+<a name="line25"> 25: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Sys/PetscMatlabEngineGetOutput.html#PetscMatlabEngineGetOutput">PetscMatlabEngineGetOutput</a>(<a href="../docs/manualpages/Sys/PetscMatlabEngine.html#PetscMatlabEngine">PetscMatlabEngine</a>,char **)</font></strong>;
+<a name="line26"> 26: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Sys/PetscMatlabEnginePrintOutput.html#PetscMatlabEnginePrintOutput">PetscMatlabEnginePrintOutput</a>(<a href="../docs/manualpages/Sys/PetscMatlabEngine.html#PetscMatlabEngine">PetscMatlabEngine</a>,FILE*)</font></strong>;
+<a name="line27"> 27: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Sys/PetscMatlabEnginePut.html#PetscMatlabEnginePut">PetscMatlabEnginePut</a>(<a href="../docs/manualpages/Sys/PetscMatlabEngine.html#PetscMatlabEngine">PetscMatlabEngine</a>,<a href="../docs/manualpages/Sys/PetscObject.html#PetscObject">PetscObject</a>)</font></strong>;
+<a name="line28"> 28: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Sys/PetscMatlabEngineGet.html#PetscMatlabEngineGet">PetscMatlabEngineGet</a>(<a href="../docs/manualpages/Sys/PetscMatlabEngine.html#PetscMatlabEngine">PetscMatlabEngine</a>,<a href="../docs/manualpages/Sys/PetscObject.html#PetscObject">PetscObject</a>)</font></strong>;
+<a name="line29"> 29: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Sys/PetscMatlabEnginePutArray.html#PetscMatlabEnginePutArray">PetscMatlabEnginePutArray</a>(<a href="../docs/manualpages/Sys/PetscMatlabEngine.html#PetscMatlabEngine">PetscMatlabEngine</a>,int,int,const <a href="../docs/manualpages/Sys/PetscScalar.html#PetscScalar">PetscScalar</a>*,const char[])</font></strong>;
+<a name="line30"> 30: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Sys/PetscMatlabEngineGetArray.html#PetscMatlabEngineGetArray">PetscMatlabEngineGetArray</a>(<a href="../docs/manualpages/Sys/PetscMatlabEngine.html#PetscMatlabEngine">PetscMatlabEngine</a>,int,int,<a href="../docs/manualpages/Sys/PetscScalar.html#PetscScalar">PetscScalar</a>*,const char[])</font></strong>;
+
+<a name="line32"> 32: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscMatlabEngine.html#PetscMatlabEngine">PetscMatlabEngine</a>  <a href="../docs/manualpages/Sys/PETSC_MATLAB_ENGINE_.html#PETSC_MATLAB_ENGINE_">PETSC_MATLAB_ENGINE_</a>(<a href="../docs/manualpages/Sys/MPI_Comm.html#MPI_Comm">MPI_Comm</a>)</font></strong>;
+
+<a name="line34"> 34: </a><font color="#B22222">/*MC</font>
+<a name="line35"> 35: </a><font color="#B22222">  <a href="../docs/manualpages/Sys/PETSC_MATLAB_ENGINE_WORLD.html#PETSC_MATLAB_ENGINE_WORLD">PETSC_MATLAB_ENGINE_WORLD</a> - same as <a href="../docs/manualpages/Sys/PETSC_MATLAB_ENGINE_.html#PETSC_MATLAB_ENGINE_">PETSC_MATLAB_ENGINE_</a>(<a href="../docs/manualpages/Sys/PETSC_COMM_WORLD.html#PETSC_COMM_WORLD">PETSC_COMM_WORLD</a>)</font>
+
+<a name="line37"> 37: </a><font color="#B22222">  Level: developer</font>
+<a name="line38"> 38: </a><font color="#B22222">M*/</font>
+<a name="line39"> 39: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/Sys/PETSC_MATLAB_ENGINE_WORLD.html#PETSC_MATLAB_ENGINE_WORLD">PETSC_MATLAB_ENGINE_WORLD</a> <a href="../docs/manualpages/Sys/PETSC_MATLAB_ENGINE_.html#PETSC_MATLAB_ENGINE_">PETSC_MATLAB_ENGINE_</a>(<a href="../docs/manualpages/Sys/PETSC_COMM_WORLD.html#PETSC_COMM_WORLD">PETSC_COMM_WORLD</a>)</font></strong>
+
+<a name="line41"> 41: </a><font color="#B22222">/*MC</font>
+<a name="line42"> 42: </a><font color="#B22222">  <a href="../docs/manualpages/Sys/PETSC_MATLAB_ENGINE_SELF.html#PETSC_MATLAB_ENGINE_SELF">PETSC_MATLAB_ENGINE_SELF</a> - same as <a href="../docs/manualpages/Sys/PETSC_MATLAB_ENGINE_.html#PETSC_MATLAB_ENGINE_">PETSC_MATLAB_ENGINE_</a>(<a href="../docs/manualpages/Sys/PETSC_COMM_SELF.html#PETSC_COMM_SELF">PETSC_COMM_SELF</a>)</font>
+
+<a name="line44"> 44: </a><font color="#B22222">  Level: developer</font>
+<a name="line45"> 45: </a><font color="#B22222">M*/</font>
+<a name="line46"> 46: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/Sys/PETSC_MATLAB_ENGINE_SELF.html#PETSC_MATLAB_ENGINE_SELF">PETSC_MATLAB_ENGINE_SELF</a>  <a href="../docs/manualpages/Sys/PETSC_MATLAB_ENGINE_.html#PETSC_MATLAB_ENGINE_">PETSC_MATLAB_ENGINE_</a>(<a href="../docs/manualpages/Sys/PETSC_COMM_SELF.html#PETSC_COMM_SELF">PETSC_COMM_SELF</a>)</font></strong>
+
+<a name="line48"> 48: </a><font color="#A020F0">#endif</font>
+</pre>
+</body>
+
+</html>

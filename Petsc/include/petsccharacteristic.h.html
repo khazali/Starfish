@@ -1,0 +1,63 @@
+<center><a href="petsccharacteristic.h">Actual source code: petsccharacteristic.h</a></center><br>
+
+<html>
+<head> <link rel="canonical" href="http://www.mcs.anl.gov/petsc/petsc-current/include/petsccharacteristic.h.html" />
+<title></title>
+<meta name="generator" content="c2html 0.9.4">
+<meta name="date" content="2017-12-10T05:52:01+00:00">
+</head>
+
+<body bgcolor="#FFFFFF">
+   <div id="version" align=right><b>petsc-3.8.3 2017-12-09</b></div>
+   <div id="bugreport" align=right><a href="mailto:petsc-maint@mcs.anl.gov?subject=Typo or Error in Documentation &body=Please describe the typo or error in the documentation: petsc-3.8.3 v3.8.3 include/petsccharacteristic.h.html "><small>Report Typos and Errors</small></a></div>
+<pre width="80">
+<a name="line1">  1: </a><font color="#B22222">/*</font>
+<a name="line2">  2: </a><font color="#B22222">   Defines the interface functions for the method of characteristics solvers</font>
+<a name="line3">  3: </a><font color="#B22222">*/</font>
+<a name="line4">  4: </a><font color="#A020F0">#ifndef __PETSCCHARACTERISTICS_H</font>
+
+<a name="line7">  7: </a> #include <A href="petscvec.h.html">&lt;petscvec.h&gt;</A>
+<a name="line8">  8: </a> #include <A href="petscdmdatypes.h.html">&lt;petscdmdatypes.h&gt;</A>
+
+<a name="line10"> 10: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Characteristic/CharacteristicInitializePackage.html#CharacteristicInitializePackage">CharacteristicInitializePackage</a>(void)</font></strong>;
+
+<a name="line12"> 12: </a><font color="#B22222">/*S</font>
+<a name="line13"> 13: </a><font color="#B22222">     <a href="../docs/manualpages/Characteristic/Characteristic.html#Characteristic">Characteristic</a> - Abstract PETSc object that manages method of characteristics solves</font>
+
+<a name="line15"> 15: </a><font color="#B22222">   Level: beginner</font>
+
+<a name="line17"> 17: </a><font color="#B22222">  Concepts: Method of characteristics</font>
+
+<a name="line19"> 19: </a><font color="#B22222">.seealso:  CharacteristicCreate(), <a href="../docs/manualpages/Characteristic/CharacteristicSetType.html#CharacteristicSetType">CharacteristicSetType</a>(), <a href="../docs/manualpages/Characteristic/CharacteristicType.html#CharacteristicType">CharacteristicType</a>, <a href="../docs/manualpages/SNES/SNES.html#SNES">SNES</a>, <a href="../docs/manualpages/TS/TS.html#TS">TS</a>, <a href="../docs/manualpages/PC/PC.html#PC">PC</a>, <a href="../docs/manualpages/KSP/KSP.html#KSP">KSP</a></font>
+<a name="line20"> 20: </a><font color="#B22222">S*/</font>
+<a name="line21"> 21: </a><font color="#4169E1">typedef struct _p_Characteristic *<a href="../docs/manualpages/Characteristic/Characteristic.html#Characteristic">Characteristic</a>;</font>
+
+<a name="line23"> 23: </a><font color="#B22222">/*J</font>
+<a name="line24"> 24: </a><font color="#B22222">    <a href="../docs/manualpages/Characteristic/CharacteristicType.html#CharacteristicType">CharacteristicType</a> - String with the name of a characteristics method.</font>
+
+<a name="line26"> 26: </a><font color="#B22222">   Level: beginner</font>
+
+<a name="line28"> 28: </a><font color="#B22222">.seealso: <a href="../docs/manualpages/Characteristic/CharacteristicSetType.html#CharacteristicSetType">CharacteristicSetType</a>(), <a href="../docs/manualpages/Characteristic/Characteristic.html#Characteristic">Characteristic</a></font>
+<a name="line29"> 29: </a><font color="#B22222">J*/</font>
+<a name="line30"> 30: </a><strong><font color="#228B22">#define CHARACTERISTICDA </font><font color="#666666">"da"</font><font color="#228B22"></font></strong>
+<a name="line31"> 31: </a><font color="#4169E1">typedef const char* <a href="../docs/manualpages/Characteristic/CharacteristicType.html#CharacteristicType">CharacteristicType</a>;</font>
+
+<a name="line33"> 33: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> CharacteristicCreate(<a href="../docs/manualpages/Sys/MPI_Comm.html#MPI_Comm">MPI_Comm</a>, <a href="../docs/manualpages/Characteristic/Characteristic.html#Characteristic">Characteristic</a> *)</font></strong>;
+<a name="line34"> 34: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Characteristic/CharacteristicSetType.html#CharacteristicSetType">CharacteristicSetType</a>(<a href="../docs/manualpages/Characteristic/Characteristic.html#Characteristic">Characteristic</a>, <a href="../docs/manualpages/Characteristic/CharacteristicType.html#CharacteristicType">CharacteristicType</a>)</font></strong>;
+<a name="line35"> 35: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Characteristic/CharacteristicSetUp.html#CharacteristicSetUp">CharacteristicSetUp</a>(<a href="../docs/manualpages/Characteristic/Characteristic.html#Characteristic">Characteristic</a>)</font></strong>;
+<a name="line36"> 36: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> CharacteristicSetVelocityInterpolation(<a href="../docs/manualpages/Characteristic/Characteristic.html#Characteristic">Characteristic</a>, <a href="../docs/manualpages/DM/DM.html#DM">DM</a>, <a href="../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, <a href="../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>, <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>[], <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*)(<a href="../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, <a href="../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a>[], <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>, <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>[], <a href="../docs/manualpages/Sys/PetscScalar.html#PetscScalar">PetscScalar</a>[], void *), void *)</font></strong>;
+<a name="line37"> 37: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> CharacteristicSetVelocityInterpolationLocal(<a href="../docs/manualpages/Characteristic/Characteristic.html#Characteristic">Characteristic</a>, <a href="../docs/manualpages/DM/DM.html#DM">DM</a>, <a href="../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, <a href="../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>, <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>[], <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*)(void *, <a href="../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a>[], <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>, <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>[], <a href="../docs/manualpages/Sys/PetscScalar.html#PetscScalar">PetscScalar</a>[], void *), void *)</font></strong>;
+<a name="line38"> 38: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> CharacteristicSetFieldInterpolation(<a href="../docs/manualpages/Characteristic/Characteristic.html#Characteristic">Characteristic</a>, <a href="../docs/manualpages/DM/DM.html#DM">DM</a>, <a href="../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>, <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>[], <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*)(<a href="../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, <a href="../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a>[], <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>, <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>[], <a href="../docs/manualpages/Sys/PetscScalar.html#PetscScalar">PetscScalar</a>[], void *), void *)</font></strong>;
+<a name="line39"> 39: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> CharacteristicSetFieldInterpolationLocal(<a href="../docs/manualpages/Characteristic/Characteristic.html#Characteristic">Characteristic</a>, <a href="../docs/manualpages/DM/DM.html#DM">DM</a>, <a href="../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>, <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>[], <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*)(void *, <a href="../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a>[], <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>, <a href="../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>[], <a href="../docs/manualpages/Sys/PetscScalar.html#PetscScalar">PetscScalar</a>[], void *), void *)</font></strong>;
+<a name="line40"> 40: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> CharacteristicSolve(<a href="../docs/manualpages/Characteristic/Characteristic.html#Characteristic">Characteristic</a>, <a href="../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a>, <a href="../docs/manualpages/Vec/Vec.html#Vec">Vec</a>)</font></strong>;
+<a name="line41"> 41: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> CharacteristicDestroy(<a href="../docs/manualpages/Characteristic/Characteristic.html#Characteristic">Characteristic</a>*)</font></strong>;
+
+<a name="line43"> 43: </a>PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscFunctionList.html#PetscFunctionList">PetscFunctionList</a> CharacteristicList;
+
+<a name="line45"> 45: </a><strong><font color="#4169E1"><a name="CharacteristicRegister"></a>PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Characteristic/CharacteristicRegister.html#CharacteristicRegister">CharacteristicRegister</a>(const char[],<a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*)(<a href="../docs/manualpages/Characteristic/Characteristic.html#Characteristic">Characteristic</a>)</font></strong>);
+
+<a name="line47"> 47: </a><font color="#A020F0">#endif </font><font color="#B22222">/*__PETSCCHARACTERISTICS_H*/</font><font color="#A020F0"></font>
+</pre>
+</body>
+
+</html>

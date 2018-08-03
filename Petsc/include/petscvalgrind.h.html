@@ -1,0 +1,29 @@
+<center><a href="petscvalgrind.h">Actual source code: petscvalgrind.h</a></center><br>
+
+<html>
+<head> <link rel="canonical" href="http://www.mcs.anl.gov/petsc/petsc-current/include/petscvalgrind.h.html" />
+<title></title>
+<meta name="generator" content="c2html 0.9.4">
+<meta name="date" content="2017-12-10T05:58:22+00:00">
+</head>
+
+<body bgcolor="#FFFFFF">
+   <div id="version" align=right><b>petsc-3.8.3 2017-12-09</b></div>
+   <div id="bugreport" align=right><a href="mailto:petsc-maint@mcs.anl.gov?subject=Typo or Error in Documentation &body=Please describe the typo or error in the documentation: petsc-3.8.3 v3.8.3 include/petscvalgrind.h.html "><small>Report Typos and Errors</small></a></div>
+<pre width="80">
+<a name="line1">  1: </a><font color="#B22222">/*</font>
+<a name="line2">  2: </a><font color="#B22222">  This is the include file for source code that needs to know if the code is being run under valgrind</font>
+<a name="line3">  3: </a><font color="#B22222">*/</font>
+
+<a name="line7">  7: </a><font color="#A020F0">#if defined(PETSC_HAVE_VALGRIND)</font>
+<a name="line8">  8: </a><font color="#A020F0">#  include &lt;valgrind/valgrind.h&gt;</font>
+<a name="line9">  9: </a><font color="#A020F0">#  define PETSC_RUNNING_ON_VALGRIND RUNNING_ON_VALGRIND</font>
+<a name="line10"> 10: </a><font color="#A020F0">#else</font>
+<a name="line11"> 11: </a><font color="#A020F0">#  define PETSC_RUNNING_ON_VALGRIND <a href="../docs/manualpages/Sys/PETSC_FALSE.html#PETSC_FALSE">PETSC_FALSE</a></font>
+<a name="line12"> 12: </a><font color="#A020F0">#endif</font>
+
+<a name="line14"> 14: </a><font color="#A020F0">#endif</font>
+</pre>
+</body>
+
+</html>

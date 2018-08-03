@@ -1,0 +1,118 @@
+<center><a href="dmdaimpl.h">Actual source code: dmdaimpl.h</a></center><br>
+
+<html>
+<head> <link rel="canonical" href="http://www.mcs.anl.gov/petsc/petsc-current/include/petsc/private/dmdaimpl.h.html" />
+<title></title>
+<meta name="generator" content="c2html 0.9.4">
+<meta name="date" content="2017-12-10T05:58:33+00:00">
+</head>
+
+<body bgcolor="#FFFFFF">
+   <div id="version" align=right><b>petsc-3.8.3 2017-12-09</b></div>
+   <div id="bugreport" align=right><a href="mailto:petsc-maint@mcs.anl.gov?subject=Typo or Error in Documentation &body=Please describe the typo or error in the documentation: petsc-3.8.3 v3.8.3 include/petsc/private/dmdaimpl.h.html "><small>Report Typos and Errors</small></a></div>
+<pre width="80">
+<a name="line1">  1: </a><font color="#B22222">/*</font>
+<a name="line2">  2: </a><font color="#B22222">   Distributed arrays - communication tools for parallel, rectangular grids.</font>
+<a name="line3">  3: </a><font color="#B22222">*/</font>
+
+<a name="line5">  5: </a><font color="#A020F0">#if !defined(_DAIMPL_H)</font>
+<a name="line6">  6: </a><strong><font color="#228B22">#define _DAIMPL_H</font></strong>
+
+<a name="line8">  8: </a> #include <A href="../../../include/petscdmda.h.html">&lt;petscdmda.h&gt;</A>
+<a name="line9">  9: </a> #include <A href="../../../include/petsc/private/dmimpl.h.html">&lt;petsc/private/dmimpl.h&gt;</A>
+
+<a name="line11"> 11: </a><font color="#4169E1">typedef</font> <font color="#4169E1">struct</font> {
+<a name="line12"> 12: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>              M,N,P;                 <font color="#B22222">/* array dimensions */</font>
+<a name="line13"> 13: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>              m,n,p;                 <font color="#B22222">/* processor layout */</font>
+<a name="line14"> 14: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>              w;                     <font color="#B22222">/* degrees of freedom per node */</font>
+<a name="line15"> 15: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>              s;                     <font color="#B22222">/* stencil width */</font>
+<a name="line16"> 16: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>              xs,xe,ys,ye,zs,ze;     <font color="#B22222">/* range of local values */</font>
+<a name="line17"> 17: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>              Xs,Xe,Ys,Ye,Zs,Ze;     <font color="#B22222">/* range including ghost values</font>
+<a name="line18"> 18: </a><font color="#B22222">                                                   values above already scaled by w */</font>
+<a name="line19"> 19: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>              base;                  <font color="#B22222">/* global number of 1st local node, includes the * w term */</font>
+<a name="line20"> 20: </a>  <a href="../../../docs/manualpages/DM/DMBoundaryType.html#DMBoundaryType">DMBoundaryType</a>        bx,by,bz;              <font color="#B22222">/* indicates type of ghost nodes at boundary */</font>
+<a name="line21"> 21: </a>  <a href="../../../docs/manualpages/Vec/VecScatter.html#VecScatter">VecScatter</a>            gtol,ltol;        <font color="#B22222">/* scatters, see below for details */</font>
+<a name="line22"> 22: </a>  <a href="../../../docs/manualpages/DMDA/DMDAStencilType.html#DMDAStencilType">DMDAStencilType</a>       stencil_type;          <font color="#B22222">/* stencil, either box or star */</font>
+<a name="line23"> 23: </a>  <a href="../../../docs/manualpages/DMDA/DMDAInterpolationType.html#DMDAInterpolationType">DMDAInterpolationType</a> interptype;
+
+<a name="line25"> 25: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>              nlocal,Nlocal;         <font color="#B22222">/* local size of local vector and global vector, includes the * w term */</font>
+
+<a name="line27"> 27: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>              xol,yol,zol;           <font color="#B22222">/* overlap of local subdomains */</font>
+<a name="line28"> 28: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>              xo,yo,zo;              <font color="#B22222">/* offsets for the indices in x y and z */</font>
+<a name="line29"> 29: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>              Mo,No,Po;              <font color="#B22222">/* the size of the problem the offset is in to */</font>
+<a name="line30"> 30: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>              Nsub;                  <font color="#B22222">/* number of local subdomains to decompose into */</font>
+<a name="line31"> 31: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>              nonxs,nonys,nonzs;     <font color="#B22222">/* the nonoverlapping starts in the case of a subdomain da */</font>
+<a name="line32"> 32: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>              nonxm,nonym,nonzm;     <font color="#B22222">/* the nonoverlapping sizes in the case of a subdomain da */</font>
+
+<a name="line34"> 34: </a>  <a href="../../../docs/manualpages/AO/AO.html#AO">AO</a>                    ao;                    <font color="#B22222">/* application ordering context */</font>
+<a name="line35"> 35: </a>  <a href="../../../docs/manualpages/AO/AOType.html#AOType">AOType</a>                aotype;                <font color="#B22222">/* type of application ordering */</font>
+
+<a name="line37"> 37: </a>  char                  **fieldname;           <font color="#B22222">/* names of individual components in vectors */</font>
+<a name="line38"> 38: </a>  char                  **coordinatename;      <font color="#B22222">/* names of coordinate directions, for example, x, y, z */</font>
+
+<a name="line40"> 40: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>              *lx,*ly,*lz;        <font color="#B22222">/* number of nodes in each partition block along 3 axis */</font>
+<a name="line41"> 41: </a>  <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>                   natural;            <font color="#B22222">/* global vector for storing items in natural order */</font>
+<a name="line42"> 42: </a>  <a href="../../../docs/manualpages/Vec/VecScatter.html#VecScatter">VecScatter</a>            gton;               <font color="#B22222">/* vector scatter from global to natural */</font>
+<a name="line43"> 43: </a>  <a href="../../../docs/manualpages/Sys/PetscMPIInt.html#PetscMPIInt">PetscMPIInt</a>           *neighbors;         <font color="#B22222">/* ranks of all neighbors and self */</font>
+
+<a name="line45"> 45: </a>  <a href="../../../docs/manualpages/IS/ISColoring.html#ISColoring">ISColoring</a>            localcoloring;       <font color="#B22222">/* set by <a href="../../../docs/manualpages/DM/DMCreateColoring.html#DMCreateColoring">DMCreateColoring</a>() */</font>
+<a name="line46"> 46: </a>  <a href="../../../docs/manualpages/IS/ISColoring.html#ISColoring">ISColoring</a>            ghostedcoloring;
+
+<a name="line48"> 48: </a>  <a href="../../../docs/manualpages/DMDA/DMDAElementType.html#DMDAElementType">DMDAElementType</a>       elementtype;
+<a name="line49"> 49: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>              ne;                  <font color="#B22222">/* number of elements */</font>
+<a name="line50"> 50: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>              *e;                  <font color="#B22222">/* the elements */</font>
+
+<a name="line52"> 52: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>              refine_x,refine_y,refine_z;    <font color="#B22222">/* ratio used in refining */</font>
+<a name="line53"> 53: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>              coarsen_x,coarsen_y,coarsen_z; <font color="#B22222">/* ratio used for coarsening */</font>
+<a name="line54"> 54: </a>                        <font color="#B22222">/* if the refinement is done differently on different levels */</font>
+<a name="line55"> 55: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>              refine_x_hier_n,*refine_x_hier,refine_y_hier_n,*refine_y_hier,refine_z_hier_n,*refine_z_hier;
+
+<a name="line57"> 57: </a><strong><font color="#228B22">#define DMDA_MAX_WORK_ARRAYS 2 </font><font color="#B22222">/* work arrays for holding work via <a href="../../../docs/manualpages/DMDA/DMDAGetArray.html#DMDAGetArray">DMDAGetArray</a>() */</font><font color="#228B22"></font></strong>
+<a name="line58"> 58: </a>  void                  *arrayin[DMDA_MAX_WORK_ARRAYS],*arrayout[DMDA_MAX_WORK_ARRAYS];
+<a name="line59"> 59: </a>  void                  *arrayghostedin[DMDA_MAX_WORK_ARRAYS],*arrayghostedout[DMDA_MAX_WORK_ARRAYS];
+<a name="line60"> 60: </a>  void                  *startin[DMDA_MAX_WORK_ARRAYS],*startout[DMDA_MAX_WORK_ARRAYS];
+<a name="line61"> 61: </a>  void                  *startghostedin[DMDA_MAX_WORK_ARRAYS],*startghostedout[DMDA_MAX_WORK_ARRAYS];
+
+<a name="line63"> 63: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*lf)(<a href="../../../docs/manualpages/DM/DM.html#DM">DM</a>, <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, void *);
+<a name="line64"> 64: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*lj)(<a href="../../../docs/manualpages/DM/DM.html#DM">DM</a>, <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, void *);
+
+<a name="line66"> 66: </a>  <font color="#B22222">/* used by <a href="../../../docs/manualpages/DMDA/DMDASetBlockFills.html#DMDASetBlockFills">DMDASetBlockFills</a>() */</font>
+<a name="line67"> 67: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>              *ofill,*dfill;
+<a name="line68"> 68: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>              *ofillcols;
+
+<a name="line70"> 70: </a>  <font color="#B22222">/* used by DMDASetMatPreallocateOnly() */</font>
+<a name="line71"> 71: </a>  <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>             prealloc_only;
+<a name="line72"> 72: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>              preallocCenterDim; <font color="#B22222">/* Dimension of the points which connect adjacent points for preallocation */</font>
+<a name="line73"> 73: </a>} DM_DA;
+
+<a name="line75"> 75: </a><font color="#B22222">/*</font>
+<a name="line76"> 76: </a><font color="#B22222">  Vectors:</font>
+<a name="line77"> 77: </a><font color="#B22222">     Global has on each processor the interior degrees of freedom and</font>
+<a name="line78"> 78: </a><font color="#B22222">         no ghost points. This vector is what the solvers usually see.</font>
+<a name="line79"> 79: </a><font color="#B22222">     Local has on each processor the ghost points as well. This is</font>
+<a name="line80"> 80: </a><font color="#B22222">          what code to calculate Jacobians, etc. usually sees.</font>
+<a name="line81"> 81: </a><font color="#B22222">  Vector scatters:</font>
+<a name="line82"> 82: </a><font color="#B22222">     gtol - Global representation to local</font>
+<a name="line83"> 83: </a><font color="#B22222">     ltog - Local representation to global (involves no communication)</font>
+<a name="line84"> 84: </a><font color="#B22222">     ltol - Local representation to local representation, updates the</font>
+<a name="line85"> 85: </a><font color="#B22222">            ghostpoint values in the second vector from (correct) interior</font>
+<a name="line86"> 86: </a><font color="#B22222">            values in the first vector.  This is good for explicit</font>
+<a name="line87"> 87: </a><font color="#B22222">            nearest neighbor timestepping.</font>
+<a name="line88"> 88: </a><font color="#B22222">*/</font>
+
+<a name="line90"> 90: </a><strong><font color="#4169E1">PETSC_INTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> VecView_MPI_DA(<a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>,<a href="../../../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>)</font></strong>;
+<a name="line91"> 91: </a><strong><font color="#4169E1">PETSC_INTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> VecLoad_Default_DA(<a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, <a href="../../../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>)</font></strong>;
+<a name="line92"> 92: </a><strong><font color="#4169E1">PETSC_INTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> DMView_DA_Matlab(<a href="../../../docs/manualpages/DM/DM.html#DM">DM</a>,<a href="../../../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>)</font></strong>;
+<a name="line93"> 93: </a><strong><font color="#4169E1">PETSC_INTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> DMView_DA_Binary(<a href="../../../docs/manualpages/DM/DM.html#DM">DM</a>,<a href="../../../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>)</font></strong>;
+<a name="line94"> 94: </a><strong><font color="#4169E1">PETSC_INTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> DMView_DA_VTK(<a href="../../../docs/manualpages/DM/DM.html#DM">DM</a>,<a href="../../../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>)</font></strong>;
+<a name="line95"> 95: </a><strong><font color="#4169E1">PETSC_INTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> DMView_DA_GLVis(<a href="../../../docs/manualpages/DM/DM.html#DM">DM</a>,<a href="../../../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>)</font></strong>;
+<a name="line96"> 96: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../../../docs/manualpages/DMDA/DMDAVTKWriteAll.html#DMDAVTKWriteAll">DMDAVTKWriteAll</a>(<a href="../../../docs/manualpages/Sys/PetscObject.html#PetscObject">PetscObject</a>,<a href="../../../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>)</font></strong>;
+<a name="line97"> 97: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> DMDASelectFields(<a href="../../../docs/manualpages/DM/DM.html#DM">DM</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>*,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>**)</font></strong>;
+
+<a name="line99"> 99: </a>PETSC_EXTERN <a href="../../../docs/manualpages/Profiling/PetscLogEvent.html#PetscLogEvent">PetscLogEvent</a> DMDA_LocalADFunction;
+
+<a name="line101">101: </a><font color="#A020F0">#endif</font>
+</pre>
+</body>
+
+</html>

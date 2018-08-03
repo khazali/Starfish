@@ -1,0 +1,155 @@
+<center><a href="isimpl.h">Actual source code: isimpl.h</a></center><br>
+
+<html>
+<head> <link rel="canonical" href="http://www.mcs.anl.gov/petsc/petsc-current/include/petsc/private/isimpl.h.html" />
+<title></title>
+<meta name="generator" content="c2html 0.9.4">
+<meta name="date" content="2017-12-10T05:58:42+00:00">
+</head>
+
+<body bgcolor="#FFFFFF">
+   <div id="version" align=right><b>petsc-3.8.3 2017-12-09</b></div>
+   <div id="bugreport" align=right><a href="mailto:petsc-maint@mcs.anl.gov?subject=Typo or Error in Documentation &body=Please describe the typo or error in the documentation: petsc-3.8.3 v3.8.3 include/petsc/private/isimpl.h.html "><small>Report Typos and Errors</small></a></div>
+<pre width="80">
+<a name="line1">  1: </a><font color="#B22222">/*</font>
+<a name="line2">  2: </a><font color="#B22222">    Index sets for scatter-gather type operations in vectors</font>
+<a name="line3">  3: </a><font color="#B22222">and matrices.</font>
+
+<a name="line5">  5: </a><font color="#B22222">*/</font>
+
+<a name="line7">  7: </a><font color="#A020F0">#if !defined(_IS_H)</font>
+<a name="line8">  8: </a><strong><font color="#228B22">#define _IS_H</font></strong>
+
+<a name="line10"> 10: </a> #include <A href="../../../include/petscis.h.html">&lt;petscis.h&gt;</A>
+<a name="line11"> 11: </a> #include <A href="../../../include/petsc/private/petscimpl.h.html">&lt;petsc/private/petscimpl.h&gt;</A>
+
+<a name="line13"> 13: </a>PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a> ISRegisterAllCalled;
+<a name="line14"> 14: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../../../docs/manualpages/IS/ISRegisterAll.html#ISRegisterAll">ISRegisterAll</a>(void)</font></strong>;
+
+<a name="line16"> 16: </a><font color="#4169E1"><a name="_ISOps"></a>struct _ISOps </font>{
+<a name="line17"> 17: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*getsize)(<a href="../../../docs/manualpages/IS/IS.html#IS">IS</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>*);
+<a name="line18"> 18: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*getlocalsize)(<a href="../../../docs/manualpages/IS/IS.html#IS">IS</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>*);
+<a name="line19"> 19: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*getindices)(<a href="../../../docs/manualpages/IS/IS.html#IS">IS</a>,const <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>*[]);
+<a name="line20"> 20: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*restoreindices)(<a href="../../../docs/manualpages/IS/IS.html#IS">IS</a>,const <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>*[]);
+<a name="line21"> 21: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*invertpermutation)(<a href="../../../docs/manualpages/IS/IS.html#IS">IS</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,<a href="../../../docs/manualpages/IS/IS.html#IS">IS</a>*);
+<a name="line22"> 22: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*sort)(<a href="../../../docs/manualpages/IS/IS.html#IS">IS</a>);
+<a name="line23"> 23: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*sortremovedups)(<a href="../../../docs/manualpages/IS/IS.html#IS">IS</a>);
+<a name="line24"> 24: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*sorted)(<a href="../../../docs/manualpages/IS/IS.html#IS">IS</a>,<a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>*);
+<a name="line25"> 25: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*duplicate)(<a href="../../../docs/manualpages/IS/IS.html#IS">IS</a>,<a href="../../../docs/manualpages/IS/IS.html#IS">IS</a>*);
+<a name="line26"> 26: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*destroy)(<a href="../../../docs/manualpages/IS/IS.html#IS">IS</a>);
+<a name="line27"> 27: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*view)(<a href="../../../docs/manualpages/IS/IS.html#IS">IS</a>,<a href="../../../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>);
+<a name="line28"> 28: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*load)(<a href="../../../docs/manualpages/IS/IS.html#IS">IS</a>,<a href="../../../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>);
+<a name="line29"> 29: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*identity)(<a href="../../../docs/manualpages/IS/IS.html#IS">IS</a>,<a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>*);
+<a name="line30"> 30: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*copy)(<a href="../../../docs/manualpages/IS/IS.html#IS">IS</a>,<a href="../../../docs/manualpages/IS/IS.html#IS">IS</a>);
+<a name="line31"> 31: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*togeneral)(<a href="../../../docs/manualpages/IS/IS.html#IS">IS</a>);
+<a name="line32"> 32: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*oncomm)(<a href="../../../docs/manualpages/IS/IS.html#IS">IS</a>,<a href="../../../docs/manualpages/Sys/MPI_Comm.html#MPI_Comm">MPI_Comm</a>,<a href="../../../docs/manualpages/Sys/PetscCopyMode.html#PetscCopyMode">PetscCopyMode</a>,<a href="../../../docs/manualpages/IS/IS.html#IS">IS</a>*);
+<a name="line33"> 33: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*setblocksize)(<a href="../../../docs/manualpages/IS/IS.html#IS">IS</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>);
+<a name="line34"> 34: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*contiguous)(<a href="../../../docs/manualpages/IS/IS.html#IS">IS</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>*,<a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>*);
+<a name="line35"> 35: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*locate)(<a href="../../../docs/manualpages/IS/IS.html#IS">IS</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> *);
+<a name="line36"> 36: </a>};
+
+<a name="line38"> 38: </a><font color="#4169E1"><a name="_p_IS"></a>struct _p_IS </font>{
+<a name="line39"> 39: </a>  PETSCHEADER(<font color="#4169E1">struct _ISOps</font>);
+<a name="line40"> 40: </a>  <a href="../../../docs/manualpages/IS/PetscLayout.html#PetscLayout">PetscLayout</a>  map;
+<a name="line41"> 41: </a>  <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>    isperm;          <font color="#B22222">/* if is a permutation */</font>
+<a name="line42"> 42: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>     max,min;         <font color="#B22222">/* range of possible values */</font>
+<a name="line43"> 43: </a>  void         *data;
+<a name="line44"> 44: </a>  <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>    isidentity;
+<a name="line45"> 45: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>     *total, *nonlocal;   <font color="#B22222">/* local representation of ALL indices across the comm as well as the nonlocal part. */</font>
+<a name="line46"> 46: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>     local_offset;        <font color="#B22222">/* offset to the local part within the total index set */</font>
+<a name="line47"> 47: </a>  <a href="../../../docs/manualpages/IS/IS.html#IS">IS</a>           complement;          <font color="#B22222">/* <a href="../../../docs/manualpages/IS/IS.html#IS">IS</a> wrapping nonlocal indices. */</font>
+<a name="line48"> 48: </a>};
+
+<a name="line50"> 50: </a><strong><font color="#4169E1">extern <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> ISLoad_Default(<a href="../../../docs/manualpages/IS/IS.html#IS">IS</a>, <a href="../../../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>)</font></strong>;
+
+<a name="line52"> 52: </a><font color="#4169E1"><a name="_ISLocalToGlobalMappingOps"></a>struct _ISLocalToGlobalMappingOps </font>{
+<a name="line53"> 53: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*globaltolocalmappingsetup)(<a href="../../../docs/manualpages/IS/ISLocalToGlobalMapping.html#ISLocalToGlobalMapping">ISLocalToGlobalMapping</a>);
+<a name="line54"> 54: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*globaltolocalmappingapply)(<a href="../../../docs/manualpages/IS/ISLocalToGlobalMapping.html#ISLocalToGlobalMapping">ISLocalToGlobalMapping</a>,<a href="../../../docs/manualpages/IS/ISGlobalToLocalMappingMode.html#ISGlobalToLocalMappingMode">ISGlobalToLocalMappingMode</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,const <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>[],<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>*,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>[]);
+<a name="line55"> 55: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*globaltolocalmappingapplyblock)(<a href="../../../docs/manualpages/IS/ISLocalToGlobalMapping.html#ISLocalToGlobalMapping">ISLocalToGlobalMapping</a>,<a href="../../../docs/manualpages/IS/ISGlobalToLocalMappingMode.html#ISGlobalToLocalMappingMode">ISGlobalToLocalMappingMode</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,const <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>[],<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>*,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>[]);
+<a name="line56"> 56: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*destroy)(<a href="../../../docs/manualpages/IS/ISLocalToGlobalMapping.html#ISLocalToGlobalMapping">ISLocalToGlobalMapping</a>);
+<a name="line57"> 57: </a>};
+
+<a name="line59"> 59: </a><font color="#4169E1"><a name="_p_ISLocalToGlobalMapping"></a>struct _p_ISLocalToGlobalMapping</font>{
+<a name="line60"> 60: </a>  PETSCHEADER(<font color="#4169E1">struct _ISLocalToGlobalMappingOps</font>);
+<a name="line61"> 61: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>     n;               <font color="#B22222">/* number of local indices */</font>
+<a name="line62"> 62: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>     bs;              <font color="#B22222">/* blocksize; there is one index per block */</font>
+<a name="line63"> 63: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>    *indices;         <font color="#B22222">/* global index of each local index */</font>
+<a name="line64"> 64: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>     globalstart;     <font color="#B22222">/* first global referenced in indices */</font>
+<a name="line65"> 65: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>     globalend;       <font color="#B22222">/* last + 1 global referenced in indices */</font>
+<a name="line66"> 66: </a>  <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>    info_cached;     <font color="#B22222">/* reuse GetInfo */</font>
+<a name="line67"> 67: </a>  <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>    info_free;
+<a name="line68"> 68: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>     info_nproc;
+<a name="line69"> 69: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>    *info_procs;
+<a name="line70"> 70: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>    *info_numprocs;
+<a name="line71"> 71: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>   **info_indices;
+<a name="line72"> 72: </a>  void        *data;            <font color="#B22222">/* type specific data is stored here */</font>
+<a name="line73"> 73: </a>};
+
+<a name="line75"> 75: </a><font color="#4169E1"><a name="_n_ISColoring"></a>struct _n_ISColoring </font>{
+<a name="line76"> 76: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>        refct;
+<a name="line77"> 77: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>        n;                <font color="#B22222">/* number of colors */</font>
+<a name="line78"> 78: </a>  <a href="../../../docs/manualpages/IS/IS.html#IS">IS</a>              *is;              <font color="#B22222">/* for each color indicates columns */</font>
+<a name="line79"> 79: </a>  <a href="../../../docs/manualpages/Sys/MPI_Comm.html#MPI_Comm">MPI_Comm</a>        comm;
+<a name="line80"> 80: </a>  ISColoringValue *colors;          <font color="#B22222">/* for each column indicates color */</font>
+<a name="line81"> 81: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>        N;                <font color="#B22222">/* number of columns */</font>
+<a name="line82"> 82: </a>  <a href="../../../docs/manualpages/IS/ISColoringType.html#ISColoringType">ISColoringType</a>  ctype;
+<a name="line83"> 83: </a>  <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>       allocated;
+<a name="line84"> 84: </a>};
+
+<a name="line86"> 86: </a><font color="#B22222">/* ----------------------------------------------------------------------------*/</font>
+<a name="line87"> 87: </a><font color="#4169E1"><a name="_p_PetscSection"></a>struct _p_PetscSection </font>{
+<a name="line88"> 88: </a>  PETSCHEADER(int);
+<a name="line89"> 89: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                      pStart, pEnd; <font color="#B22222">/* The chart: all points are contained in [pStart, pEnd) */</font>
+<a name="line90"> 90: </a>  <a href="../../../docs/manualpages/IS/IS.html#IS">IS</a>                            perm;         <font color="#B22222">/* A permutation of [0, pEnd-pStart) */</font>
+<a name="line91"> 91: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                     *atlasDof;     <font color="#B22222">/* Describes layout of storage, point --&gt; # of values */</font>
+<a name="line92"> 92: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                     *atlasOff;     <font color="#B22222">/* Describes layout of storage, point --&gt; offset into storage */</font>
+<a name="line93"> 93: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                      maxDof;       <font color="#B22222">/* Maximum dof on any point */</font>
+<a name="line94"> 94: </a>  <a href="../../../docs/manualpages/IS/PetscSection.html#PetscSection">PetscSection</a>                  bc;           <font color="#B22222">/* Describes constraints, point --&gt; # local dofs which are constrained */</font>
+<a name="line95"> 95: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                     *bcIndices;    <font color="#B22222">/* Local indices for constrained dofs */</font>
+<a name="line96"> 96: </a>  <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>                     setup;
+
+<a name="line98"> 98: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                      numFields;    <font color="#B22222">/* The number of fields making up the degrees of freedom */</font>
+<a name="line99"> 99: </a>  const char                  **fieldNames;   <font color="#B22222">/* The field names */</font>
+<a name="line100">100: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                     *numFieldComponents; <font color="#B22222">/* The number of components in each field */</font>
+<a name="line101">101: </a>  <a href="../../../docs/manualpages/IS/PetscSection.html#PetscSection">PetscSection</a>                 *field;        <font color="#B22222">/* A section describing the layout and constraints for each field */</font>
+
+<a name="line103">103: </a>  <a href="../../../docs/manualpages/Sys/PetscObject.html#PetscObject">PetscObject</a>                   clObj;        <font color="#B22222">/* Key for the closure (right now we only have one) */</font>
+<a name="line104">104: </a>  <a href="../../../docs/manualpages/IS/PetscSection.html#PetscSection">PetscSection</a>                  clSection;    <font color="#B22222">/* Section giving the number of points in each closure */</font>
+<a name="line105">105: </a>  <a href="../../../docs/manualpages/IS/IS.html#IS">IS</a>                            clPoints;     <font color="#B22222">/* Points in each closure */</font>
+<a name="line106">106: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                      clSize;       <font color="#B22222">/* The size of a dof closure of a cell, when it is uniform */</font>
+<a name="line107">107: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                     *clPerm;       <font color="#B22222">/* A permutation of the cell dof closure, of size clSize */</font>
+<a name="line108">108: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>                     *clInvPerm;    <font color="#B22222">/* The inverse of clPerm */</font>
+<a name="line109">109: </a>  <a href="../../../docs/manualpages/IS/PetscSectionSym.html#PetscSectionSym">PetscSectionSym</a>               sym;          <font color="#B22222">/* Symmetries of the data */</font>
+<a name="line110">110: </a>};
+
+<a name="line112">112: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> PetscSectionSetClosurePermutation_Internal(<a href="../../../docs/manualpages/IS/PetscSection.html#PetscSection">PetscSection</a>, <a href="../../../docs/manualpages/Sys/PetscObject.html#PetscObject">PetscObject</a>, <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>, <a href="../../../docs/manualpages/Sys/PetscCopyMode.html#PetscCopyMode">PetscCopyMode</a>, <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> *)</font></strong>;
+<a name="line113">113: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> PetscSectionGetClosurePermutation_Internal(<a href="../../../docs/manualpages/IS/PetscSection.html#PetscSection">PetscSection</a>, <a href="../../../docs/manualpages/Sys/PetscObject.html#PetscObject">PetscObject</a>, <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> *, const <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> *[])</font></strong>;
+<a name="line114">114: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> PetscSectionGetClosureInversePermutation_Internal(<a href="../../../docs/manualpages/IS/PetscSection.html#PetscSection">PetscSection</a>, <a href="../../../docs/manualpages/Sys/PetscObject.html#PetscObject">PetscObject</a>, <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> *, const <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> *[])</font></strong>;
+
+<a name="line116">116: </a><font color="#4169E1"><a name="_PetscSectionSymOps"></a>struct _PetscSectionSymOps </font>{
+<a name="line117">117: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*getpoints)(<a href="../../../docs/manualpages/IS/PetscSectionSym.html#PetscSectionSym">PetscSectionSym</a>,<a href="../../../docs/manualpages/IS/PetscSection.html#PetscSection">PetscSection</a>,<a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>,const <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> *,const <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> **,const <a href="../../../docs/manualpages/Sys/PetscScalar.html#PetscScalar">PetscScalar</a> **);
+<a name="line118">118: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*destroy)(<a href="../../../docs/manualpages/IS/PetscSectionSym.html#PetscSectionSym">PetscSectionSym</a>);
+<a name="line119">119: </a>  <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*view)(<a href="../../../docs/manualpages/IS/PetscSectionSym.html#PetscSectionSym">PetscSectionSym</a>,<a href="../../../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>);
+<a name="line120">120: </a>};
+
+<a name="line122">122: </a><font color="#4169E1">typedef struct _n_SymWorkLink *SymWorkLink;</font>
+
+<a name="line124">124: </a><font color="#4169E1"><a name="_n_SymWorkLink"></a>struct _n_SymWorkLink</font>
+<a name="line125">125: </a>{
+<a name="line126">126: </a>  SymWorkLink         next;
+<a name="line127">127: </a>  const <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>    **perms;
+<a name="line128">128: </a>  const <a href="../../../docs/manualpages/Sys/PetscScalar.html#PetscScalar">PetscScalar</a> **rots;
+<a name="line129">129: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>           numPoints;
+<a name="line130">130: </a>};
+
+<a name="line132">132: </a><font color="#4169E1"><a name="_p_PetscSectionSym"></a>struct _p_PetscSectionSym </font>{
+<a name="line133">133: </a>  PETSCHEADER(<font color="#4169E1">struct _PetscSectionSymOps</font>);
+<a name="line134">134: </a>  void *data;
+<a name="line135">135: </a>  SymWorkLink workin;
+<a name="line136">136: </a>  SymWorkLink workout;
+<a name="line137">137: </a>};
+<a name="line138">138: </a><font color="#A020F0">#endif</font>
+</pre>
+</body>
+
+</html>

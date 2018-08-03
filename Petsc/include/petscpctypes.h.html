@@ -1,0 +1,341 @@
+<center><a href="petscpctypes.h">Actual source code: petscpctypes.h</a></center><br>
+
+<html>
+<head> <link rel="canonical" href="http://www.mcs.anl.gov/petsc/petsc-current/include/petscpctypes.h.html" />
+<title></title>
+<meta name="generator" content="c2html 0.9.4">
+<meta name="date" content="2017-12-10T05:25:35+00:00">
+</head>
+
+<body bgcolor="#FFFFFF">
+   <div id="version" align=right><b>petsc-3.8.3 2017-12-09</b></div>
+   <div id="bugreport" align=right><a href="mailto:petsc-maint@mcs.anl.gov?subject=Typo or Error in Documentation &body=Please describe the typo or error in the documentation: petsc-3.8.3 v3.8.3 include/petscpctypes.h.html "><small>Report Typos and Errors</small></a></div>
+<pre width="80">
+<a name="line1">  1: </a><font color="#A020F0">#if !defined(_PETSCPCTYPES_H)</font>
+<a name="line2">  2: </a><strong><font color="#228B22">#define _PETSCPCTYPES_H</font></strong>
+
+<a name="line4">  4: </a> #include <A href="petscdmtypes.h.html">&lt;petscdmtypes.h&gt;</A>
+
+<a name="line6">  6: </a><font color="#B22222">/*S</font>
+<a name="line7">  7: </a><font color="#B22222">     <a href="../docs/manualpages/PC/PC.html#PC">PC</a> - Abstract PETSc object that manages all preconditioners including direct solvers such as <a href="../docs/manualpages/PC/PCLU.html#PCLU">PCLU</a></font>
+
+<a name="line9">  9: </a><font color="#B22222">   Level: beginner</font>
+
+<a name="line11"> 11: </a><font color="#B22222">  Concepts: preconditioners</font>
+
+<a name="line13"> 13: </a><font color="#B22222">.seealso:  <a href="../docs/manualpages/PC/PCCreate.html#PCCreate">PCCreate</a>(), <a href="../docs/manualpages/PC/PCSetType.html#PCSetType">PCSetType</a>(), <a href="../docs/manualpages/PC/PCType.html#PCType">PCType</a> (for list of available types)</font>
+<a name="line14"> 14: </a><font color="#B22222">S*/</font>
+<a name="line15"> 15: </a><font color="#4169E1">typedef struct _p_PC* <a href="../docs/manualpages/PC/PC.html#PC">PC</a>;</font>
+
+<a name="line17"> 17: </a><font color="#B22222">/*J</font>
+<a name="line18"> 18: </a><font color="#B22222">    <a href="../docs/manualpages/PC/PCType.html#PCType">PCType</a> - String with the name of a PETSc preconditioner method.</font>
+
+<a name="line20"> 20: </a><font color="#B22222">   Level: beginner</font>
+
+<a name="line22"> 22: </a><font color="#B22222">   Notes: Click on the links above to see details on a particular solver</font>
+
+<a name="line24"> 24: </a><font color="#B22222">          <a href="../docs/manualpages/PC/PCRegister.html#PCRegister">PCRegister</a>() is used to register preconditioners that are then accessible via <a href="../docs/manualpages/PC/PCSetType.html#PCSetType">PCSetType</a>()</font>
+
+<a name="line26"> 26: </a><font color="#B22222">.seealso: <a href="../docs/manualpages/PC/PCSetType.html#PCSetType">PCSetType</a>(), <a href="../docs/manualpages/PC/PC.html#PC">PC</a>, <a href="../docs/manualpages/PC/PCCreate.html#PCCreate">PCCreate</a>(), <a href="../docs/manualpages/PC/PCRegister.html#PCRegister">PCRegister</a>(), <a href="../docs/manualpages/PC/PCSetFromOptions.html#PCSetFromOptions">PCSetFromOptions</a>()</font>
+<a name="line27"> 27: </a><font color="#B22222">J*/</font>
+<a name="line28"> 28: </a><font color="#4169E1">typedef const char* <a href="../docs/manualpages/PC/PCType.html#PCType">PCType</a>;</font>
+<a name="line29"> 29: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCNONE.html#PCNONE">PCNONE</a>            </font><font color="#666666">"none"</font><font color="#228B22"></font></strong>
+<a name="line30"> 30: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCJACOBI.html#PCJACOBI">PCJACOBI</a>          </font><font color="#666666">"jacobi"</font><font color="#228B22"></font></strong>
+<a name="line31"> 31: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCSOR.html#PCSOR">PCSOR</a>             </font><font color="#666666">"sor"</font><font color="#228B22"></font></strong>
+<a name="line32"> 32: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCLU.html#PCLU">PCLU</a>              </font><font color="#666666">"lu"</font><font color="#228B22"></font></strong>
+<a name="line33"> 33: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCSHELL.html#PCSHELL">PCSHELL</a>           </font><font color="#666666">"shell"</font><font color="#228B22"></font></strong>
+<a name="line34"> 34: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCBJACOBI.html#PCBJACOBI">PCBJACOBI</a>         </font><font color="#666666">"bjacobi"</font><font color="#228B22"></font></strong>
+<a name="line35"> 35: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PCMG/PCMG.html#PCMG">PCMG</a>              </font><font color="#666666">"mg"</font><font color="#228B22"></font></strong>
+<a name="line36"> 36: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCEISENSTAT.html#PCEISENSTAT">PCEISENSTAT</a>       </font><font color="#666666">"eisenstat"</font><font color="#228B22"></font></strong>
+<a name="line37"> 37: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCILU.html#PCILU">PCILU</a>             </font><font color="#666666">"ilu"</font><font color="#228B22"></font></strong>
+<a name="line38"> 38: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCICC.html#PCICC">PCICC</a>             </font><font color="#666666">"icc"</font><font color="#228B22"></font></strong>
+<a name="line39"> 39: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCASM.html#PCASM">PCASM</a>             </font><font color="#666666">"asm"</font><font color="#228B22"></font></strong>
+<a name="line40"> 40: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCGASM.html#PCGASM">PCGASM</a>            </font><font color="#666666">"gasm"</font><font color="#228B22"></font></strong>
+<a name="line41"> 41: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCKSP.html#PCKSP">PCKSP</a>             </font><font color="#666666">"ksp"</font><font color="#228B22"></font></strong>
+<a name="line42"> 42: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCCOMPOSITE.html#PCCOMPOSITE">PCCOMPOSITE</a>       </font><font color="#666666">"composite"</font><font color="#228B22"></font></strong>
+<a name="line43"> 43: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCREDUNDANT.html#PCREDUNDANT">PCREDUNDANT</a>       </font><font color="#666666">"redundant"</font><font color="#228B22"></font></strong>
+<a name="line44"> 44: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCSPAI.html#PCSPAI">PCSPAI</a>            </font><font color="#666666">"spai"</font><font color="#228B22"></font></strong>
+<a name="line45"> 45: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCNN.html#PCNN">PCNN</a>              </font><font color="#666666">"nn"</font><font color="#228B22"></font></strong>
+<a name="line46"> 46: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCCHOLESKY.html#PCCHOLESKY">PCCHOLESKY</a>        </font><font color="#666666">"cholesky"</font><font color="#228B22"></font></strong>
+<a name="line47"> 47: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCPBJACOBI.html#PCPBJACOBI">PCPBJACOBI</a>        </font><font color="#666666">"pbjacobi"</font><font color="#228B22"></font></strong>
+<a name="line48"> 48: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCMAT.html#PCMAT">PCMAT</a>             </font><font color="#666666">"mat"</font><font color="#228B22"></font></strong>
+<a name="line49"> 49: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCHYPRE.html#PCHYPRE">PCHYPRE</a>           </font><font color="#666666">"hypre"</font><font color="#228B22"></font></strong>
+<a name="line50"> 50: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCPARMS.html#PCPARMS">PCPARMS</a>           </font><font color="#666666">"parms"</font><font color="#228B22"></font></strong>
+<a name="line51"> 51: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCFIELDSPLIT.html#PCFIELDSPLIT">PCFIELDSPLIT</a>      </font><font color="#666666">"fieldsplit"</font><font color="#228B22"></font></strong>
+<a name="line52"> 52: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCTFS.html#PCTFS">PCTFS</a>             </font><font color="#666666">"tfs"</font><font color="#228B22"></font></strong>
+<a name="line53"> 53: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCML.html#PCML">PCML</a>              </font><font color="#666666">"ml"</font><font color="#228B22"></font></strong>
+<a name="line54"> 54: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCGALERKIN.html#PCGALERKIN">PCGALERKIN</a>        </font><font color="#666666">"galerkin"</font><font color="#228B22"></font></strong>
+<a name="line55"> 55: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCEXOTIC.html#PCEXOTIC">PCEXOTIC</a>          </font><font color="#666666">"exotic"</font><font color="#228B22"></font></strong>
+<a name="line56"> 56: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCCP.html#PCCP">PCCP</a>              </font><font color="#666666">"cp"</font><font color="#228B22"></font></strong>
+<a name="line57"> 57: </a><strong><font color="#228B22">#define PCBFBT            </font><font color="#666666">"bfbt"</font><font color="#228B22"></font></strong>
+<a name="line58"> 58: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCLSC.html#PCLSC">PCLSC</a>             </font><font color="#666666">"lsc"</font><font color="#228B22"></font></strong>
+<a name="line59"> 59: </a><strong><font color="#228B22">#define PCPYTHON          </font><font color="#666666">"python"</font><font color="#228B22"></font></strong>
+<a name="line60"> 60: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCPFMG.html#PCPFMG">PCPFMG</a>            </font><font color="#666666">"pfmg"</font><font color="#228B22"></font></strong>
+<a name="line61"> 61: </a><strong><font color="#228B22">#define PCSYSPFMG         </font><font color="#666666">"syspfmg"</font><font color="#228B22"></font></strong>
+<a name="line62"> 62: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCREDISTRIBUTE.html#PCREDISTRIBUTE">PCREDISTRIBUTE</a>    </font><font color="#666666">"redistribute"</font><font color="#228B22"></font></strong>
+<a name="line63"> 63: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCSVD.html#PCSVD">PCSVD</a>             </font><font color="#666666">"svd"</font><font color="#228B22"></font></strong>
+<a name="line64"> 64: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCGAMG.html#PCGAMG">PCGAMG</a>            </font><font color="#666666">"gamg"</font><font color="#228B22"></font></strong>
+<a name="line65"> 65: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCSACUSP.html#PCSACUSP">PCSACUSP</a>          </font><font color="#666666">"sacusp"</font><font color="#228B22">        </font><font color="#B22222">/* these four run on NVIDIA GPUs using CUSP */</font><font color="#228B22"></font></strong>
+<a name="line66"> 66: </a><strong><font color="#228B22">#define PCSACUSPPOLY      </font><font color="#666666">"sacusppoly"</font><font color="#228B22"></font></strong>
+<a name="line67"> 67: </a><strong><font color="#228B22">#define PCBICGSTABCUSP    </font><font color="#666666">"bicgstabcusp"</font><font color="#228B22"></font></strong>
+<a name="line68"> 68: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCAINVCUSP.html#PCAINVCUSP">PCAINVCUSP</a>        </font><font color="#666666">"ainvcusp"</font><font color="#228B22"></font></strong>
+<a name="line69"> 69: </a><strong><font color="#228B22">#define PCCHOWILUVIENNACL </font><font color="#666666">"chowiluviennacl"</font><font color="#228B22"></font></strong>
+<a name="line70"> 70: </a><strong><font color="#228B22">#define PCROWSCALINGVIENNACL </font><font color="#666666">"rowscalingviennacl"</font><font color="#228B22"></font></strong>
+<a name="line71"> 71: </a><strong><font color="#228B22">#define PCSAVIENNACL      </font><font color="#666666">"saviennacl"</font><font color="#228B22"></font></strong>
+<a name="line72"> 72: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCBDDC.html#PCBDDC">PCBDDC</a>            </font><font color="#666666">"bddc"</font><font color="#228B22"></font></strong>
+<a name="line73"> 73: </a><strong><font color="#228B22">#define PCKACZMARZ        </font><font color="#666666">"kaczmarz"</font><font color="#228B22"></font></strong>
+<a name="line74"> 74: </a><strong><font color="#228B22">#define <a href="../docs/manualpages/PC/PCTELESCOPE.html#PCTELESCOPE">PCTELESCOPE</a>       </font><font color="#666666">"telescope"</font><font color="#228B22"></font></strong>
+
+<a name="line76"> 76: </a><font color="#B22222">/*E</font>
+<a name="line77"> 77: </a><font color="#B22222">    <a href="../docs/manualpages/PC/PCSide.html#PCSide">PCSide</a> - If the preconditioner is to be applied to the left, right</font>
+<a name="line78"> 78: </a><font color="#B22222">     or symmetrically around the operator.</font>
+
+<a name="line80"> 80: </a><font color="#B22222">   Level: beginner</font>
+
+<a name="line82"> 82: </a><font color="#B22222">.seealso:</font>
+<a name="line83"> 83: </a><font color="#B22222">E*/</font>
+<a name="line84"> 84: </a><font color="#4169E1">typedef</font> <font color="#4169E1">enum</font> { <a href="../docs/manualpages/PC/PCSide.html#PCSide">PC_SIDE_DEFAULT</a>=-1,<a href="../docs/manualpages/PC/PCSide.html#PCSide">PC_LEFT</a>,<a href="../docs/manualpages/PC/PCSide.html#PCSide">PC_RIGHT</a>,<a href="../docs/manualpages/PC/PCSide.html#PCSide">PC_SYMMETRIC</a>} <a href="../docs/manualpages/PC/PCSide.html#PCSide">PCSide</a>;
+<a name="line85"> 85: </a><strong><font color="#228B22">#define PC_SIDE_MAX (<a href="../docs/manualpages/PC/PCSide.html#PCSide">PC_SYMMETRIC</a> + 1)</font></strong>
+<a name="line86"> 86: </a>PETSC_EXTERN const char *const *const PCSides;
+
+<a name="line88"> 88: </a><font color="#B22222">/*E</font>
+<a name="line89"> 89: </a><font color="#B22222">    <a href="../docs/manualpages/PC/PCRichardsonConvergedReason.html#PCRichardsonConvergedReason">PCRichardsonConvergedReason</a> - reason a <a href="../docs/manualpages/PC/PCApplyRichardson.html#PCApplyRichardson">PCApplyRichardson</a> method terminates</font>
+
+<a name="line91"> 91: </a><font color="#B22222">   Level: advanced</font>
+
+<a name="line93"> 93: </a><font color="#B22222">   Notes: this must match petsc/finclude/petscpc.h and the <a href="../docs/manualpages/KSP/KSPConvergedReason.html#KSPConvergedReason">KSPConvergedReason</a> values in petscksp.h</font>
+
+<a name="line95"> 95: </a><font color="#B22222">.seealso: <a href="../docs/manualpages/PC/PCApplyRichardson.html#PCApplyRichardson">PCApplyRichardson</a>()</font>
+<a name="line96"> 96: </a><font color="#B22222">E*/</font>
+<a name="line97"> 97: </a><font color="#4169E1">typedef</font> <font color="#4169E1">enum</font> {
+<a name="line98"> 98: </a>              <a href="../docs/manualpages/PC/PCRichardsonConvergedReason.html#PCRichardsonConvergedReason">PCRICHARDSON_CONVERGED_RTOL</a>               =  2,
+<a name="line99"> 99: </a>              <a href="../docs/manualpages/PC/PCRichardsonConvergedReason.html#PCRichardsonConvergedReason">PCRICHARDSON_CONVERGED_ATOL</a>               =  3,
+<a name="line100">100: </a>              <a href="../docs/manualpages/PC/PCRichardsonConvergedReason.html#PCRichardsonConvergedReason">PCRICHARDSON_CONVERGED_ITS</a>                =  4,
+<a name="line101">101: </a>              <a href="../docs/manualpages/PC/PCRichardsonConvergedReason.html#PCRichardsonConvergedReason">PCRICHARDSON_DIVERGED_DTOL</a>                = -4} <a href="../docs/manualpages/PC/PCRichardsonConvergedReason.html#PCRichardsonConvergedReason">PCRichardsonConvergedReason</a>;
+
+<a name="line103">103: </a><font color="#B22222">/*E</font>
+<a name="line104">104: </a><font color="#B22222">    <a href="../docs/manualpages/PC/PCJacobiType.html#PCJacobiType">PCJacobiType</a> - What elements are used to form the Jacobi preconditioner</font>
+
+<a name="line106">106: </a><font color="#B22222">   Level: intermediate</font>
+
+<a name="line108">108: </a><font color="#B22222">.seealso:</font>
+<a name="line109">109: </a><font color="#B22222">E*/</font>
+<a name="line110">110: </a><font color="#4169E1">typedef</font> <font color="#4169E1">enum</font> { <a href="../docs/manualpages/PC/PCJacobiType.html#PCJacobiType">PC_JACOBI_DIAGONAL</a>,<a href="../docs/manualpages/PC/PCJacobiType.html#PCJacobiType">PC_JACOBI_ROWMAX</a>,<a href="../docs/manualpages/PC/PCJacobiType.html#PCJacobiType">PC_JACOBI_ROWSUM</a>} <a href="../docs/manualpages/PC/PCJacobiType.html#PCJacobiType">PCJacobiType</a>;
+<a name="line111">111: </a>PETSC_EXTERN const char *const PCJacobiTypes[];
+
+<a name="line113">113: </a><font color="#B22222">/*E</font>
+<a name="line114">114: </a><font color="#B22222">    <a href="../docs/manualpages/PC/PCASMType.html#PCASMType">PCASMType</a> - Type of additive Schwarz method to use</font>
+
+<a name="line116">116: </a><font color="#B22222">$  <a href="../docs/manualpages/PC/PCASMType.html#PCASMType">PC_ASM_BASIC</a>        - Symmetric version where residuals from the ghost points are used</font>
+<a name="line117">117: </a><font color="#B22222">$                        and computed values in ghost regions are added together.</font>
+<a name="line118">118: </a><font color="#B22222">$                        Classical standard additive Schwarz.</font>
+<a name="line119">119: </a><font color="#B22222">$  <a href="../docs/manualpages/PC/PCASMType.html#PCASMType">PC_ASM_RESTRICT</a>     - Residuals from ghost points are used but computed values in ghost</font>
+<a name="line120">120: </a><font color="#B22222">$                        region are discarded.</font>
+<a name="line121">121: </a><font color="#B22222">$                        Default.</font>
+<a name="line122">122: </a><font color="#B22222">$  <a href="../docs/manualpages/PC/PCASMType.html#PCASMType">PC_ASM_INTERPOLATE</a>  - Residuals from ghost points are not used, computed values in ghost</font>
+<a name="line123">123: </a><font color="#B22222">$                        region are added back in.</font>
+<a name="line124">124: </a><font color="#B22222">$  <a href="../docs/manualpages/PC/PCASMType.html#PCASMType">PC_ASM_NONE</a>         - Residuals from ghost points are not used, computed ghost values are</font>
+<a name="line125">125: </a><font color="#B22222">$                        discarded.</font>
+<a name="line126">126: </a><font color="#B22222">$                        Not very good.</font>
+
+<a name="line128">128: </a><font color="#B22222">   Level: beginner</font>
+
+<a name="line130">130: </a><font color="#B22222">.seealso: <a href="../docs/manualpages/PC/PCASMSetType.html#PCASMSetType">PCASMSetType</a>()</font>
+<a name="line131">131: </a><font color="#B22222">E*/</font>
+<a name="line132">132: </a><font color="#4169E1">typedef</font> <font color="#4169E1">enum</font> {<a href="../docs/manualpages/PC/PCASMType.html#PCASMType">PC_ASM_BASIC</a> = 3,<a href="../docs/manualpages/PC/PCASMType.html#PCASMType">PC_ASM_RESTRICT</a> = 1,<a href="../docs/manualpages/PC/PCASMType.html#PCASMType">PC_ASM_INTERPOLATE</a> = 2,<a href="../docs/manualpages/PC/PCASMType.html#PCASMType">PC_ASM_NONE</a> = 0} <a href="../docs/manualpages/PC/PCASMType.html#PCASMType">PCASMType</a>;
+<a name="line133">133: </a>PETSC_EXTERN const char *const PCASMTypes[];
+
+<a name="line135">135: </a><font color="#B22222">/*E</font>
+<a name="line136">136: </a><font color="#B22222">    <a href="../docs/manualpages/PC/PCGASMType.html#PCGASMType">PCGASMType</a> - Type of generalized additive Schwarz method to use (differs from ASM in allowing multiple processors per subdomain).</font>
+
+<a name="line138">138: </a><font color="#B22222">   Each subdomain has nested inner and outer parts.  The inner subdomains are assumed to form a non-overlapping covering of the computational</font>
+<a name="line139">139: </a><font color="#B22222">   domain, while the outer subdomains contain the inner subdomains and overlap with each other.  This preconditioner will compute</font>
+<a name="line140">140: </a><font color="#B22222">   a subdomain correction over each *outer* subdomain from a residual computed there, but its different variants will differ in</font>
+<a name="line141">141: </a><font color="#B22222">   (a) how the outer subdomain residual is computed, and (b) how the outer subdomain correction is computed.</font>
+
+<a name="line143">143: </a><font color="#B22222">$  <a href="../docs/manualpages/PC/PCGASMType.html#PCGASMType">PC_GASM_BASIC</a>       - Symmetric version where the full from the outer subdomain is used, and the resulting correction is applied</font>
+<a name="line144">144: </a><font color="#B22222">$                        over the outer subdomains.  As a result, points in the overlap will receive the sum of the corrections</font>
+<a name="line145">145: </a><font color="#B22222">$                        from neighboring subdomains.</font>
+<a name="line146">146: </a><font color="#B22222">$                        Classical standard additive Schwarz.</font>
+<a name="line147">147: </a><font color="#B22222">$  <a href="../docs/manualpages/PC/PCGASMType.html#PCGASMType">PC_GASM_RESTRICT</a>    - Residual from the outer subdomain is used but the correction is restricted to the inner subdomain only</font>
+<a name="line148">148: </a><font color="#B22222">$                        (i.e., zeroed out over the overlap portion of the outer subdomain before being applied).  As a result,</font>
+<a name="line149">149: </a><font color="#B22222">$                        each point will receive a correction only from the unique inner subdomain containing it (nonoverlapping covering</font>
+<a name="line150">150: </a><font color="#B22222">$                        assumption).</font>
+<a name="line151">151: </a><font color="#B22222">$                        Default.</font>
+<a name="line152">152: </a><font color="#B22222">$  <a href="../docs/manualpages/PC/PCGASMType.html#PCGASMType">PC_GASM_INTERPOLATE</a> - Residual is zeroed out over the overlap portion of the outer subdomain, but the resulting correction is</font>
+<a name="line153">153: </a><font color="#B22222">$                        applied over the outer subdomain. As a result, points in the overlap will receive the sum of the corrections</font>
+<a name="line154">154: </a><font color="#B22222">$                        from neighboring subdomains.</font>
+<a name="line155">155: </a><font color="#B22222">$</font>
+<a name="line156">156: </a><font color="#B22222">$  <a href="../docs/manualpages/PC/PCGASMType.html#PCGASMType">PC_GASM_NONE</a>        - Residuals and corrections are zeroed out outside the local subdomains.</font>
+<a name="line157">157: </a><font color="#B22222">$                        Not very good.</font>
+
+<a name="line159">159: </a><font color="#B22222">   Level: beginner</font>
+
+<a name="line161">161: </a><font color="#B22222">.seealso: <a href="../docs/manualpages/PC/PCGASMSetType.html#PCGASMSetType">PCGASMSetType</a>()</font>
+<a name="line162">162: </a><font color="#B22222">E*/</font>
+<a name="line163">163: </a><font color="#4169E1">typedef</font> <font color="#4169E1">enum</font> {<a href="../docs/manualpages/PC/PCGASMType.html#PCGASMType">PC_GASM_BASIC</a> = 3,<a href="../docs/manualpages/PC/PCGASMType.html#PCGASMType">PC_GASM_RESTRICT</a> = 1,<a href="../docs/manualpages/PC/PCGASMType.html#PCGASMType">PC_GASM_INTERPOLATE</a> = 2,<a href="../docs/manualpages/PC/PCGASMType.html#PCGASMType">PC_GASM_NONE</a> = 0} <a href="../docs/manualpages/PC/PCGASMType.html#PCGASMType">PCGASMType</a>;
+<a name="line164">164: </a>PETSC_EXTERN const char *const PCGASMTypes[];
+
+<a name="line166">166: </a><font color="#B22222">/*E</font>
+<a name="line167">167: </a><font color="#B22222">    <a href="../docs/manualpages/PC/PCCompositeType.html#PCCompositeType">PCCompositeType</a> - Determines how two or more preconditioner are composed</font>
+
+<a name="line169">169: </a><font color="#B22222">$  <a href="../docs/manualpages/PC/PCCompositeType.html#PCCompositeType">PC_COMPOSITE_ADDITIVE</a> - results from application of all preconditioners are added together</font>
+<a name="line170">170: </a><font color="#B22222">$  <a href="../docs/manualpages/PC/PCCompositeType.html#PCCompositeType">PC_COMPOSITE_MULTIPLICATIVE</a> - preconditioners are applied sequentially to the residual freshly</font>
+<a name="line171">171: </a><font color="#B22222">$                                computed after the previous preconditioner application</font>
+<a name="line172">172: </a><font color="#B22222">$  <a href="../docs/manualpages/PC/PCCompositeType.html#PCCompositeType">PC_COMPOSITE_SYMMETRIC_MULTIPLICATIVE</a> - preconditioners are applied sequentially to the residual freshly</font>
+<a name="line173">173: </a><font color="#B22222">$                                computed from first preconditioner to last and then back (Use only for symmetric matrices and preconditions)</font>
+<a name="line174">174: </a><font color="#B22222">$  <a href="../docs/manualpages/PC/PCCompositeType.html#PCCompositeType">PC_COMPOSITE_SPECIAL</a> - This is very special for a matrix of the form alpha I + R + S</font>
+<a name="line175">175: </a><font color="#B22222">$                         where first preconditioner is built from alpha I + S and second from</font>
+<a name="line176">176: </a><font color="#B22222">$                         alpha I + R</font>
+
+<a name="line178">178: </a><font color="#B22222">   Level: beginner</font>
+
+<a name="line180">180: </a><font color="#B22222">.seealso: <a href="../docs/manualpages/PC/PCCompositeSetType.html#PCCompositeSetType">PCCompositeSetType</a>()</font>
+<a name="line181">181: </a><font color="#B22222">E*/</font>
+<a name="line182">182: </a><font color="#4169E1">typedef</font> <font color="#4169E1">enum</font> {<a href="../docs/manualpages/PC/PCCompositeType.html#PCCompositeType">PC_COMPOSITE_ADDITIVE</a>,<a href="../docs/manualpages/PC/PCCompositeType.html#PCCompositeType">PC_COMPOSITE_MULTIPLICATIVE</a>,<a href="../docs/manualpages/PC/PCCompositeType.html#PCCompositeType">PC_COMPOSITE_SYMMETRIC_MULTIPLICATIVE</a>,<a href="../docs/manualpages/PC/PCCompositeType.html#PCCompositeType">PC_COMPOSITE_SPECIAL</a>,<a href="../docs/manualpages/PC/PCCompositeType.html#PCCompositeType">PC_COMPOSITE_SCHUR</a>} <a href="../docs/manualpages/PC/PCCompositeType.html#PCCompositeType">PCCompositeType</a>;
+<a name="line183">183: </a>PETSC_EXTERN const char *const PCCompositeTypes[];
+
+<a name="line185">185: </a><font color="#B22222">/*E</font>
+<a name="line186">186: </a><font color="#B22222">    <a href="../docs/manualpages/PC/PCFieldSplitSchurPreType.html#PCFieldSplitSchurPreType">PCFieldSplitSchurPreType</a> - Determines how to precondition Schur complement</font>
+
+<a name="line188">188: </a><font color="#B22222">    Level: intermediate</font>
+
+<a name="line190">190: </a><font color="#B22222">.seealso: <a href="../docs/manualpages/PC/PCFieldSplitSetSchurPre.html#PCFieldSplitSetSchurPre">PCFieldSplitSetSchurPre</a>()</font>
+<a name="line191">191: </a><font color="#B22222">E*/</font>
+<a name="line192">192: </a><font color="#4169E1">typedef</font> <font color="#4169E1">enum</font> {<a href="../docs/manualpages/PC/PCFieldSplitSchurPreType.html#PCFieldSplitSchurPreType">PC_FIELDSPLIT_SCHUR_PRE_SELF</a>,<a href="../docs/manualpages/PC/PCFieldSplitSchurPreType.html#PCFieldSplitSchurPreType">PC_FIELDSPLIT_SCHUR_PRE_SELFP</a>,<a href="../docs/manualpages/PC/PCFieldSplitSchurPreType.html#PCFieldSplitSchurPreType">PC_FIELDSPLIT_SCHUR_PRE_A11</a>,<a href="../docs/manualpages/PC/PCFieldSplitSchurPreType.html#PCFieldSplitSchurPreType">PC_FIELDSPLIT_SCHUR_PRE_USER</a>,<a href="../docs/manualpages/PC/PCFieldSplitSchurPreType.html#PCFieldSplitSchurPreType">PC_FIELDSPLIT_SCHUR_PRE_FULL</a>} <a href="../docs/manualpages/PC/PCFieldSplitSchurPreType.html#PCFieldSplitSchurPreType">PCFieldSplitSchurPreType</a>;
+<a name="line193">193: </a>PETSC_EXTERN const char *const PCFieldSplitSchurPreTypes[];
+
+<a name="line195">195: </a><font color="#B22222">/*E</font>
+<a name="line196">196: </a><font color="#B22222">    <a href="../docs/manualpages/PC/PCFieldSplitSchurFactType.html#PCFieldSplitSchurFactType">PCFieldSplitSchurFactType</a> - determines which off-diagonal parts of the approximate block factorization to use</font>
+
+<a name="line198">198: </a><font color="#B22222">    Level: intermediate</font>
+
+<a name="line200">200: </a><font color="#B22222">.seealso: <a href="../docs/manualpages/PC/PCFieldSplitSetSchurFactType.html#PCFieldSplitSetSchurFactType">PCFieldSplitSetSchurFactType</a>()</font>
+<a name="line201">201: </a><font color="#B22222">E*/</font>
+<a name="line202">202: </a><font color="#4169E1">typedef</font> <font color="#4169E1">enum</font> {
+<a name="line203">203: </a>  <a href="../docs/manualpages/PC/PCFieldSplitSchurFactType.html#PCFieldSplitSchurFactType">PC_FIELDSPLIT_SCHUR_FACT_DIAG</a>,
+<a name="line204">204: </a>  <a href="../docs/manualpages/PC/PCFieldSplitSchurFactType.html#PCFieldSplitSchurFactType">PC_FIELDSPLIT_SCHUR_FACT_LOWER</a>,
+<a name="line205">205: </a>  <a href="../docs/manualpages/PC/PCFieldSplitSchurFactType.html#PCFieldSplitSchurFactType">PC_FIELDSPLIT_SCHUR_FACT_UPPER</a>,
+<a name="line206">206: </a>  <a href="../docs/manualpages/PC/PCFieldSplitSchurFactType.html#PCFieldSplitSchurFactType">PC_FIELDSPLIT_SCHUR_FACT_FULL</a>
+<a name="line207">207: </a>} <a href="../docs/manualpages/PC/PCFieldSplitSchurFactType.html#PCFieldSplitSchurFactType">PCFieldSplitSchurFactType</a>;
+<a name="line208">208: </a>PETSC_EXTERN const char *const PCFieldSplitSchurFactTypes[];
+
+<a name="line210">210: </a><font color="#B22222">/*E</font>
+<a name="line211">211: </a><font color="#B22222">    <a href="../docs/manualpages/PC/PCPARMSGlobalType.html#PCPARMSGlobalType">PCPARMSGlobalType</a> - Determines the global preconditioner method in PARMS</font>
+
+<a name="line213">213: </a><font color="#B22222">    Level: intermediate</font>
+
+<a name="line215">215: </a><font color="#B22222">.seealso: <a href="../docs/manualpages/PC/PCPARMSSetGlobal.html#PCPARMSSetGlobal">PCPARMSSetGlobal</a>()</font>
+<a name="line216">216: </a><font color="#B22222">E*/</font>
+<a name="line217">217: </a><font color="#4169E1">typedef</font> <font color="#4169E1">enum</font> {<a href="../docs/manualpages/PC/PCPARMSGlobalType.html#PCPARMSGlobalType">PC_PARMS_GLOBAL_RAS</a>,<a href="../docs/manualpages/PC/PCPARMSGlobalType.html#PCPARMSGlobalType">PC_PARMS_GLOBAL_SCHUR</a>,<a href="../docs/manualpages/PC/PCPARMSGlobalType.html#PCPARMSGlobalType">PC_PARMS_GLOBAL_BJ</a>} <a href="../docs/manualpages/PC/PCPARMSGlobalType.html#PCPARMSGlobalType">PCPARMSGlobalType</a>;
+<a name="line218">218: </a>PETSC_EXTERN const char *const PCPARMSGlobalTypes[];
+<a name="line219">219: </a><font color="#B22222">/*E</font>
+<a name="line220">220: </a><font color="#B22222">    <a href="../docs/manualpages/PC/PCPARMSLocalType.html#PCPARMSLocalType">PCPARMSLocalType</a> - Determines the local preconditioner method in PARMS</font>
+
+<a name="line222">222: </a><font color="#B22222">    Level: intermediate</font>
+
+<a name="line224">224: </a><font color="#B22222">.seealso: <a href="../docs/manualpages/PC/PCPARMSSetLocal.html#PCPARMSSetLocal">PCPARMSSetLocal</a>()</font>
+<a name="line225">225: </a><font color="#B22222">E*/</font>
+<a name="line226">226: </a><font color="#4169E1">typedef</font> <font color="#4169E1">enum</font> {<a href="../docs/manualpages/PC/PCPARMSLocalType.html#PCPARMSLocalType">PC_PARMS_LOCAL_ILU0</a>,<a href="../docs/manualpages/PC/PCPARMSLocalType.html#PCPARMSLocalType">PC_PARMS_LOCAL_ILUK</a>,<a href="../docs/manualpages/PC/PCPARMSLocalType.html#PCPARMSLocalType">PC_PARMS_LOCAL_ILUT</a>,<a href="../docs/manualpages/PC/PCPARMSLocalType.html#PCPARMSLocalType">PC_PARMS_LOCAL_ARMS</a>} <a href="../docs/manualpages/PC/PCPARMSLocalType.html#PCPARMSLocalType">PCPARMSLocalType</a>;
+<a name="line227">227: </a>PETSC_EXTERN const char *const PCPARMSLocalTypes[];
+
+<a name="line229">229: </a><font color="#B22222">/*E</font>
+<a name="line230">230: </a><font color="#B22222">    <a href="../docs/manualpages/PC/PCGAMGType.html#PCGAMGType">PCGAMGType</a> - type of generalized algebraic multigrid (<a href="../docs/manualpages/PC/PCGAMG.html#PCGAMG">PCGAMG</a>) method</font>
+
+<a name="line232">232: </a><font color="#B22222">    Level: intermediate</font>
+
+<a name="line234">234: </a><font color="#B22222">.seealso: <a href="../docs/manualpages/PCMG/PCMG.html#PCMG">PCMG</a>, <a href="../docs/manualpages/PC/PCSetType.html#PCSetType">PCSetType</a>(), <a href="../docs/manualpages/PC/PCGAMGSetThreshold.html#PCGAMGSetThreshold">PCGAMGSetThreshold</a>(), <a href="../docs/manualpages/PC/PCGAMGSetThreshold.html#PCGAMGSetThreshold">PCGAMGSetThreshold</a>(), <a href="../docs/manualpages/PC/PCGAMGSetReuseInterpolation.html#PCGAMGSetReuseInterpolation">PCGAMGSetReuseInterpolation</a>()</font>
+<a name="line235">235: </a><font color="#B22222">E*/</font>
+<a name="line236">236: </a><font color="#4169E1">typedef const char *<a href="../docs/manualpages/PC/PCGAMGType.html#PCGAMGType">PCGAMGType</a>;</font>
+<a name="line237">237: </a><strong><font color="#228B22">#define PCGAMGAGG         </font><font color="#666666">"agg"</font><font color="#228B22"></font></strong>
+<a name="line238">238: </a><strong><font color="#228B22">#define PCGAMGGEO         </font><font color="#666666">"geo"</font><font color="#228B22"></font></strong>
+<a name="line239">239: </a><strong><font color="#228B22">#define PCGAMGCLASSICAL   </font><font color="#666666">"classical"</font><font color="#228B22"></font></strong>
+
+<a name="line241">241: </a><font color="#4169E1">typedef const char *PCGAMGClassicalType;</font>
+<a name="line242">242: </a><strong><font color="#228B22">#define PCGAMGCLASSICALDIRECT   </font><font color="#666666">"direct"</font><font color="#228B22"></font></strong>
+<a name="line243">243: </a><strong><font color="#228B22">#define PCGAMGCLASSICALSTANDARD </font><font color="#666666">"standard"</font><font color="#228B22"></font></strong>
+
+<a name="line245">245: </a><font color="#B22222">/*E</font>
+<a name="line246">246: </a><font color="#B22222">    <a href="../docs/manualpages/PC/PCMGType.html#PCMGType">PCMGType</a> - Determines the type of multigrid method that is run.</font>
+
+<a name="line248">248: </a><font color="#B22222">   Level: beginner</font>
+
+<a name="line250">250: </a><font color="#B22222">   Values:</font>
+<a name="line251">251: </a><font color="#B22222">+  <a href="../docs/manualpages/PC/PCMGType.html#PCMGType">PC_MG_MULTIPLICATIVE</a> (default) - traditional V or W cycle as determined by <a href="../docs/manualpages/PCMG/PCMGSetCycleType.html#PCMGSetCycleType">PCMGSetCycleType</a>()</font>
+<a name="line252">252: </a><font color="#B22222">.  <a href="../docs/manualpages/PC/PCMGType.html#PCMGType">PC_MG_ADDITIVE</a> - the additive multigrid preconditioner where all levels are</font>
+<a name="line253">253: </a><font color="#B22222">                smoothed before updating the residual. This only uses the</font>
+<a name="line254">254: </a><font color="#B22222">                down smoother, in the preconditioner the upper smoother is ignored</font>
+<a name="line255">255: </a><font color="#B22222">.  <a href="../docs/manualpages/PC/PCMGType.html#PCMGType">PC_MG_FULL</a> - same as multiplicative except one also performs grid sequencing,</font>
+<a name="line256">256: </a><font color="#B22222">            that is starts on the coarsest grid, performs a cycle, interpolates</font>
+<a name="line257">257: </a><font color="#B22222">            to the next, performs a cycle etc. This is much like the F-cycle presented in "Multigrid" by Trottenberg, Oosterlee, Schuller page 49, but that</font>
+<a name="line258">258: </a><font color="#B22222">            algorithm supports smoothing on before the restriction on each level in the initial restriction to the coarsest stage. In addition that algorithm</font>
+<a name="line259">259: </a><font color="#B22222">            calls the V-cycle only on the coarser level and has a post-smoother instead.</font>
+<a name="line260">260: </a><font color="#B22222">-  <a href="../docs/manualpages/PC/PCMGType.html#PCMGType">PC_MG_KASKADE</a> - like full multigrid except one never goes back to a coarser level</font>
+<a name="line261">261: </a><font color="#B22222">               from a finer</font>
+
+<a name="line263">263: </a><font color="#B22222">.seealso: <a href="../docs/manualpages/PCMG/PCMGSetType.html#PCMGSetType">PCMGSetType</a>(), <a href="../docs/manualpages/PCMG/PCMGSetCycleType.html#PCMGSetCycleType">PCMGSetCycleType</a>(), <a href="../docs/manualpages/PCMG/PCMGSetCycleTypeOnLevel.html#PCMGSetCycleTypeOnLevel">PCMGSetCycleTypeOnLevel</a>()</font>
+
+<a name="line265">265: </a><font color="#B22222">E*/</font>
+<a name="line266">266: </a><font color="#4169E1">typedef</font> <font color="#4169E1">enum</font> { <a href="../docs/manualpages/PC/PCMGType.html#PCMGType">PC_MG_MULTIPLICATIVE</a>,<a href="../docs/manualpages/PC/PCMGType.html#PCMGType">PC_MG_ADDITIVE</a>,<a href="../docs/manualpages/PC/PCMGType.html#PCMGType">PC_MG_FULL</a>,<a href="../docs/manualpages/PC/PCMGType.html#PCMGType">PC_MG_KASKADE</a> } <a href="../docs/manualpages/PC/PCMGType.html#PCMGType">PCMGType</a>;
+<a name="line267">267: </a>PETSC_EXTERN const char *const PCMGTypes[];
+<a name="line268">268: </a><strong><font color="#228B22">#define PC_MG_CASCADE <a href="../docs/manualpages/PC/PCMGType.html#PCMGType">PC_MG_KASKADE</a>;</font></strong>
+
+<a name="line270">270: </a><font color="#B22222">/*E</font>
+<a name="line271">271: </a><font color="#B22222">    <a href="../docs/manualpages/PC/PCMGCycleType.html#PCMGCycleType">PCMGCycleType</a> - Use V-cycle or W-cycle</font>
+
+<a name="line273">273: </a><font color="#B22222">   Level: beginner</font>
+
+<a name="line275">275: </a><font color="#B22222">   Values:</font>
+<a name="line276">276: </a><font color="#B22222">+  PC_MG_V_CYCLE</font>
+<a name="line277">277: </a><font color="#B22222">-  PC_MG_W_CYCLE</font>
+
+<a name="line279">279: </a><font color="#B22222">.seealso: <a href="../docs/manualpages/PCMG/PCMGSetCycleType.html#PCMGSetCycleType">PCMGSetCycleType</a>()</font>
+
+<a name="line281">281: </a><font color="#B22222">E*/</font>
+<a name="line282">282: </a><font color="#4169E1">typedef</font> <font color="#4169E1">enum</font> { <a href="../docs/manualpages/PC/PCMGCycleType.html#PCMGCycleType">PC_MG_CYCLE_V</a> = 1,<a href="../docs/manualpages/PC/PCMGCycleType.html#PCMGCycleType">PC_MG_CYCLE_W</a> = 2 } <a href="../docs/manualpages/PC/PCMGCycleType.html#PCMGCycleType">PCMGCycleType</a>;
+<a name="line283">283: </a>PETSC_EXTERN const char *const PCMGCycleTypes[];
+
+<a name="line285">285: </a><font color="#B22222">/*E</font>
+<a name="line286">286: </a><font color="#B22222">    <a href="../docs/manualpages/PC/PCMGalerkinType.html#PCMGalerkinType">PCMGalerkinType</a> - Determines if the coarse grid operators are computed via the Galerkin process</font>
+
+<a name="line288">288: </a><font color="#B22222">   Level: beginner</font>
+
+<a name="line290">290: </a><font color="#B22222">   Values:</font>
+<a name="line291">291: </a><font color="#B22222">+  <a href="../docs/manualpages/PC/PCMGalerkinType.html#PCMGalerkinType">PC_MG_GALERKIN_PMAT</a> - computes the pmat (matrix from which the preconditioner is built) via the Galerkin process from the finest grid</font>
+<a name="line292">292: </a><font color="#B22222">.  <a href="../docs/manualpages/PC/PCMGalerkinType.html#PCMGalerkinType">PC_MG_GALERKIN_MAT</a> -  computes the mat (matrix used to apply the operator) via the Galerkin process from the finest grid</font>
+<a name="line293">293: </a><font color="#B22222">.  <a href="../docs/manualpages/PC/PCMGalerkinType.html#PCMGalerkinType">PC_MG_GALERKIN_BOTH</a> - computes both the mat and pmat via the Galerkin process (if pmat == mat the construction is only done once</font>
+<a name="line294">294: </a><font color="#B22222">-  <a href="../docs/manualpages/PC/PCMGalerkinType.html#PCMGalerkinType">PC_MG_GALERKIN_NONE</a> - neither operator is computed via the Galerkin process, the user must provide the operator</font>
+
+<a name="line296">296: </a><font color="#B22222">   Users should never set <a href="../docs/manualpages/PC/PCMGalerkinType.html#PCMGalerkinType">PC_MG_GALERKIN_EXTERNAL</a>, it is used by GAMG and ML</font>
+
+<a name="line298">298: </a><font color="#B22222">.seealso: <a href="../docs/manualpages/PCMG/PCMGSetCycleType.html#PCMGSetCycleType">PCMGSetCycleType</a>()</font>
+
+<a name="line300">300: </a><font color="#B22222">E*/</font>
+<a name="line301">301: </a><font color="#4169E1">typedef</font> <font color="#4169E1">enum</font> { <a href="../docs/manualpages/PC/PCMGalerkinType.html#PCMGalerkinType">PC_MG_GALERKIN_BOTH</a>,<a href="../docs/manualpages/PC/PCMGalerkinType.html#PCMGalerkinType">PC_MG_GALERKIN_PMAT</a>,<a href="../docs/manualpages/PC/PCMGalerkinType.html#PCMGalerkinType">PC_MG_GALERKIN_MAT</a>, <a href="../docs/manualpages/PC/PCMGalerkinType.html#PCMGalerkinType">PC_MG_GALERKIN_NONE</a>, <a href="../docs/manualpages/PC/PCMGalerkinType.html#PCMGalerkinType">PC_MG_GALERKIN_EXTERNAL</a>} PCMGGalerkinType;
+<a name="line302">302: </a>PETSC_EXTERN const char *const PCMGGalerkinTypes[];
+
+<a name="line304">304: </a><font color="#B22222">/*E</font>
+<a name="line305">305: </a><font color="#B22222">    <a href="../docs/manualpages/PC/PCExoticType.html#PCExoticType">PCExoticType</a> - Face based or wirebasket based coarse grid space</font>
+
+<a name="line307">307: </a><font color="#B22222">   Level: beginner</font>
+
+<a name="line309">309: </a><font color="#B22222">.seealso: <a href="../docs/manualpages/PC/PCExoticSetType.html#PCExoticSetType">PCExoticSetType</a>(), <a href="../docs/manualpages/PC/PCEXOTIC.html#PCEXOTIC">PCEXOTIC</a></font>
+<a name="line310">310: </a><font color="#B22222">E*/</font>
+<a name="line311">311: </a><font color="#4169E1">typedef</font> <font color="#4169E1">enum</font> { <a href="../docs/manualpages/PC/PCExoticType.html#PCExoticType">PC_EXOTIC_FACE</a>,<a href="../docs/manualpages/PC/PCExoticType.html#PCExoticType">PC_EXOTIC_WIREBASKET</a> } <a href="../docs/manualpages/PC/PCExoticType.html#PCExoticType">PCExoticType</a>;
+<a name="line312">312: </a>PETSC_EXTERN const char *const PCExoticTypes[];
+<a name="line313">313: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/PC/PCExoticSetType.html#PCExoticSetType">PCExoticSetType</a>(<a href="../docs/manualpages/PC/PC.html#PC">PC</a>,<a href="../docs/manualpages/PC/PCExoticType.html#PCExoticType">PCExoticType</a>)</font></strong>;
+
+<a name="line315">315: </a><font color="#B22222">/*E</font>
+<a name="line316">316: </a><font color="#B22222">    <a href="../docs/manualpages/PC/PCFailedReason.html#PCFailedReason">PCFailedReason</a> - indicates type of <a href="../docs/manualpages/PC/PC.html#PC">PC</a> failure</font>
+
+<a name="line318">318: </a><font color="#B22222">    Level: beginner</font>
+
+<a name="line320">320: </a><font color="#B22222">    Any additions/changes here MUST also be made in include/petsc/finclude/petscpc.h</font>
+<a name="line321">321: </a><font color="#B22222">E*/</font>
+<a name="line322">322: </a><font color="#4169E1">typedef</font> <font color="#4169E1">enum</font> {<a href="../docs/manualpages/PC/PCFailedReason.html#PCFailedReason">PC_NOERROR</a>,<a href="../docs/manualpages/PC/PCFailedReason.html#PCFailedReason">PC_FACTOR_STRUCT_ZEROPIVOT</a>,<a href="../docs/manualpages/PC/PCFailedReason.html#PCFailedReason">PC_FACTOR_NUMERIC_ZEROPIVOT</a>,<a href="../docs/manualpages/PC/PCFailedReason.html#PCFailedReason">PC_FACTOR_OUTMEMORY</a>,<a href="../docs/manualpages/PC/PCFailedReason.html#PCFailedReason">PC_FACTOR_OTHER</a>,<a href="../docs/manualpages/PC/PCFailedReason.html#PCFailedReason">PC_SUBPC_ERROR</a>} <a href="../docs/manualpages/PC/PCFailedReason.html#PCFailedReason">PCFailedReason</a>;
+<a name="line323">323: </a>PETSC_EXTERN const char *const PCFailedReasons[];
+<a name="line324">324: </a><font color="#A020F0">#endif</font>
+</pre>
+</body>
+
+</html>

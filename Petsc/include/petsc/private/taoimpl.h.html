@@ -1,0 +1,217 @@
+<center><a href="taoimpl.h">Actual source code: taoimpl.h</a></center><br>
+
+<html>
+<head> <link rel="canonical" href="http://www.mcs.anl.gov/petsc/petsc-current/include/petsc/private/taoimpl.h.html" />
+<title></title>
+<meta name="generator" content="c2html 0.9.4">
+<meta name="date" content="2017-12-10T05:59:05+00:00">
+</head>
+
+<body bgcolor="#FFFFFF">
+   <div id="version" align=right><b>petsc-3.8.3 2017-12-09</b></div>
+   <div id="bugreport" align=right><a href="mailto:petsc-maint@mcs.anl.gov?subject=Typo or Error in Documentation &body=Please describe the typo or error in the documentation: petsc-3.8.3 v3.8.3 include/petsc/private/taoimpl.h.html "><small>Report Typos and Errors</small></a></div>
+<pre width="80">
+<a name="line1">  1: </a><font color="#A020F0">#ifndef __TAO_IMPL_H</font>
+
+<a name="line4">  4: </a> #include <A href="../../../include/petsctaolinesearch.h.html">&lt;petsctaolinesearch.h&gt;</A>
+<a name="line5">  5: </a> #include <A href="../../../include/petsc/private/petscimpl.h.html">&lt;petsc/private/petscimpl.h&gt;</A>
+<a name="line6">  6: </a> #include <A href="../../../include/petscksp.h.html">&lt;petscksp.h&gt;</A>
+
+<a name="line8">  8: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../../../docs/manualpages/Tao/TaoRegisterAll.html#TaoRegisterAll">TaoRegisterAll</a>(void)</font></strong>;
+
+<a name="line10"> 10: </a><font color="#4169E1">typedef struct _TaoOps *TaoOps;</font>
+
+<a name="line12"> 12: </a><font color="#4169E1"><a name="_TaoOps"></a>struct _TaoOps </font>{
+<a name="line13"> 13: </a>  <font color="#B22222">/* Methods set by application */</font>
+<a name="line14"> 14: </a>    <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*computeobjective)(<a href="../../../docs/manualpages/Tao/Tao.html#Tao">Tao</a>, <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a>*, void*);
+<a name="line15"> 15: </a>    <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*computeobjectiveandgradient)(<a href="../../../docs/manualpages/Tao/Tao.html#Tao">Tao</a>, <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a>*, <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, void*);
+<a name="line16"> 16: </a>    <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*computegradient)(<a href="../../../docs/manualpages/Tao/Tao.html#Tao">Tao</a>, <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, void*);
+<a name="line17"> 17: </a>    <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*computehessian)(<a href="../../../docs/manualpages/Tao/Tao.html#Tao">Tao</a>, <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, <a href="../../../docs/manualpages/Mat/Mat.html#Mat">Mat</a>, <a href="../../../docs/manualpages/Mat/Mat.html#Mat">Mat</a>,  void*);
+<a name="line18"> 18: </a>    <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*computeseparableobjective)(<a href="../../../docs/manualpages/Tao/Tao.html#Tao">Tao</a>, <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, void*);
+<a name="line19"> 19: </a>    <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*computeconstraints)(<a href="../../../docs/manualpages/Tao/Tao.html#Tao">Tao</a>, <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, void*);
+<a name="line20"> 20: </a>    <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*computeinequalityconstraints)(<a href="../../../docs/manualpages/Tao/Tao.html#Tao">Tao</a>, <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, void*);
+<a name="line21"> 21: </a>    <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*computeequalityconstraints)(<a href="../../../docs/manualpages/Tao/Tao.html#Tao">Tao</a>, <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, void*);
+<a name="line22"> 22: </a>    <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*computejacobian)(<a href="../../../docs/manualpages/Tao/Tao.html#Tao">Tao</a>, <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, <a href="../../../docs/manualpages/Mat/Mat.html#Mat">Mat</a>, <a href="../../../docs/manualpages/Mat/Mat.html#Mat">Mat</a>,  void*);
+<a name="line23"> 23: </a>    <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*computejacobianstate)(<a href="../../../docs/manualpages/Tao/Tao.html#Tao">Tao</a>, <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, <a href="../../../docs/manualpages/Mat/Mat.html#Mat">Mat</a>, <a href="../../../docs/manualpages/Mat/Mat.html#Mat">Mat</a>, <a href="../../../docs/manualpages/Mat/Mat.html#Mat">Mat</a>,  void*);
+<a name="line24"> 24: </a>    <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*computejacobiandesign)(<a href="../../../docs/manualpages/Tao/Tao.html#Tao">Tao</a>, <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, <a href="../../../docs/manualpages/Mat/Mat.html#Mat">Mat</a>, void*);
+<a name="line25"> 25: </a>    <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*computejacobianinequality)(<a href="../../../docs/manualpages/Tao/Tao.html#Tao">Tao</a>, <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, <a href="../../../docs/manualpages/Mat/Mat.html#Mat">Mat</a>, <a href="../../../docs/manualpages/Mat/Mat.html#Mat">Mat</a>,  void*);
+<a name="line26"> 26: </a>    <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*computejacobianequality)(<a href="../../../docs/manualpages/Tao/Tao.html#Tao">Tao</a>, <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, <a href="../../../docs/manualpages/Mat/Mat.html#Mat">Mat</a>, <a href="../../../docs/manualpages/Mat/Mat.html#Mat">Mat</a>,  void*);
+<a name="line27"> 27: </a>    <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*computebounds)(<a href="../../../docs/manualpages/Tao/Tao.html#Tao">Tao</a>, <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, void*);
+
+<a name="line29"> 29: </a>    <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*convergencetest)(<a href="../../../docs/manualpages/Tao/Tao.html#Tao">Tao</a>,void*);
+<a name="line30"> 30: </a>    <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*convergencedestroy)(void*);
+
+<a name="line32"> 32: </a>  <font color="#B22222">/* Methods set by solver */</font>
+<a name="line33"> 33: </a>    <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*computedual)(<a href="../../../docs/manualpages/Tao/Tao.html#Tao">Tao</a>, <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>);
+<a name="line34"> 34: </a>    <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*setup)(<a href="../../../docs/manualpages/Tao/Tao.html#Tao">Tao</a>);
+<a name="line35"> 35: </a>    <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*solve)(<a href="../../../docs/manualpages/Tao/Tao.html#Tao">Tao</a>);
+<a name="line36"> 36: </a>    <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*view)(<a href="../../../docs/manualpages/Tao/Tao.html#Tao">Tao</a>, <a href="../../../docs/manualpages/Viewer/PetscViewer.html#PetscViewer">PetscViewer</a>);
+<a name="line37"> 37: </a>    <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*setfromoptions)(PetscOptionItems*,<a href="../../../docs/manualpages/Tao/Tao.html#Tao">Tao</a>);
+<a name="line38"> 38: </a>    <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*destroy)(<a href="../../../docs/manualpages/Tao/Tao.html#Tao">Tao</a>);
+<a name="line39"> 39: </a>};
+
+<a name="line41"> 41: </a><strong><font color="#228B22">#define MAXTAOMONITORS 10</font></strong>
+
+<a name="line43"> 43: </a><font color="#4169E1"><a name="_p_Tao"></a>struct _p_Tao </font>{
+<a name="line44"> 44: </a>    PETSCHEADER(<font color="#4169E1">struct _TaoOps</font>);
+<a name="line45"> 45: </a>    void *user;
+<a name="line46"> 46: </a>    void *user_objP;
+<a name="line47"> 47: </a>    void *user_objgradP;
+<a name="line48"> 48: </a>    void *user_gradP;
+<a name="line49"> 49: </a>    void *user_hessP;
+<a name="line50"> 50: </a>    void *user_sepobjP;
+<a name="line51"> 51: </a>    void *user_conP;
+<a name="line52"> 52: </a>    void *user_con_equalityP;
+<a name="line53"> 53: </a>    void *user_con_inequalityP;
+<a name="line54"> 54: </a>    void *user_jacP;
+<a name="line55"> 55: </a>    void *user_jac_equalityP;
+<a name="line56"> 56: </a>    void *user_jac_inequalityP;
+<a name="line57"> 57: </a>    void *user_jac_stateP;
+<a name="line58"> 58: </a>    void *user_jac_designP;
+<a name="line59"> 59: </a>    void *user_boundsP;
+
+<a name="line61"> 61: </a>    <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*monitor[MAXTAOMONITORS])(<a href="../../../docs/manualpages/Tao/Tao.html#Tao">Tao</a>,void*);
+<a name="line62"> 62: </a>    <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*monitordestroy[MAXTAOMONITORS])(void**);
+<a name="line63"> 63: </a>    void *monitorcontext[MAXTAOMONITORS];
+<a name="line64"> 64: </a>    <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> numbermonitors;
+<a name="line65"> 65: </a>    void *cnvP;
+<a name="line66"> 66: </a>    <a href="../../../docs/manualpages/Tao/TaoConvergedReason.html#TaoConvergedReason">TaoConvergedReason</a> reason;
+
+<a name="line68"> 68: </a>    <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a> setupcalled;
+<a name="line69"> 69: </a>    void *data;
+
+<a name="line71"> 71: </a>    <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a> solution;
+<a name="line72"> 72: </a>    <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a> gradient;
+<a name="line73"> 73: </a>    <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a> stepdirection;
+<a name="line74"> 74: </a>    <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a> XL;
+<a name="line75"> 75: </a>    <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a> XU;
+<a name="line76"> 76: </a>    <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a> IL;
+<a name="line77"> 77: </a>    <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a> IU;
+<a name="line78"> 78: </a>    <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a> DI;
+<a name="line79"> 79: </a>    <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a> DE;
+<a name="line80"> 80: </a>    <a href="../../../docs/manualpages/Mat/Mat.html#Mat">Mat</a> hessian;
+<a name="line81"> 81: </a>    <a href="../../../docs/manualpages/Mat/Mat.html#Mat">Mat</a> hessian_pre;
+<a name="line82"> 82: </a>    <a href="../../../docs/manualpages/Mat/Mat.html#Mat">Mat</a> gradient_norm;
+<a name="line83"> 83: </a>    <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a> gradient_norm_tmp;
+<a name="line84"> 84: </a>    <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a> sep_objective;
+<a name="line85"> 85: </a>    <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a> sep_weights_v;
+<a name="line86"> 86: </a>    <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> sep_weights_n;
+<a name="line87"> 87: </a>    <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> *sep_weights_rows;
+<a name="line88"> 88: </a>    <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> *sep_weights_cols;
+<a name="line89"> 89: </a>    <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a> *sep_weights_w;
+<a name="line90"> 90: </a>    <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a> constraints;
+<a name="line91"> 91: </a>    <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a> constraints_equality;
+<a name="line92"> 92: </a>    <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a> constraints_inequality;
+<a name="line93"> 93: </a>    <a href="../../../docs/manualpages/Mat/Mat.html#Mat">Mat</a> jacobian;
+<a name="line94"> 94: </a>    <a href="../../../docs/manualpages/Mat/Mat.html#Mat">Mat</a> jacobian_pre;
+<a name="line95"> 95: </a>    <a href="../../../docs/manualpages/Mat/Mat.html#Mat">Mat</a> jacobian_inequality;
+<a name="line96"> 96: </a>    <a href="../../../docs/manualpages/Mat/Mat.html#Mat">Mat</a> jacobian_inequality_pre;
+<a name="line97"> 97: </a>    <a href="../../../docs/manualpages/Mat/Mat.html#Mat">Mat</a> jacobian_equality;
+<a name="line98"> 98: </a>    <a href="../../../docs/manualpages/Mat/Mat.html#Mat">Mat</a> jacobian_equality_pre;
+<a name="line99"> 99: </a>    <a href="../../../docs/manualpages/Mat/Mat.html#Mat">Mat</a> jacobian_state;
+<a name="line100">100: </a>    <a href="../../../docs/manualpages/Mat/Mat.html#Mat">Mat</a> jacobian_state_inv;
+<a name="line101">101: </a>    <a href="../../../docs/manualpages/Mat/Mat.html#Mat">Mat</a> jacobian_design;
+<a name="line102">102: </a>    <a href="../../../docs/manualpages/Mat/Mat.html#Mat">Mat</a> jacobian_state_pre;
+<a name="line103">103: </a>    <a href="../../../docs/manualpages/Mat/Mat.html#Mat">Mat</a> jacobian_design_pre;
+<a name="line104">104: </a>    <a href="../../../docs/manualpages/IS/IS.html#IS">IS</a> state_is;
+<a name="line105">105: </a>    <a href="../../../docs/manualpages/IS/IS.html#IS">IS</a> design_is;
+<a name="line106">106: </a>    <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a> step;
+<a name="line107">107: </a>    <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a> residual;
+<a name="line108">108: </a>    <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a> gnorm0;
+<a name="line109">109: </a>    <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a> cnorm;
+<a name="line110">110: </a>    <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a> cnorm0;
+<a name="line111">111: </a>    <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a> fc;
+
+
+<a name="line114">114: </a>    <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>  max_it;
+<a name="line115">115: </a>    <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>  max_funcs;
+<a name="line116">116: </a>    <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>  max_constraints;
+<a name="line117">117: </a>    <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>  nfuncs;
+<a name="line118">118: </a>    <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>  ngrads;
+<a name="line119">119: </a>    <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>  nfuncgrads;
+<a name="line120">120: </a>    <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>  nhess;
+<a name="line121">121: </a>    <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>  niter;
+<a name="line122">122: </a>    <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>  ntotalits;
+<a name="line123">123: </a>    <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>  nconstraints;
+<a name="line124">124: </a>    <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>  niconstraints;
+<a name="line125">125: </a>    <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>  neconstraints;
+<a name="line126">126: </a>    <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>  njac;
+<a name="line127">127: </a>    <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>  njac_equality;
+<a name="line128">128: </a>    <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>  njac_inequality;
+<a name="line129">129: </a>    <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>  njac_state;
+<a name="line130">130: </a>    <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>  njac_design;
+
+<a name="line132">132: </a>    <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>  ksp_its; <font color="#B22222">/* <a href="../../../docs/manualpages/KSP/KSP.html#KSP">KSP</a> iterations for this solver iteration */</font>
+<a name="line133">133: </a>    <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>  ksp_tot_its; <font color="#B22222">/* Total (cumulative) <a href="../../../docs/manualpages/KSP/KSP.html#KSP">KSP</a> iterations */</font>
+
+
+<a name="line136">136: </a>    TaoLineSearch linesearch;
+<a name="line137">137: </a>    <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a> lsflag; <font color="#B22222">/* goes up when line search fails */</font>
+<a name="line138">138: </a>    <a href="../../../docs/manualpages/KSP/KSP.html#KSP">KSP</a> ksp;
+<a name="line139">139: </a>    <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a> trust0; <font color="#B22222">/* initial trust region radius */</font>
+<a name="line140">140: </a>    <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a> trust;  <font color="#B22222">/* Current trust region */</font>
+
+<a name="line142">142: </a>    <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a> gatol;
+<a name="line143">143: </a>    <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a> grtol;
+<a name="line144">144: </a>    <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a> gttol;
+<a name="line145">145: </a>    <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a> catol;
+<a name="line146">146: </a>    <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a> crtol;
+<a name="line147">147: </a>    <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a> steptol;
+<a name="line148">148: </a>    <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a> fmin;
+<a name="line149">149: </a>    <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a> max_funcs_changed;
+<a name="line150">150: </a>    <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a> max_it_changed;
+<a name="line151">151: </a>    <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a> gatol_changed;
+<a name="line152">152: </a>    <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a> grtol_changed;
+<a name="line153">153: </a>    <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a> gttol_changed;
+<a name="line154">154: </a>    <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a> fmin_changed;
+<a name="line155">155: </a>    <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a> catol_changed;
+<a name="line156">156: </a>    <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a> crtol_changed;
+<a name="line157">157: </a>    <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a> steptol_changed;
+<a name="line158">158: </a>    <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a> trust0_changed;
+<a name="line159">159: </a>    <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a> printreason;
+<a name="line160">160: </a>    <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a> viewsolution;
+<a name="line161">161: </a>    <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a> viewgradient;
+<a name="line162">162: </a>    <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a> viewconstraints;
+<a name="line163">163: </a>    <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a> viewhessian;
+<a name="line164">164: </a>    <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a> viewjacobian;
+
+<a name="line166">166: </a>    <a href="../../../docs/manualpages/Tao/TaoSubsetType.html#TaoSubsetType">TaoSubsetType</a> subset_type;
+<a name="line167">167: </a>    <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>      hist_max;<font color="#B22222">/* Number of iteration histories to keep */</font>
+<a name="line168">168: </a>    <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a>     *hist_obj; <font color="#B22222">/* obj value at each iteration */</font>
+<a name="line169">169: </a>    <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a>     *hist_resid; <font color="#B22222">/* residual at each iteration */</font>
+<a name="line170">170: </a>    <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a>     *hist_cnorm; <font color="#B22222">/* constraint norm at each iteration */</font>
+<a name="line171">171: </a>    <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>      *hist_lits; <font color="#B22222">/* number of ksp its at each TAO iteration */</font>
+<a name="line172">172: </a>    <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>      hist_len;
+<a name="line173">173: </a>    <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>     hist_reset;
+<a name="line174">174: </a>    <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>     hist_malloc;
+<a name="line175">175: </a>};
+
+<a name="line177">177: </a>extern <a href="../../../docs/manualpages/Profiling/PetscLogEvent.html#PetscLogEvent">PetscLogEvent</a> Tao_Solve, Tao_ObjectiveEval, Tao_ObjGradientEval, Tao_GradientEval, Tao_HessianEval, Tao_ConstraintsEval, Tao_JacobianEval;
+
+<a name="line179">179: </a><strong><font color="#4169E1"><a name="TaoLogConvergenceHistory"></a>PETSC_STATIC_INLINE <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> TaoLogConvergenceHistory(<a href="../../../docs/manualpages/Tao/Tao.html#Tao">Tao</a> tao, <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a> obj, <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a> resid, <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a> cnorm, <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> totits)</font></strong>
+<a name="line180">180: </a>{
+<a name="line182">182: </a>  <font color="#4169E1">if</font> (tao-&gt;hist_max &gt; tao-&gt;hist_len) {
+<a name="line183">183: </a>    <font color="#4169E1">if</font> (tao-&gt;hist_obj) tao-&gt;hist_obj[tao-&gt;hist_len]=obj;
+<a name="line184">184: </a>    <font color="#4169E1">if</font> (tao-&gt;hist_resid) tao-&gt;hist_resid[tao-&gt;hist_len]=resid;
+<a name="line185">185: </a>    <font color="#4169E1">if</font> (tao-&gt;hist_cnorm) tao-&gt;hist_cnorm[tao-&gt;hist_len]=cnorm;
+<a name="line186">186: </a>    <font color="#4169E1">if</font> (tao-&gt;hist_lits) {
+<a name="line187">187: </a>      <font color="#4169E1">if</font> (tao-&gt;hist_len &lt;= 0) {
+<a name="line188">188: </a>        tao-&gt;hist_lits[0] = totits;
+<a name="line189">189: </a>      } <font color="#4169E1">else</font> {
+<a name="line190">190: </a>        tao-&gt;hist_lits[tao-&gt;hist_len]=totits - tao-&gt;hist_lits[tao-&gt;hist_len-1];
+<a name="line191">191: </a>      }
+<a name="line192">192: </a>    }
+<a name="line193">193: </a>    tao-&gt;hist_len++;
+<a name="line194">194: </a>  }
+<a name="line195">195: </a>  <font color="#4169E1">return</font>(0);
+<a name="line196">196: </a>}
+
+<a name="line198">198: </a><strong><font color="#4169E1">PETSC_INTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> TaoVecGetSubVec(<a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, <a href="../../../docs/manualpages/IS/IS.html#IS">IS</a>, <a href="../../../docs/manualpages/Tao/TaoSubsetType.html#TaoSubsetType">TaoSubsetType</a>, <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a>, <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>*)</font></strong>;
+<a name="line199">199: </a><strong><font color="#4169E1">PETSC_INTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> TaoMatGetSubMat(<a href="../../../docs/manualpages/Mat/Mat.html#Mat">Mat</a>, <a href="../../../docs/manualpages/IS/IS.html#IS">IS</a>, <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, <a href="../../../docs/manualpages/Tao/TaoSubsetType.html#TaoSubsetType">TaoSubsetType</a>, <a href="../../../docs/manualpages/Mat/Mat.html#Mat">Mat</a>*)</font></strong>;
+<a name="line200">200: </a><strong><font color="#4169E1">PETSC_INTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> TaoGradientNorm(<a href="../../../docs/manualpages/Tao/Tao.html#Tao">Tao</a>, <a href="../../../docs/manualpages/Vec/Vec.html#Vec">Vec</a>, <a href="../../../docs/manualpages/Vec/NormType.html#NormType">NormType</a>, <a href="../../../docs/manualpages/Sys/PetscReal.html#PetscReal">PetscReal</a>*)</font></strong>;
+
+<a name="line202">202: </a><font color="#A020F0">#endif</font>
+</pre>
+</body>
+
+</html>

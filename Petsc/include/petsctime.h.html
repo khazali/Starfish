@@ -1,0 +1,142 @@
+<center><a href="petsctime.h">Actual source code: petsctime.h</a></center><br>
+
+<html>
+<head> <link rel="canonical" href="http://www.mcs.anl.gov/petsc/petsc-current/include/petsctime.h.html" />
+<title></title>
+<meta name="generator" content="c2html 0.9.4">
+<meta name="date" content="2017-12-10T04:46:43+00:00">
+</head>
+
+<body bgcolor="#FFFFFF">
+   <div id="version" align=right><b>petsc-3.8.3 2017-12-09</b></div>
+   <div id="bugreport" align=right><a href="mailto:petsc-maint@mcs.anl.gov?subject=Typo or Error in Documentation &body=Please describe the typo or error in the documentation: petsc-3.8.3 v3.8.3 include/petsctime.h.html "><small>Report Typos and Errors</small></a></div>
+<pre width="80">
+<a name="line1">  1: </a><font color="#B22222">/*</font>
+<a name="line2">  2: </a><font color="#B22222">       Low cost access to system time. This, in general, should not</font>
+<a name="line3">  3: </a><font color="#B22222">     be included in user programs.</font>
+<a name="line4">  4: </a><font color="#B22222">*/</font>
+
+<a name="line8">  8: </a> #include <A href="petscsys.h.html">&lt;petscsys.h&gt;</A>
+
+<a name="line10"> 10: </a><strong><font color="#4169E1">PETSC_EXTERN <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Sys/PetscGetCPUTime.html#PetscGetCPUTime">PetscGetCPUTime</a>(PetscLogDouble*)</font></strong>;
+
+<a name="line12"> 12: </a><font color="#B22222">/* Global counters */</font>
+<a name="line13"> 13: </a>PETSC_EXTERN PetscLogDouble petsc_BaseTime;
+
+<a name="line15"> 15: </a><font color="#B22222">/*MC</font>
+<a name="line16"> 16: </a><font color="#B22222">   <a href="../docs/manualpages/Sys/PetscTime.html#PetscTime">PetscTime</a> - Returns the current time of day in seconds.</font>
+
+<a name="line18"> 18: </a><font color="#B22222">   Synopsis:</font>
+<a name="line19"> 19: </a><font color="#B22222">    #include &lt;petsctime.h&gt;</font>
+<a name="line20"> 20: </a><font color="#B22222">   <a href="../docs/manualpages/Sys/PetscTime.html#PetscTime">PetscTime</a>(PetscLogDouble *v)</font>
+
+<a name="line22"> 22: </a><font color="#B22222">   Not Collective</font>
+
+<a name="line24"> 24: </a><font color="#B22222">   Output Parameter:</font>
+<a name="line25"> 25: </a><font color="#B22222">.  v - time counter</font>
+
+
+<a name="line28"> 28: </a><font color="#B22222">   Usage:</font>
+<a name="line29"> 29: </a><font color="#B22222">     PetscLogDouble v;</font>
+<a name="line30"> 30: </a><font color="#B22222">     <a href="../docs/manualpages/Sys/PetscTime.html#PetscTime">PetscTime</a>(&amp;v);</font>
+<a name="line31"> 31: </a><font color="#B22222">     .... perform some calculation ...</font>
+<a name="line32"> 32: </a><font color="#B22222">     printf("Time for operation %g\n",v);</font>
+
+<a name="line34"> 34: </a><font color="#B22222">   Level: developer</font>
+
+<a name="line36"> 36: </a><font color="#B22222">   Notes:</font>
+<a name="line37"> 37: </a><font color="#B22222">   Since the PETSc libraries incorporate timing of phases and operations,</font>
+<a name="line38"> 38: </a><font color="#B22222">   we do not recommend ever using <a href="../docs/manualpages/Sys/PetscTime.html#PetscTime">PetscTime</a>()</font>
+<a name="line39"> 39: </a><font color="#B22222">   The options database command  -log_view activate</font>
+<a name="line40"> 40: </a><font color="#B22222">   PETSc library timing. See Users-Manual: <a href="../docs/manualpages/../manual.pdf#chapter.13">Chapter 13 Profiling</a> for more details.</font>
+
+<a name="line42"> 42: </a><font color="#B22222">.seealso:  <a href="../docs/manualpages/Sys/PetscTimeSubtract.html#PetscTimeSubtract">PetscTimeSubtract</a>(), <a href="../docs/manualpages/Sys/PetscTimeAdd.html#PetscTimeAdd">PetscTimeAdd</a>(), <a href="../docs/manualpages/Profiling/PetscLogStageRegister.html#PetscLogStageRegister">PetscLogStageRegister</a>(), <a href="../docs/manualpages/Profiling/PetscLogEventRegister.html#PetscLogEventRegister">PetscLogEventRegister</a>(), <a href="../docs/manualpages/Profiling/PetscLogEventBegin.html#PetscLogEventBegin">PetscLogEventBegin</a>(), <a href="../docs/manualpages/Profiling/PetscLogEventEnd.html#PetscLogEventEnd">PetscLogEventEnd</a>()</font>
+
+<a name="line44"> 44: </a><font color="#B22222">.keywords:  Petsc, time</font>
+<a name="line45"> 45: </a><font color="#B22222">M*/</font>
+
+<a name="line47"> 47: </a><font color="#B22222">/*MC</font>
+<a name="line48"> 48: </a><font color="#B22222">   <a href="../docs/manualpages/Sys/PetscTimeSubtract.html#PetscTimeSubtract">PetscTimeSubtract</a> - Subtracts the current time of day (in seconds) from</font>
+<a name="line49"> 49: </a><font color="#B22222">   the value v.</font>
+
+<a name="line51"> 51: </a><font color="#B22222">   Synopsis:</font>
+<a name="line52"> 52: </a><font color="#B22222">    #include &lt;petsctime.h&gt;</font>
+<a name="line53"> 53: </a><font color="#B22222">   <a href="../docs/manualpages/Sys/PetscTimeSubtract.html#PetscTimeSubtract">PetscTimeSubtract</a>(&amp;PetscLogDouble *v)</font>
+
+<a name="line55"> 55: </a><font color="#B22222">   Not Collective</font>
+
+<a name="line57"> 57: </a><font color="#B22222">   Input Parameter:</font>
+<a name="line58"> 58: </a><font color="#B22222">.  v - time counter</font>
+
+<a name="line60"> 60: </a><font color="#B22222">   Output Parameter:</font>
+<a name="line61"> 61: </a><font color="#B22222">.  v - time counter (v = v - current time)</font>
+
+<a name="line63"> 63: </a><font color="#B22222">   Level: developer</font>
+
+<a name="line65"> 65: </a><font color="#B22222">   Notes:</font>
+<a name="line66"> 66: </a><font color="#B22222">   Since the PETSc libraries incorporate timing of phases and operations,</font>
+<a name="line67"> 67: </a><font color="#B22222">   we do not every recommend using <a href="../docs/manualpages/Sys/PetscTimeSubtract.html#PetscTimeSubtract">PetscTimeSubtract</a>()</font>
+<a name="line68"> 68: </a><font color="#B22222">   The options database command  -log_view activates</font>
+<a name="line69"> 69: </a><font color="#B22222">   PETSc library timing.  See Users-Manual: <a href="../docs/manualpages/../manual.pdf#chapter.13">Chapter 13 Profiling</a> for more details, also</font>
+<a name="line70"> 70: </a><font color="#B22222">   see <a href="../docs/manualpages/Profiling/PetscLogStageRegister.html#PetscLogStageRegister">PetscLogStageRegister</a>(), <a href="../docs/manualpages/Profiling/PetscLogEventRegister.html#PetscLogEventRegister">PetscLogEventRegister</a>(), <a href="../docs/manualpages/Profiling/PetscLogEventBegin.html#PetscLogEventBegin">PetscLogEventBegin</a>(), <a href="../docs/manualpages/Profiling/PetscLogEventEnd.html#PetscLogEventEnd">PetscLogEventEnd</a>() for how to register</font>
+<a name="line71"> 71: </a><font color="#B22222">   stages and events in application codes. </font>
+
+<a name="line73"> 73: </a><font color="#B22222">.seealso:  <a href="../docs/manualpages/Sys/PetscTime.html#PetscTime">PetscTime</a>(), <a href="../docs/manualpages/Sys/PetscTimeAdd.html#PetscTimeAdd">PetscTimeAdd</a>(), <a href="../docs/manualpages/Profiling/PetscLogStageRegister.html#PetscLogStageRegister">PetscLogStageRegister</a>(), <a href="../docs/manualpages/Profiling/PetscLogEventRegister.html#PetscLogEventRegister">PetscLogEventRegister</a>(), <a href="../docs/manualpages/Profiling/PetscLogEventBegin.html#PetscLogEventBegin">PetscLogEventBegin</a>(), <a href="../docs/manualpages/Profiling/PetscLogEventEnd.html#PetscLogEventEnd">PetscLogEventEnd</a>()</font>
+
+<a name="line75"> 75: </a><font color="#B22222">.keywords:  Petsc, time, subtract</font>
+<a name="line76"> 76: </a><font color="#B22222">M*/</font>
+
+<a name="line78"> 78: </a><font color="#B22222">/*MC</font>
+<a name="line79"> 79: </a><font color="#B22222">   <a href="../docs/manualpages/Sys/PetscTimeAdd.html#PetscTimeAdd">PetscTimeAdd</a> - Adds the current time of day (in seconds) to the value v.</font>
+
+<a name="line81"> 81: </a><font color="#B22222">   Synopsis:</font>
+<a name="line82"> 82: </a><font color="#B22222">    #include &lt;petsctime.h&gt;</font>
+<a name="line83"> 83: </a><font color="#B22222">   <a href="../docs/manualpages/Sys/PetscTimeAdd.html#PetscTimeAdd">PetscTimeAdd</a>(PetscLogDouble *v)</font>
+
+<a name="line85"> 85: </a><font color="#B22222">   Not Collective</font>
+
+<a name="line87"> 87: </a><font color="#B22222">   Input Parameter:</font>
+<a name="line88"> 88: </a><font color="#B22222">.  v - time counter</font>
+
+<a name="line90"> 90: </a><font color="#B22222">   Output Parameter:</font>
+<a name="line91"> 91: </a><font color="#B22222">.  v - time counter (v = v + current time)</font>
+
+<a name="line93"> 93: </a><font color="#B22222">   Level: developer</font>
+
+<a name="line95"> 95: </a><font color="#B22222">   Notes:</font>
+<a name="line96"> 96: </a><font color="#B22222">   Since the PETSc libraries incorporate timing of phases and operations,</font>
+<a name="line97"> 97: </a><font color="#B22222">   we do not ever recommend using <a href="../docs/manualpages/Sys/PetscTimeAdd.html#PetscTimeAdd">PetscTimeAdd</a>().</font>
+<a name="line98"> 98: </a><font color="#B22222">   The options database command -log_view activate</font>
+<a name="line99"> 99: </a><font color="#B22222">   PETSc library timing. See Users-Manual: <a href="../docs/manualpages/../manual.pdf#chapter.13">Chapter 13 Profiling</a> for more details.</font>
+
+<a name="line101">101: </a><font color="#B22222">.seealso:  <a href="../docs/manualpages/Sys/PetscTime.html#PetscTime">PetscTime</a>(), <a href="../docs/manualpages/Sys/PetscTimeSubtract.html#PetscTimeSubtract">PetscTimeSubtract</a>(), <a href="../docs/manualpages/Profiling/PetscLogStageRegister.html#PetscLogStageRegister">PetscLogStageRegister</a>(), <a href="../docs/manualpages/Profiling/PetscLogEventRegister.html#PetscLogEventRegister">PetscLogEventRegister</a>(), <a href="../docs/manualpages/Profiling/PetscLogEventBegin.html#PetscLogEventBegin">PetscLogEventBegin</a>(), <a href="../docs/manualpages/Profiling/PetscLogEventEnd.html#PetscLogEventEnd">PetscLogEventEnd</a>()</font>
+
+<a name="line103">103: </a><font color="#B22222">.keywords:  Petsc, time, add</font>
+<a name="line104">104: </a><font color="#B22222">M*/</font>
+
+<a name="line106">106: </a><strong><font color="#4169E1"><a name="PetscTime"></a>PETSC_STATIC_INLINE <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Sys/PetscTime.html#PetscTime">PetscTime</a>(PetscLogDouble *v)</font></strong>
+<a name="line107">107: </a>{
+<a name="line108">108: </a>  *v = <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Wtime.html#MPI_Wtime">MPI_Wtime</a>();
+<a name="line109">109: </a>  <font color="#4169E1">return</font> 0;
+<a name="line110">110: </a>}
+
+<a name="line112">112: </a><strong><font color="#4169E1"><a name="PetscTimeSubtract"></a>PETSC_STATIC_INLINE <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Sys/PetscTimeSubtract.html#PetscTimeSubtract">PetscTimeSubtract</a>(PetscLogDouble *v)</font></strong>
+<a name="line113">113: </a>{
+<a name="line114">114: </a>  *v -= <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Wtime.html#MPI_Wtime">MPI_Wtime</a>();
+<a name="line115">115: </a>  <font color="#4169E1">return</font> 0;
+<a name="line116">116: </a>}
+
+<a name="line118">118: </a><strong><font color="#4169E1"><a name="PetscTimeAdd"></a>PETSC_STATIC_INLINE <a href="../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> <a href="../docs/manualpages/Sys/PetscTimeAdd.html#PetscTimeAdd">PetscTimeAdd</a>(PetscLogDouble *v)</font></strong>
+<a name="line119">119: </a>{
+<a name="line120">120: </a>  *v += <a href="http://www.mpich.org/static/docs/latest/www3/MPI_Wtime.html#MPI_Wtime">MPI_Wtime</a>();
+<a name="line121">121: </a>  <font color="#4169E1">return</font> 0;
+<a name="line122">122: </a>}
+
+<a name="line124">124: </a><font color="#A020F0">#endif</font>
+
+
+
+</pre>
+</body>
+
+</html>

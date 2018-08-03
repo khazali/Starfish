@@ -1,0 +1,84 @@
+<center><a href="dmswarmimpl.h">Actual source code: dmswarmimpl.h</a></center><br>
+
+<html>
+<head> <link rel="canonical" href="http://www.mcs.anl.gov/petsc/petsc-current/include/petsc/private/dmswarmimpl.h.html" />
+<title></title>
+<meta name="generator" content="c2html 0.9.4">
+<meta name="date" content="2017-12-10T05:58:39+00:00">
+</head>
+
+<body bgcolor="#FFFFFF">
+   <div id="version" align=right><b>petsc-3.8.3 2017-12-09</b></div>
+   <div id="bugreport" align=right><a href="mailto:petsc-maint@mcs.anl.gov?subject=Typo or Error in Documentation &body=Please describe the typo or error in the documentation: petsc-3.8.3 v3.8.3 include/petsc/private/dmswarmimpl.h.html "><small>Report Typos and Errors</small></a></div>
+<pre width="80">
+
+<a name="line2">  2: </a><font color="#A020F0">#if !defined(_SWARMIMPL_H)</font>
+<a name="line3">  3: </a><strong><font color="#228B22">#define _SWARMIMPL_H</font></strong>
+
+<a name="line5">  5: </a> #include <A href="../../../include/petscvec.h.html">&lt;petscvec.h&gt;</A>
+<a name="line6">  6: </a> #include <A href="../../../include/petscmat.h.html">&lt;petscmat.h&gt;</A>
+<a name="line7">  7: </a> #include <A href="../../../include/petscdmswarm.h.html">&lt;petscdmswarm.h&gt;</A>
+<a name="line8">  8: </a> #include <A href="../../../include/petsc/private/dmimpl.h.html">&lt;petsc/private/dmimpl.h&gt;</A>
+
+<a name="line10"> 10: </a>PETSC_EXTERN <a href="../../../docs/manualpages/Profiling/PetscLogEvent.html#PetscLogEvent">PetscLogEvent</a> DMSWARM_Migrate,
+<a name="line11"> 11: </a>                           DMSWARM_SetSizes, DMSWARM_AddPoints, DMSWARM_RemovePoints,
+<a name="line12"> 12: </a>                           DMSWARM_Sort,
+<a name="line13"> 13: </a>                           DMSWARM_DataExchangerTopologySetup,
+<a name="line14"> 14: </a>                           DMSWARM_DataExchangerBegin, DMSWARM_DataExchangerEnd,
+<a name="line15"> 15: </a>                           DMSWARM_DataExchangerSendCount, DMSWARM_DataExchangerPack;
+
+
+<a name="line18"> 18: </a><font color="#4169E1">typedef struct _p_DataField* DataField;</font>
+<a name="line19"> 19: </a><font color="#4169E1">typedef struct _p_DataBucket* DataBucket;</font>
+<a name="line20"> 20: </a><font color="#4169E1">typedef struct _p_DMSwarmSort* DMSwarmSort;</font>
+
+<a name="line22"> 22: </a><font color="#4169E1">typedef</font> <font color="#4169E1">struct</font> {
+<a name="line23"> 23: </a>  DataBucket db;
+
+<a name="line25"> 25: </a>  <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a> field_registration_initialized;
+<a name="line26"> 26: </a>  <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a> field_registration_finalized;
+<a name="line27"> 27: </a>  <font color="#B22222">/* DMSwarmProjectMethod *swarm_project;*/</font> <font color="#B22222">/* swarm, geometry, result */</font>
+
+<a name="line29"> 29: </a>  <font color="#B22222">/* <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> overlap; */</font>
+<a name="line30"> 30: </a>  <font color="#B22222">/* <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> (*update_overlap)(void); */</font>
+
+<a name="line32"> 32: </a>  char      vec_field_name[PETSC_MAX_PATH_LEN];
+<a name="line33"> 33: </a>  <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a> vec_field_set;
+<a name="line34"> 34: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>  vec_field_bs,vec_field_nlocal;
+
+<a name="line36"> 36: </a>  <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>          issetup;
+<a name="line37"> 37: </a>  DMSwarmType        swarm_type;
+<a name="line38"> 38: </a>  DMSwarmMigrateType migrate_type;
+<a name="line39"> 39: </a>  DMSwarmCollectType collect_type;
+
+<a name="line41"> 41: </a>  <a href="../../../docs/manualpages/DM/DM.html#DM">DM</a>        dmcell;
+
+<a name="line43"> 43: </a>  <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a> migrate_error_on_missing_point;
+
+<a name="line45"> 45: </a>  <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a> collect_view_active;
+<a name="line46"> 46: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a>  collect_view_reset_nlocal;
+<a name="line47"> 47: </a>  DMSwarmSort sort_context;
+<a name="line48"> 48: </a>} DM_Swarm;
+
+<a name="line50"> 50: </a><font color="#4169E1">typedef</font> <font color="#4169E1">struct</font> {
+<a name="line51"> 51: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> point_index;
+<a name="line52"> 52: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> cell_index;
+<a name="line53"> 53: </a>} SwarmPoint;
+
+<a name="line55"> 55: </a><font color="#4169E1"><a name="_p_DMSwarmSort"></a>struct _p_DMSwarmSort </font>{
+<a name="line56"> 56: </a>  <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a> isvalid;
+<a name="line57"> 57: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> ncells,npoints;
+<a name="line58"> 58: </a>  <a href="../../../docs/manualpages/Sys/PetscInt.html#PetscInt">PetscInt</a> *pcell_offsets;
+<a name="line59"> 59: </a>  SwarmPoint *list;
+<a name="line60"> 60: </a>};
+
+
+<a name="line63"> 63: </a><strong><font color="#4169E1">PETSC_INTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> DMSwarmMigrate_Push_Basic(<a href="../../../docs/manualpages/DM/DM.html#DM">DM</a>, <a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>)</font></strong>;
+<a name="line64"> 64: </a><strong><font color="#4169E1">PETSC_INTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> DMSwarmMigrate_CellDMScatter(<a href="../../../docs/manualpages/DM/DM.html#DM">DM</a>,<a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>)</font></strong>;
+<a name="line65"> 65: </a><strong><font color="#4169E1">PETSC_INTERN <a href="../../../docs/manualpages/Sys/PetscErrorCode.html#PetscErrorCode">PetscErrorCode</a> DMSwarmMigrate_CellDMExact(<a href="../../../docs/manualpages/DM/DM.html#DM">DM</a>,<a href="../../../docs/manualpages/Sys/PetscBool.html#PetscBool">PetscBool</a>)</font></strong>;
+
+<a name="line67"> 67: </a><font color="#A020F0">#endif </font><font color="#B22222">/* _SWARMIMPL_H */</font><font color="#A020F0"></font>
+</pre>
+</body>
+
+</html>
