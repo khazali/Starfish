@@ -411,11 +411,11 @@ outlines the design principles and general uses of <span class=SpellE>Stafish</s
 major-bidi;mso-hansi-theme-font:major-bidi;mso-bidi-theme-font:major-bidi'>Khaz’ali</span></span></span><span
 class=GramE><span style='font-size:12.0pt;line-height:115%;font-family:"Times New Roman","serif";
 mso-ascii-theme-font:major-bidi;mso-hansi-theme-font:major-bidi;mso-bidi-theme-font:
-major-bidi'>, A. R., &amp; <span class=SpellE>Moghadasi</span>, J. </span></span><span
+major-bidi'>, A. R., &amp; <span class=SpellE>Moghadasi</span>, J.:" </span></span><span
 style='font-size:12.0pt;line-height:115%;font-family:"Times New Roman","serif";
 mso-ascii-theme-font:major-bidi;mso-hansi-theme-font:major-bidi;mso-bidi-theme-font:
 major-bidi'> Capillary-dominated two-phase flow modeling in porous media using
-Starfish. <span class=GramE>Journal of Petroleum Exploration and Production
+Starfish", <span class=GramE>Journal of Petroleum Exploration and Production
 Technology (2019) 9: 1211.</span> <span class=GramE>doi:</span>10.1007/s13202-018-0529-1<o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
