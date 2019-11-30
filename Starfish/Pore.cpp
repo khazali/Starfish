@@ -743,7 +743,7 @@ unsigned int Pore::TestFillReadiness(FloatType WorkingPc) {
 void Pore::SweepAdjacentThroats(FluidType Fluid) {
 	register unsigned int i;
 	for (i=0; i<CoordinationNumber; i++) {
-		if ((ConnectingThroats[i]!=NULL) && (!ConnectingThroats[i]->GetIsVisited()) && (((Fluid==OIL) || (ConnectingThroats[i]->GetIsOilFilled())) || ((Fluid==WATER) || (ConnectingThroats[i]->GetWaterCoatingExist())))) {
+		if ((ConnectingThroats[i]!=NULL) && (!ConnectingThroats[i]->GetIsVisited()) && (((Fluid==OIL) && (ConnectingThroats[i]->GetIsOilFilled())) || ((Fluid==WATER) && (ConnectingThroats[i]->GetWaterCoatingExist())))) {
 			ConnectingThroats[i]->SetIsVisited(true);
 			ConnectingThroats[i]->SetIsConnectedToOutlet(Fluid, true);
 			ConnectingThroats[i]->SweepAdjacentPores(Fluid);
