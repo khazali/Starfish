@@ -390,7 +390,7 @@ mso-hansi-theme-font:major-bidi;mso-bidi-theme-font:major-bidi'><o:p>&nbsp;</o:p
 
 <p class=MsoNormal><span class=SpellE><b><span style='font-size:12.0pt;
 line-height:115%;font-family:"Times New Roman","serif";mso-ascii-theme-font:
-major-bidi;mso-hansi-theme-font:major-bidi;mso-bidi-theme-font:major-bidi'>Licence</span></b></span><b><span
+major-bidi;mso-hansi-theme-font:major-bidi;mso-bidi-theme-font:major-bidi'>License</span></b></span><b><span
 style='font-size:12.0pt;line-height:115%;font-family:"Times New Roman","serif";
 mso-ascii-theme-font:major-bidi;mso-hansi-theme-font:major-bidi;mso-bidi-theme-font:
 major-bidi'> and Citation<o:p></o:p></span></b></p>
